@@ -59,8 +59,13 @@ export default {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         function (response) {
           alert('Account Created')
+          firebase.database().ref('users/' + response.user.uid).set({
+            Username: Username.value,
+            phoneNumber: phNum.value
+          })
           console.log(response.user)
           localStorage.setItem('userId', response.user.uid)
+          window.location.pathname = 'home'
         }
       ).catch(
         error => {

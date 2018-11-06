@@ -9,7 +9,8 @@
           <vuestic-wizard
             :steps="steps"
             wizard-layout="vertical"
-            :wizard-type="wizardType">
+            :wizard-type="wizardType"
+            style="min-height: 80vh;">
             <div slot="page1" class="form-wizard-tab-content">
               <h4>Give Your Item A Name</h4>
               <p>.</p>

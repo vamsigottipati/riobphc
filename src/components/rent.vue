@@ -2,11 +2,12 @@
   <vuestic-layout v-layout>
     
     <div class="navbar-filter" ref="filterNav" style="transition: 0.4s">
+      <i class="fas fa-bars menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
       <p class="logo" ref="logo" style="transition: 0.4s">UncleBob</p>
      <!-- <input type="text" ref="searchBox" class="filterInput" placeholder="Search Item Name" style="transition: 0.4s"> -->
       <i class="fas fa-user-circle accountIcon" style="transition: 0.4s;"></i>
       <i class="fas fa-filter filterIcon" ref="filterIcon" style="transition: 0.4s; cursor: pointer;"></i>
-      <i class="fas fa-shopping-cart cartIcon" ref="cartIcon" @click="openSideNav" style="transition: 0.4s;cursor: pointer;"></i>
+      <i class="fas fa-shopping-cart cartIcon" ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
     </div>
 
 
@@ -150,11 +151,23 @@
 
       <!-- SIDEBAR END -->
 
+      <!-- LEFT SIDEBAR -->
+
+      <div ref="leftSidenav" class="leftSidenav">
+        <a href="javascript:void(0)" class="closebtn" ref="leftCloseBtn" @click.prevent="closeLeftSideNav">&times;</a>
+        <a style="margin-top: 10vh;" @click.prevent="$router.push( '/home' )">Home</a>
+        <a  @click.prevent="$router.push( '/list' )">List</a>
+        <a  @click.prevent="$router.push( '/profile' )">Profile</a>
+        <a  @click.prevent="$router.push( '/how' )">How</a>
+        <a  @click.prevent="$router.push( '/about' )">About</a>
+      </div>
+
+      <!-- LEFT SIDEBAR END -->
+
       <!-- RIGHT SIDEBAR -->
 
-      <div id="mySidenav" ref="sidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" ref="closeBtn" @click="closeSideNav()">&times;</a>
-
+      <div ref="rightSidenav" class="rightSidenav">
+        <a href="javascript:void(0)" class="closebtn" ref="rightCloseBtn" @click.prevent="closeRightSideNav">&times;</a>
       </div>
 
       <!-- RIGHT SIDEBAR END -->
@@ -362,13 +375,21 @@ export default {
       this.citySelection = false
     },
     /* CITY SELECTION OVERLAY AND FILTER END */
-    closeSideNav () {
-      this.$refs.sidenav.style.width = '0'
-      this.$refs.closeBtn.style.right = '-50px'
+    closeRightSideNav () {
+      this.$refs.rightSidenav.style.width = '0'
+      this.$refs.rightCloseBtn.style.right = '-50px'
     },
-    openSideNav () {
-      this.$refs.sidenav.style.width = '20vw'
-      this.$refs.closeBtn.style.right = '25px'
+    openRightSideNav () {
+      this.$refs.rightSidenav.style.width = '20vw'
+      this.$refs.rightCloseBtn.style.right = '25px'
+    },
+    openLeftSideNav () {
+      this.$refs.leftSidenav.style.width = '25vw'
+      this.$refs.leftCloseBtn.style.left = '20vw'
+    },
+    closeLeftSideNav () {
+      this.$refs.leftSidenav.style.width = '0'
+      this.$refs.leftCloseBtn.style.left = '-10vw'
     },
     rentalRoute (itemDetails) {
       this.$refs.rentModal.open()
@@ -421,11 +442,21 @@ main {
 
 .logo {
   position: absolute; 
-  left: 2vw;
+  left: 8vw;
   font-size:2.2rem;
   color:white;
   top: 3.5vh;
   font-weight:900;
+}
+
+.menuSideDrop {
+  position: absolute; 
+  left: 1.5vw;
+  font-size:1.8rem;
+  color:white;
+  top: 5.3vh;
+  font-weight:900;
+  cursor: pointer;
 }
 
 .navbar-filter {
@@ -543,7 +574,7 @@ main {
 
 /* SIDENAV */
 
-.sidenav {
+.rightSidenav {
     height: 100%;
     width: 0;
     position: fixed;
@@ -556,7 +587,7 @@ main {
     padding-top: 60px;
 }
 
-.sidenav .closebtn {
+.rightSidenav .closebtn {
     position: absolute;
     top: 0;
     right: 25px;
@@ -565,12 +596,53 @@ main {
     color: #10e7dc;
     transition: 0.3s;
 }
-.sidenav :hover {
+.rightSidenav :hover {
   color: white;
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
+  .rightSidenav {padding-top: 15px;}
+}
+
+.leftSidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    background-color: #03568e;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.leftSidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 3rem;
+    margin-left: 0px;
+    color: #10e7dc;
+    transition: 0.6s;
+}
+.leftSidenav :hover {
+  color: white;
+}
+
+.leftSidenav a {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 2.2rem;
+    color: #10d7dc;
+    display: block;
+    transition: 0.3s;
+    text-align: center;
+}
+
+
+@media screen and (max-height: 450px) {
+  .leftSidenav {padding-top: 15px;}
 }
 
 /* SIDENAV END */
