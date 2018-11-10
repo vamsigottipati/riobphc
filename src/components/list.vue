@@ -3,7 +3,6 @@
     <app-navbar :isOpen="opened" @toggle-menu="toggleSidebar"/>
     <app-sidebar :isOpen="opened" @toggle-menu="toggleSidebar"/>
     <main slot="content" id="content" class="content" role="main">
-    <!--  <vuestic-breadcrumbs/> -->
       <vuestic-widget   headerText="List Your Item" style="max-height: 100vh;">
         <div style="display:flex;">
           <vuestic-wizard
@@ -41,8 +40,8 @@
               </div>
             </div>
             <div slot="page2" class="form-wizard-tab-content">
-              <h4>Enter Pickup Location Details</h4>
-              <p>Zebras communicate with facial expressions and sounds. They make loud
+              <h4 style="margin-top: -10vh;">Enter Pickup Location Details</h4>
+              <p style="margin-bottom: 10vh;">Zebras communicate with facial expressions and sounds. They make loud
                 braying or barking sounds and
                 soft snorting sounds.</p>
 
@@ -52,6 +51,7 @@
                     <input
                       type="text"
                       name="address"
+                      style="width: 30vw;"
                       v-model="address"
                       v-validate="'required'"
                       required="required"/>
@@ -63,8 +63,33 @@
                       errors.first('name') }}
                     </small>
                     <br>
+                  <!--   <button class="btn btn-primary location_btn" style="padding: 20px;border-radius: 50%;margin-left: 40%;"><i class="fas fa-map-marker-alt animated " style="font-size: 30px;"></i></button> -->
                   </div>
+                  <br>
                 </div>
+                <div class="form-group with-icon-right"
+                     :class="{'has-error': errors.has('city'), 'valid': isFormFieldValid('city')}">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="city"
+                      style="width: 30vw;"
+                      v-model="city"
+                      v-validate="'required'"
+                      required="required"/>
+                    <i
+                      class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
+                    <i class="fa fa-check valid-icon icon-right input-icon"></i>
+                    <label class="control-label">City </label><i class="bar"></i>
+                    <small v-show="errors.has('name')" class="help text-danger">{{
+                      errors.first('name') }}
+                    </small>
+                    <br>
+                  <!--   <button class="btn btn-primary location_btn" style="padding: 20px;border-radius: 50%;margin-left: 40%;"><i class="fas fa-map-marker-alt animated " style="font-size: 30px;"></i></button> -->
+                  </div>
+                  <br>
+                </div>
+                
 
             <!--  <vuestic-simple-select
                 label="Select country"
@@ -87,6 +112,7 @@
                   <input
                     type="number"
                     name="price"
+                    style="width: 20vw;"
                     v-model="price"
                     v-validate="'required'"
                     required="required"/>
@@ -111,6 +137,7 @@
                 <div class="input-group">
                   <input
                     type="number"
+                    style="width: 20vw;"
                     name="contact"
                     v-model="contact"
                     v-validate="'required'"
@@ -135,15 +162,12 @@
             <div slot="wizardCompleted"
                  class="form-wizard-tab-content wizard-completed-tab">
               <h4>Listing Completed     !</h4>
-              <button class="btn btn-secondary btn-micro" ><a href="./home" style="tetx-decoration:none; " id="homeRouteBtn"> Continue Surfing </a></button>
+              <button class="btn btn-primary" ><a href="./home" style="text-decoration:none;color:white;" id="homeRouteBtn"> Continue Surfing </a></button>
               <p>
               </p>
             </div>
           </vuestic-wizard>
         </div>
-      </vuestic-widget>
-      <!-- <vuestic-widget ref="locationMaps" v-if="hiddenMaps == false" class="widget-viewport-height location-map" headerText="Location On Map">
-        <leaflet-map></leaflet-map> -->
       </vuestic-widget>
     </main>
     <span slot="footer"></span>
@@ -156,10 +180,9 @@
   import AppNavbar from './admin/app-navbar/AppNavbar'
   import AppSidebar from './admin/app-sidebar/AppSidebar'
   import Layout from 'vuestic-theme/vuestic-directives/Layout'
-  import {mapGetters} from 'vuex'
   import CountriesList from 'data/CountriesList'
   import LeafletMap from './maps/leaflet-maps/LeafletMap.vue'
-
+  import * as firebase from 'firebase'
 
   export default {
 
@@ -185,6 +208,7 @@
         opened: true,
         hiddenMaps: true,
         countryList: '',
+        name: '',
         steps: [
           {
             label: 'Step 1. Item Details',
@@ -201,9 +225,10 @@
             slot: 'page2',
             onNext: () => {
               this.validateFormField('address')
+              this.validateFormField('city')
             },
             isValid: () => {
-              return this.isFormFieldValid('address')
+              return this.isFormFieldValid('address') && this.isFormFieldValid('city')
             }
           },
           {
@@ -228,11 +253,17 @@
           },
           {
             label: 'Step 5. Confirm',
-            slot: 'page5'
+            slot: 'page5',
+            onNext: () => {
+              var itemName = this.name
+              var itemId = itemName + 'abc'
+              firebase.database().ref('listedItems/' + itemId).set({
+                itemName: itemName
+              })
+            }
           }
         ],
         selectedCountry: '',
-        name: '',
         countriesList: CountriesList
       }
     },
@@ -262,9 +293,6 @@
 
     },
     computed: {
-      ...mapGetters([
-        'isLoading'
-      ])
     }
   }
 </script>
@@ -278,19 +306,5 @@
     font-size:0.8rem;
     margin-bottom:2vh;
  };
- .wizard-completed-tab {
-   @include media-breakpoint-up(md) {
-     margin-top: -$tab-content-pt;
-   }
- }
-
- #homeRouteBtn {
-  color: #05386b;
-  text-decoration: none;
- }
-
-#homeRouteBtn :hover{
-  color: #ffffff;
-}
 
 </style>

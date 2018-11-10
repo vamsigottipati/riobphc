@@ -56,16 +56,21 @@ export default {
   },
   methods: {
     onSignUp () {
+      var userName = this.Username
+      var phoneNum = this.phNum
+      console.log(userName)
+      console.log(phoneNum)
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         function (response) {
           alert('Account Created')
+          var emailId = response.user.email
           firebase.database().ref('users/' + response.user.uid).set({
-            Username: Username.value,
-            phoneNumber: phNum.value
+            Username: userName,
+            phoneNumber: phoneNum,
+            email: emailId
           })
           console.log(response.user)
           localStorage.setItem('userId', response.user.uid)
-          window.location.pathname = 'home'
         }
       ).catch(
         error => {

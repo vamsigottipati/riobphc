@@ -5,9 +5,9 @@
       <i class="fas fa-bars menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
       <p class="logo" ref="logo" style="transition: 0.4s">UncleBob</p>
      <!-- <input type="text" ref="searchBox" class="filterInput" placeholder="Search Item Name" style="transition: 0.4s"> -->
-      <i class="fas fa-user-circle accountIcon" style="transition: 0.4s;"></i>
-      <i class="fas fa-filter filterIcon" ref="filterIcon" style="transition: 0.4s; cursor: pointer;"></i>
-      <i class="fas fa-shopping-cart cartIcon" ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
+      <i class='bx bx-user-detail accountIcon' style="transition: 0.4s;"></i>
+      <i class='bx bx-filter filterIcon' style="transition: 0.4s; cursor: pointer;"></i>
+      <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
     </div>
 
 
@@ -485,25 +485,25 @@ main {
   position: absolute;
   right: 25vw;
   color: white;
-  font-size: 1.65rem;
+  font-size: 2.7rem;
   cursor: pointer;
-  top: 5.9vh;
+  top: 5vh;
 }
 
 .filterIcon {
   position: absolute;
   right: 15vw;
   color: white;
-  top: 6vh;
-  font-size: 1.4rem;
+  top: 5vh;
+  font-size: 2.5rem;
 }
 
 .cartIcon {
   position: absolute;
   right: 5vw;
   color: white;
-  top: 6vh;
-  font-size: 1.4rem;
+  top: 5vh;
+  font-size: 2.3rem;
 }
 
 
@@ -556,8 +556,11 @@ main {
   font-size: 5rem;
   margin-bottom: 20vh;
   font-weight: 900;
-  color: #eeeeee;
+  color: #10e7dc;
   cursor: pointer;
+}
+.city:hover{
+  color: white;
 }
 
 @media screen and (max-height: 450px) {

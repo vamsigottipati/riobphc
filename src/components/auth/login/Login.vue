@@ -41,7 +41,8 @@ export default {
       console.log('yo')
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
         function (response) {
-          localStorage.setItem('status', 'logged')
+          sessionStorage.setItem('status', 'logged')
+          window.location.pathname = '/home'
         }
       ).catch(
         function (error) {
