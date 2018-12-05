@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import AppLayout from '../components/admin/AppLayout'
-import AuthLayout from '../components/auth/AuthLayout'
 import lazyLoading from './lazyLoading'
 import home from '../components/home'
 import test from '../components/test'
@@ -11,6 +10,9 @@ import about from '../components/about'
 import profile from '../components/profile'
 import how from '../components/how'
 import test2 from '../components/test2'
+import login from '../components/login'
+import signup from '../components/signup'
+import authGaurd from './authgaurd'
 
 
 Vue.use(Router)
@@ -48,7 +50,8 @@ export default new Router({
     {
       path: '/profile',
       component: profile,
-      name: 'profile'
+      name: 'profile',
+      beforeEnter: authGaurd
     },
     {
       path: '/how',
@@ -58,12 +61,14 @@ export default new Router({
     {
       path: '/rent',
       component: rent,
-      name: 'rent'
+      name: 'rent',
+      beforeEnter: authGaurd
     },
     {
       path: '/list',
       component: list,
-      name: 'list'
+      name: 'list',
+      beforeEnter: authGaurd
     },
     {
       path: '/test',
@@ -76,24 +81,14 @@ export default new Router({
       name: 'test2'
     },
     {
-      path: '/auth',
-      component: AuthLayout,
-      children: [
-        {
-          name: 'login',
-          path: 'login',
-          component: lazyLoading('auth/login/Login')
-        },
-        {
-          name: 'signup',
-          path: 'signup',
-          component: lazyLoading('auth/signup/Signup')
-        },
-        {
-          path: '',
-          redirect: {name: 'login'}
-        }
-      ]
+      path: '/login',
+      component: login,
+      name: 'login'
+    },
+    {
+      path: '/signup',
+      component: signup,
+      name: 'signup'
     },
     {
       name: 'Admin',

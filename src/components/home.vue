@@ -14,7 +14,7 @@
   				@mouseleave="left = false"
   			>
     			<h1>List</h1>
-    			<a href="./list" class="button btn">Proceed</a>
+          <router-link to="list" class="button btn"> Proceed </router-link>
   			</div>
   			<div class="split right"
   				:v-model="right"
@@ -22,13 +22,13 @@
   				@mouseleave="right = false"
   			>
     			<h1>Rent</h1>
-    			<a href="./rent" class="button btn" >Proceed</a>
+    		  <router-link to="rent" class="button btn"> Proceed </router-link>
   			</div>
 		</div>
 	</div>
 </template>
 
-<style>
+<style scoped>
 
 	:root {
   		--container-bg-color: #333;
@@ -295,6 +295,9 @@
 </style>
 
 <script>
+
+import * as firebase from 'firebase'
+
 export default {
   data () {
     return {
@@ -307,6 +310,9 @@ export default {
   mounted () {
     setTimeout(() => {
       this.showPopUp = true
+      firebase.auth().onAuthStateChanged(user => {
+        console.log(user)
+      })
     }, 2000)
   },
   methods: {

@@ -1,7 +1,5 @@
 <template>
   <vuestic-layout v-layout>
-    <app-navbar :isOpen="opened" @toggle-menu="toggleSidebar"/>
-    <app-sidebar :isOpen="opened" @toggle-menu="toggleSidebar"/>
     <main slot="content" id="content" class="content" role="main">
       <vuestic-widget   headerText="List Your Item" style="max-height: 100vh;">
         <div style="display:flex;">
@@ -11,17 +9,17 @@
             :wizard-type="wizardType"
             style="min-height: 80vh;">
             <div slot="page1" class="form-wizard-tab-content">
-              <h4>Give Your Item A Name</h4>
-              <p>.</p>
+              <h2 style="position: absolute;top: 10vh;">Give Your Item A Name ...</h2>
               <div class="form-group with-icon-right"
-                   :class="{'has-error': errors.has('name'), 'valid': isFormFieldValid('name')}">
+                   :class="{'has-error': errors.has('name'), 'valid': isFormFieldValid('name')}" style="margin-top: 20px;">
                 <div class="input-group">
                   <input
                     type="text"
                     name="name"
                     v-model="name"
                     v-validate="'required'"
-                    required="required"/>
+                    required="required"
+                    style="width: 20vw;"/>
                   <i
                     class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
                   <i class="fa fa-check valid-icon icon-right input-icon"></i>
@@ -30,12 +28,10 @@
                     errors.first('name') }}
                   </small>
                   <br>
-                  <!-- <label style="color:#10d7dc;font-size:1.1rem;">Add Some Photos ...</label> -->
-                  <vuestic-file-upload
-                      dropzone
-                      style="margin-top:5vh;"
-                      required="required"
-                  />
+                  <h2 style="margin-top: 5vh;width: 30vw;text-align: center;">Add Some Photos ...</h2>
+                  <div class="well">
+                    <input type="file" name="uploadContent" class="" ref="uploadContent" id="uploadContent">
+                  </div>
                 </div>
               </div>
             </div>
@@ -209,6 +205,15 @@
         hiddenMaps: true,
         countryList: '',
         name: '',
+        address: '',
+        city: '',
+        price: '',
+        curUserName: '',
+        selectedCountry: '',
+        photo: [],
+        lat: '',
+        long: '',
+        countriesList: CountriesList,
         steps: [
           {
             label: 'Step 1. Item Details',
@@ -256,18 +261,68 @@
             slot: 'page5',
             onNext: () => {
               var itemName = this.name
-              var itemId = itemName + 'abc'
-              firebase.database().ref('listedItems/' + itemId).set({
-                itemName: itemName
-              })
+              var uploadContent = this.$refs.uploadContent.files[0]
+              console.log(this.$refs.uploadContent.files[0])
+              var d = new Date()
+              var t = d.getTime()
+              var itemImg = ''
+              var randomString = ''
+              var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+              for (let i = 0; i < 5; i++) {
+                randomString += possible.charAt(Math.floor(Math.random() * possible.length))
+              }
+              randomString = randomString + t
+              var category = 'Product1' // remove hard coded itemImage and get it using cloud storage after image resizing
+              var itemOwner = firebase.auth().currentUser.displayName
+              var lat = sessionStorage.getItem('lat')
+              var long = sessionStorage.getItem('long')
+              var location = this.city
+              var price = this.price
+              console.log(randomString)
+              var itemId = randomString
+              /* storage */
+              firebase.storage().ref('listemItemPhotos/' + randomString + uploadContent.name).put(uploadContent).then(
+                response => {
+                  console.log(response.ref.getDownloadURL())
+                  response.ref.getDownloadURL().then(
+                    resp => {
+                      itemImg = resp
+                      firebase.database().ref('listedItems/' + itemId).set({
+                        itemName: itemName,
+                        itemId: itemId,
+                        itemImg: itemImg,
+                        itemOwner: itemOwner,
+                        lat: lat,
+                        long: long,
+                        location: location,
+                        price: price,
+                        category: category
+                      })
+                    }
+                  )
+                }
+              ).catch(
+                err => {
+                  console.log(err)
+                }
+              )
             }
           }
         ],
-        selectedCountry: '',
-        countriesList: CountriesList
       }
     },
     created: {
+    },
+    mounted () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition)
+      } else {
+        alert('Please turn on the location so that we can give you better services')
+      }
+      function showPosition (position) {
+        sessionStorage.setItem('lat', position.coords.latitude)
+        sessionStorage.setItem('long', position.coords.longitude)
+      }
     },
     methods: {
       toggleSidebar (opened) {

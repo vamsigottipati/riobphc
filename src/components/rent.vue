@@ -8,6 +8,7 @@
       <i class='bx bx-user-detail accountIcon' style="transition: 0.4s;"></i>
       <i class='bx bx-filter filterIcon' style="transition: 0.4s; cursor: pointer;"></i>
       <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
+      <i class='bx bx-user-x logoutIcon' style="transition: 0.4s;" @click="logout"></i>
     </div>
 
 
@@ -16,14 +17,12 @@
           <div id="cityOverlay" class="overlay" v-if="citySelection == true">
             <a class="closebtn" @click.prevent="closeOverlay">&times;</a>
             <div class="overlay-content row">
-              <div class="col-md-2"></div>
-              <h1 class="city col-md-4" @click.prevent="setCityHyd">Hyderabad</h1>
-              <h1 class=" city col-md-4" @click.prevent="setCityChn">Chennai</h1>
-              <div class='col-md-2'></div>
-              <div class="col-md-2"></div>
-              <h1 class="city col-md-4" @click.prevent="setCityDelhi">Delhi</h1>
-              <h1 class=" city col-md-4" @click.prevent="setCityKol">Kolkata</h1>
-              <div class='col-md-2'></div>
+              
+              <h1 class="city1" @click.prevent="setCityHyd">Hyderabad</h1>
+              <h1 class=" city2" @click.prevent="setCityChn">Chennai</h1>    
+              <h1 class="city3" @click.prevent="setCityDelhi">Delhi</h1>
+              <h1 class=" city4" @click.prevent="setCityKol">Kolkata</h1>
+             
             </div>
           </div>
 
@@ -281,6 +280,7 @@ import Layout from 'vuestic-theme/vuestic-directives/Layout'
 import VuesticLayout from '../vuestic-theme/vuestic-components/vuestic-layout/VuesticLayout'
 import rentalModal from './rentalModal'
 import GoogleMap from './maps/google-maps/GoogleMap'
+import * as firebase from 'firebase'
 
 export default {
   name: 'rent',
@@ -411,6 +411,16 @@ export default {
       this.$refs.rentModal.cancel()
       alert('Rental Service Function')
     },
+    logout () {
+      firebase.auth().signOut().then(
+        response => {
+          alert('Signout Successful')
+          sessionStorage.removeItem('status')
+          localStorage.removeItem('currentCity')
+          this.$router.push('home')
+        }
+      )
+    }
   }
 }
 </script>
@@ -483,16 +493,16 @@ main {
 
 .accountIcon {
   position: absolute;
-  right: 25vw;
+  right: 35vw;
   color: white;
   font-size: 2.7rem;
   cursor: pointer;
-  top: 5vh;
+  top: 4.75vh;
 }
 
 .filterIcon {
   position: absolute;
-  right: 15vw;
+  right: 25vw;
   color: white;
   top: 5vh;
   font-size: 2.5rem;
@@ -500,10 +510,19 @@ main {
 
 .cartIcon {
   position: absolute;
-  right: 5vw;
+  right: 15vw;
   color: white;
   top: 5vh;
   font-size: 2.3rem;
+}
+
+.logoutIcon {
+  position: absolute;
+  right: 5vw;
+  color: white;
+  top: 4.75vh;
+  font-size: 2.7rem;
+  cursor: pointer;
 }
 
 
@@ -512,6 +531,7 @@ main {
 /* CITY SELECTION OVERLAY OVERLAY */
 
 .overlay {
+    position: absolute;
     height: 100%;
     width: 100%;
     position: fixed;
@@ -525,11 +545,13 @@ main {
 }
 
 .overlay-content {
-    position: relative;
+    position: absolute;
     top: 25%;
+    left: 0%;
     width: 100%;
     text-align: center;
     margin-top: 30px;
+    margin-left: 0px;
 }
 
 .overlay a {
@@ -552,14 +574,67 @@ main {
     font-size: 60px;
 }
 
-.city {
+.city1{
+  position: absolute;
+  top: 0vh;
+  left: 20vw;
+  width: 20vw;
   font-size: 5rem;
   margin-bottom: 20vh;
+  margin-left: 0px;
   font-weight: 900;
   color: #10e7dc;
   cursor: pointer;
 }
-.city:hover{
+.city1:hover{
+  color: white;
+}
+
+.city2{
+    position: absolute;
+  top: 0vh;
+  left: 70vw;
+  width: 20vw;
+  font-size: 5rem;
+  margin-bottom: 20vh;
+  margin-left: 0px;
+  font-weight: 900;
+  color: #10e7dc;
+  cursor: pointer;
+}
+.city2:hover{
+  color: white;
+}
+
+.city3 {
+    position: absolute;
+  top: 35vh;
+  left: 20vw;
+  width: 20vw;
+  font-size: 5rem;
+  margin-bottom: 20vh;
+  margin-left: 0px;
+  font-weight: 900;
+  color: #10e7dc;
+  cursor: pointer;
+}
+.city3:hover{
+  color: white;
+}
+
+.city4 {
+    position: absolute;
+  top: 35vh;
+  left: 70vw;
+  width: 20vw;
+  font-size: 5rem;
+  margin-bottom: 20vh;
+  margin-left: 0px;
+  font-weight: 900;
+  color: #10e7dc;
+  cursor: pointer;
+}
+.city4:hover{
   color: white;
 }
 
@@ -655,6 +730,7 @@ main {
 .container {
     display: block;
     position: relative;
+    background: transparent;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
