@@ -1,7 +1,10 @@
 <template>
-  <vuestic-layout v-layout>
-    <main slot="content" id="content" class="content" role="main">
-      <vuestic-widget   headerText="List Your Item" style="max-height: 100vh;">
+  <div class="totalBody">
+
+    <navSide></navSide>
+
+    <main>
+      <vuestic-widget   headerText="List Your Item" style="position: absolute;top: 20vh;max-height: 100vh;width: 90vw;left: 5vw;">
         <div style="display:flex;">
           <vuestic-wizard
             :steps="steps"
@@ -167,18 +170,15 @@
       </vuestic-widget>
     </main>
     <span slot="footer"></span>
-  </vuestic-layout>
+  </div>
 </template>
 
 <script>
 
   import VuesticLayout from '../vuestic-theme/vuestic-components/vuestic-layout/VuesticLayout'
-  import AppNavbar from './admin/app-navbar/AppNavbar'
-  import AppSidebar from './admin/app-sidebar/AppSidebar'
   import Layout from 'vuestic-theme/vuestic-directives/Layout'
-  import CountriesList from 'data/CountriesList'
-  import LeafletMap from './maps/leaflet-maps/LeafletMap.vue'
   import * as firebase from 'firebase'
+  import navSide from './nav-side'
 
   export default {
 
@@ -191,9 +191,7 @@
 
     components: {
       VuesticLayout,
-      AppNavbar,
-      AppSidebar,
-      LeafletMap
+      navSide
     },
     directives: {
       layout: Layout,
@@ -211,9 +209,9 @@
         curUserName: '',
         selectedCountry: '',
         photo: [],
+        contact: '',
         lat: '',
         long: '',
-        countriesList: CountriesList,
         steps: [
           {
             label: 'Step 1. Item Details',
@@ -361,5 +359,9 @@
     font-size:0.8rem;
     margin-bottom:2vh;
  };
+
+
+ /*  Navbar styles  */
+
 
 </style>

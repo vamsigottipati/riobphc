@@ -6,9 +6,6 @@ const state = {
     withoutAnimation: false
   },
   config: {
-    googleMaps: {
-      apiKey: 'AIzaSyDvXy0SXRp70BztZMu4czB_ChLFdK_RWMY'
-    },
     windowMatchSizeLg: '(min-width: 992px)',
     palette: {
       primary: '#4ae387',

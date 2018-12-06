@@ -1,10 +1,8 @@
 
 <template>
-  <vuestic-layout v-layout>
-    <app-navbar :isOpen="opened" @toggle-menu="toggleSidebar"/>
-    <app-sidebar :isOpen="opened" @toggle-menu="toggleSidebar"/>
-    <main slot="content" id="content" class="content" role="main">
-      <dashboard-info-widgets></dashboard-info-widgets>
+  <vuestic-layout>
+    <main id="content" >
+   
       <vuestic-widget style="height:60vh;" class="no-padding no-v-padding">
         <vuestic-tabs :names="['Profile Details', 'Update Profile', 'Friends']" ref="tabs">
         <div slot="Profile Details">
@@ -54,11 +52,8 @@
 
 <script>
 
-import AppNavbar from './admin/app-navbar/AppNavbar'
-import AppSidebar from './admin/app-sidebar/AppSidebar'
 import Layout from 'vuestic-theme/vuestic-directives/Layout'
 import VuesticLayout from '../vuestic-theme/vuestic-components/vuestic-layout/VuesticLayout'
-import DashboardInfoWidgets from './dashboard/DashboardInfoWidgets'
 
 export default {
   name: 'rent',
@@ -66,9 +61,6 @@ export default {
   },
   components: {
     VuesticLayout,
-    AppNavbar,
-    AppSidebar,
-    DashboardInfoWidgets,
   },
   directives: {
     layout: Layout,

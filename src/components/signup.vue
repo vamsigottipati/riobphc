@@ -180,6 +180,16 @@ export default {
   }
   /*  Fade inanimation  */
 
+    .alt {
+      position: absolute;
+      top: 40vh;
+      left: 30vw;
+      width: 40vw;
+      text-align: center;
+      font-size: 2rem;
+      color: white;
+    }
+
   @-webkit-keyframes scale-in-center {
   0% {
     -webkit-transform: scale(0);
