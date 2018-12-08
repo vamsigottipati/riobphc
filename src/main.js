@@ -13,17 +13,16 @@ import VuesticPlugin from 'vuestic-theme/vuestic-plugin'
 import './i18n'
 import fullpage from 'vue-fullpage.js'
 import * as firebase from 'firebase'
-// import * as VueGoogleMaps from 'vue2-google-maps'
+import * as VueGoogleMaps from 'vue2-google-maps'
 import vueResource from 'vue-resource'
 
 Vue.use(vueResource)
 
-/* Vue.use(VueGoogleMaps, {
+Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyDvXy0SXRp70BztZMu4czB_ChLFdK_RWMY'
   }
-}) */
-
+})
 
 Vue.use(VuesticPlugin)
 Vue.use(fullpage)

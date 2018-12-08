@@ -1,158 +1,134 @@
-
 <template>
-<div class="body">
-  <section class="container">
-    <div class="content">
-      <h1>Scroll To Begin</h1>
-      <p>
-        Start
-      </p>
+  <div class="body" ref="body">
+
+    <aside class="rightSection"></aside>
+    <aside class="leftSection"></aside>
+    <aside class="rightSection"></aside>
+    <aside class="leftSection"></aside>
+
+    <div class="section one">
+      <h2 class="section-heading">Step 1</h2>
+      <p class="description-text"> Do the following things Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quidem rem accusamus perspiciatis magnam, fuga obcaecati quisquam nihil illum aperiam temporibus magni ipsum voluptates placeat, blanditiis vitae ab in ipsam. </p>
     </div>
-  </section>
-  <section class="container">
-    <div class="content">
-     
-      <p>
-        Step 1
-      </p>
-    </div>
-  </section>
-  <section class="container">
-    <div class="content">
-     
-      <p>
-        Step 2
-      </p>
-    </div>
-  </section>
-  <section class="container">
-    <div class="content">
     
-      <p>
-        Step 3
-      </p>
+    <div class="section two">
+      <h2 class="section-heading">Step 2</h2>
+      <p class="description-text"> Do the following things Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quidem rem accusamus perspiciatis magnam, fuga obcaecati quisquam nihil illum aperiam temporibus magni ipsum voluptates placeat, blanditiis vitae ab in ipsam. </p>
     </div>
-  </section>
-    <section class="container">
-    <div class="content">
-  
-      <p>
-        Step 4
-      </p>
+
+    <div class="section three">
+      <h2 class="section-heading">Step 3</h2>
+      <p class="description-text"> Do the following things Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quidem rem accusamus perspiciatis magnam, fuga obcaecati quisquam nihil illum aperiam temporibus magni ipsum voluptates placeat, blanditiis vitae ab in ipsam. </p>
     </div>
-  </section>
 
-  <div id="set-height"></div>
+    <div class="section four">
+      <h2 class="section-heading">Step 4</h2>
+      <p class="description-text"> Do the following things Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quidem rem accusamus perspiciatis magnam, fuga obcaecati quisquam nihil illum aperiam temporibus magni ipsum voluptates placeat, blanditiis vitae ab in ipsam. </p>
+    </div>
 
-  <video id="v0" tabindex="0" autobuffer preload>
-     <source type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' src="../assets/fingers.mp4"></source>
-  </video>
-
-</div>
+  </div>
 </template>
 
 <script>
-
 export default {
-  name: 'How',
-  props: {
-  },
-  mounted () {
-    var frameNumber = 0
-    var playbackConst = 1000
-    var setHeight = document.getElementById('set-height')
-    var vid = document.getElementById('v0')
-
-    vid.addEventListener('loadedmetadata', function () {
-      setHeight.style.height = Math.floor(vid.duration) * playbackConst + 'px'
-    })
-
-    function scrollPlay () {
-      frameNumber = window.pageYOffset / playbackConst
-      vid.currentTime = frameNumber
-      window.requestAnimationFrame(scrollPlay)
-    }
-
-    window.requestAnimationFrame(scrollPlay)
-  },
+  name: 'how',
   data () {
     return {
-      opened: true,
     }
+  },
+  mounted () {
   },
   computed: {
   },
   methods: {
-    toggleSidebar (opened) {
-      this.opened = opened
-    }
   }
 }
 </script>
 
 <style scoped>
 
-.body{
-  background-color: #c6d7de;
-  padding: 3rm;
-}
 
-#v0 {
-  position: fixed;
-  bottom: 0px;
-  right: opx;
-  width: 100%;
-}
-
-#set-height {
-  display: block;
-}
-
-section {
-  z-index: 1;
+.section {
   position: relative;
-}
-
-.content {
-  position: sticky;
-  position: -webkit-sticky;
-  width: 100%;
-  top: 33.3%;
-}
-
-h1 {
-  background-color: white;
-  display: inline-block;
-  border-radius: 5px;
-  padding: 1.5rem; 
-}
-
-section:nth-of-type(0) {
-  height: 20vh;
-}
-
-section:nth-of-type(1) {
-  height: 150vh;
-}
-
-section:nth-of-type(2) {
-  height: 150vh;
-}
-
-section:nth-of-type(3) {
-  height: 150vh;
-}
-
-section:nth-of-type(4) {
-  height: 150vh;
-}
-
-section:nth-of-type(5) {
   height: 100vh;
+  width: 50vw;
+  z-index: 999;
 }
 
-.enter {
+.section:nth-of-type(1) {
+  border-bottom-right-radius: 100px;
+}
 
+.section:nth-of-type(2) {
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+}
+
+.section:nth-of-type(3) {
+  border-bottom-right-radius: 100px;
+  border-top-right-radius: 100px;
+}
+
+.section:nth-of-type(4) {
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+}
+
+
+.one {
+  background: linear-gradient(#642B73, #C6426E);
+}
+.two {
+  background:linear-gradient(#C6426E, #642B73);
+  margin-left: 50vw;
+}
+.three {
+  background:linear-gradient(#642B73, #C6426E);
+}
+.four {
+  background:linear-gradient(#C6426E, #642B73);
+    margin-left: 50vw;
+}
+
+.rightSection{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100vh;
+  width: 50vw;
+  background: #eee;
+  z-index: 99;
+}
+
+.leftSection{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 50vw;
+  background: #eee;
+  z-index: 99;
+}
+
+
+.section-heading {
+  color: white; 
+  position: absolute;
+  width: 20vw;
+  top: 20vh;
+  left: 15vw;
+  text-align: left;
+  font-size: 4.5rem;
+}
+
+.description-text {
+  color: white; 
+  position: absolute;
+  width: 40vw;
+  top: 50vh;
+  left: 5vw;
+  text-align: left;
+  font-size: 1.5rem;
 }
 
 </style>

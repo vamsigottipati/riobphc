@@ -12,6 +12,7 @@ import login from '../components/login'
 import signup from '../components/signup'
 import authGaurd from './authgaurd'
 import navSide from '../components/nav-side'
+import test3 from '../components/test3'
 
 
 Vue.use(Router)
@@ -79,6 +80,11 @@ export default new Router({
       path: '/test2',
       component: test2,
       name: 'test2'
+    },
+    {
+      path: '/test3',
+      component: test3,
+      name: 'test3'
     },
     {
       path: '/login',
