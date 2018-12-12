@@ -155,7 +155,7 @@
               @mouseleave="animationStatus = !animationStatus"
               @click.prevent="showLocation(listedItem)"
               style="float:right;font-size:1.7rem;color:#05386b;cursor:pointer"
-             ></i> <!-- for icon animation use  v-bind:class="{ 'faa-bounce': animationStatus}" -->
+             ></i>
           </div>
         </article>
       </div>

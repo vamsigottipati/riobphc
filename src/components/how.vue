@@ -54,7 +54,7 @@ export default {
   width: 50vw;
   z-index: 999;
 }
-
+/*
 .section:nth-of-type(1) {
   border-bottom-right-radius: 100px;
 }
@@ -73,7 +73,7 @@ export default {
   border-top-left-radius: 100px;
   border-bottom-left-radius: 100px;
 }
-
+*/
 
 .one {
   background: linear-gradient(#642B73, #C6426E);
