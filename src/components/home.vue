@@ -1,11 +1,11 @@
 <template>
 	<div class="body" >
-		<div class="popup" v-if="this.showPopUp">
+	<!--	<div class="popup" v-if="this.showPopUp">
 			<div class="half-circle1"></div>
       <div class="half-circle2"></div>
 			<p class="exit" @click="popupCloser">&times;</p>
 		</div>
-		
+	-->
 		<!-- <p class="bd-spread">Uncle Bob</p> -->
 		<div class="container" :v-model="container" v-bind:class="[{ 'hover-left' : left } , { 'hover-right' : right } , {'lessOpacity' : showPopUp}]" >
   			<div class="split left"
@@ -305,14 +305,14 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.showPopUp = true
-    }, 2000)
+  //  setTimeout(() => {
+  //    this.showPopUp = true
+  //  }, 2000)
   },
   methods: {
-    popupCloser () {
-      this.showPopUp = false
-    }
+  //  popupCloser () {
+  //    this.showPopUp = false
+  //  }
   }
 }
 </script>

@@ -116,8 +116,8 @@ export default {
     padding: 60px;
     border-radius: 30px;
     overflow: auto;
-    -webkit-animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-	        animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   }
 
   .heading {
@@ -218,7 +218,7 @@ export default {
 
 /*  Shadow  */
 
-@-webkit-keyframes shadow-drop-center {
+@-webkit-keyframes shadow-anim {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
@@ -226,7 +226,7 @@ export default {
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
   }
 }
-@keyframes shadow-drop-center {
+@keyframes shadow-anim {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }

@@ -1,5 +1,6 @@
 <template>
   <div>
+  <div v-if="itemsLoaded">
     <navSide></navSide>
       <!-- CITY SELECTION OVERLAY --> 
 
@@ -228,6 +229,22 @@
 
     </main>
   </div>
+  <div v-if="!itemsLoaded">
+    <div class="loader--div">
+      <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <br>
+      <h2 style="position: absolute;bottom: 20%;left: 10%;width: 80%;text-align: center;">Please Wait ...</h2>
+      <br>
+      <p style="position: absolute;bottom: 15%;left: 10%;width: 80%;text-align: center;">The Items are Loading</p>
+    </div>
+  </div>
+  </div>
 </template>
 
 <script>
@@ -261,6 +278,7 @@ export default {
       animationStatus: true,
       itemLat: '',
       itemLng: '',
+      itemsLoaded: false,
       rangeValue: 10,
       listedItems: [
       ]
@@ -299,6 +317,7 @@ export default {
     this.$http.get('https://rio-travels.firebaseio.com/listedItems.json').then(
       function (data) {
         this.listedItems = data.body
+        this.itemsLoaded = true
       }
     )
   },
@@ -363,6 +382,108 @@ export default {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+/* loader */
+
+  .loader--div {
+    position: absolute;
+    top: 15vh;
+    left: 20vw;
+    width: 60vw;
+    height: 70vh;
+    background: white;
+    padding: 60px;
+    border-radius: 30px;
+    overflow: auto;
+    -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  margin-left: 10%;
+  transform: translate3d(-50%, -50%, 0);
+}
+.dot {
+  width: 24px;
+  height: 24px;
+  background: #3ac;
+  border-radius: 100%;
+  display: inline-block;
+  animation: slide 1s infinite;
+}
+.dot:nth-child(1) {
+  animation-delay: 0.1s;
+  background: #32aacc;
+}
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+  background: #64aacc;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.3s;
+  background: #96aacc;
+}
+.dot:nth-child(4) {
+  animation-delay: 0.4s;
+  background: #c8aacc;
+}
+.dot:nth-child(5) {
+  animation-delay: 0.5s;
+  background: #faaacc;
+}
+@-moz-keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@-o-keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Loader End */
 
 .sidebar {
   position: absolute;
@@ -675,6 +796,25 @@ p {
 .search-bar{
   width:20vw;
   margin-left:18vw;
+}
+
+/*  Shadow  */
+
+@-webkit-keyframes shadow-anim {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
+  }
+}
+@keyframes shadow-anim {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
+  }
 }
 
 </style>

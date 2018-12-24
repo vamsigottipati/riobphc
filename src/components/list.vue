@@ -3,7 +3,7 @@
 
     <navSide></navSide>
 
-    <main>
+    <main v-if="!turnOffDisplay">
       <vuestic-widget   headerText="List Your Item" style="position: absolute;top: 20vh;max-height: 100vh;width: 90vw;left: 5vw;">
         <div style="display:flex;">
           <vuestic-wizard
@@ -160,14 +160,20 @@
             </div>
             <div slot="wizardCompleted"
                  class="form-wizard-tab-content wizard-completed-tab">
-              <h4>Listing Completed     !</h4>
-              <button class="btn btn-primary" ><a href="./home" style="text-decoration:none;color:white;" id="homeRouteBtn"> Continue Surfing </a></button>
+              <h2>Please Wait while Listing is being processed</h2>
+              <!-- <button class="btn btn-primary" ><a href="./home" style="text-decoration:none;color:white;" id="homeRouteBtn"> Continue Surfing </a></button> -->
               <p>
               </p>
             </div>
           </vuestic-wizard>
         </div>
       </vuestic-widget>
+    </main>
+    <main v-if="turnOffDisplay">
+      <vuestic-widget style="position: absolute;top: 30%;height: 60%;width: 80%;left:10%;">
+        <h2 style="position: absolute;top: 25%;height: 30%;left: 10%;width: 80%;text-align: center;font-size: 2.2rem;font-family:'Montserrat'">Congratulations !! </h2> <br> <p style="position: absolute;top: 35%;height: 30%;left: 10%;font-weight: 300;width: 80%;text-align: center;font-size: 1.7rem;font-family:'Montserrat'"> Your Listing is completed</p>
+        <button style="position: absolute;bottom: 20%;height: 15%;border-radius:50px;left: 30%;width: 40%;text-align: center;" class="btn btn-primary" @click="this.$router.push('home')">Continue Surfing</button>
+      </vuestic-widget> 
     </main>
     <span slot="footer"></span>
   </div>
@@ -208,6 +214,7 @@
         price: '',
         curUserName: '',
         selectedCountry: '',
+        turnOffDisplay: false,
         photo: [],
         contact: '',
         lat: '',
@@ -272,6 +279,7 @@
               randomString = randomString + t
               var category = 'Product1' // remove hard coded itemImage and get it using cloud storage after image resizing
               var itemOwner = firebase.auth().currentUser.displayName
+              var itemOwnerId = firebase.auth().currentUser.uid
               var lat = sessionStorage.getItem('lat')
               var long = sessionStorage.getItem('long')
               var location = this.city
@@ -290,12 +298,17 @@
                         itemId: itemId,
                         itemImg: itemImg,
                         itemOwner: itemOwner,
+                        itemOwnerId: itemOwnerId,
                         lat: lat,
                         long: long,
                         location: location,
                         price: price,
                         category: category
-                      })
+                      }).then(
+                        resp => {
+                          this.turnOffDisplay = true
+                        }
+                      )
                     }
                   )
                 }

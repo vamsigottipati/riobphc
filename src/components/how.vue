@@ -54,26 +54,6 @@ export default {
   width: 50vw;
   z-index: 999;
 }
-/*
-.section:nth-of-type(1) {
-  border-bottom-right-radius: 100px;
-}
-
-.section:nth-of-type(2) {
-  border-top-left-radius: 100px;
-  border-bottom-left-radius: 100px;
-}
-
-.section:nth-of-type(3) {
-  border-bottom-right-radius: 100px;
-  border-top-right-radius: 100px;
-}
-
-.section:nth-of-type(4) {
-  border-top-left-radius: 100px;
-  border-bottom-left-radius: 100px;
-}
-*/
 
 .one {
   background: linear-gradient(#642B73, #C6426E);
