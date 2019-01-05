@@ -13,6 +13,7 @@ import signup from '../components/signup'
 import authGaurd from './authgaurd'
 import navSide from '../components/nav-side'
 import test3 from '../components/test3'
+import checkout from '../components/checkout'
 
 
 Vue.use(Router)
@@ -95,6 +96,12 @@ export default new Router({
       path: '/signup',
       component: signup,
       name: 'signup'
+    },
+    {
+      path: '/checkout',
+      component: checkout,
+      name: 'checkout',
+      beforeEnter: authGaurd
     },
   ],
   mode: 'history'

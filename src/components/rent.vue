@@ -183,7 +183,7 @@
           <div slot="title" ref="rentHead"></div>
           <div class="row">
             <div class="col-md-1"></div>
-            <img ref="rentImage" class="col-md-10" style="height:70vh;margin-bottom: 5vh;"  />
+            <img ref="rentImage" class="col-md-10" style="max-height: 70vh;margin-bottom: 5vh;"  />
             <div class="moreDetails col-md-10" ref="rentDetails"></div>
           </div>
           <div class="row">
@@ -256,6 +256,7 @@ import VuesticLayout from '../vuestic-theme/vuestic-components/vuestic-layout/Vu
 import rentalModal from './rentalModal'
 import navSide from './nav-side'
 import * as firebase from 'firebase'
+import { EventBus } from 'src/main.js'
 
 export default {
   name: 'rent',
@@ -282,6 +283,7 @@ export default {
       animationStatus: true,
       itemLat: '',
       itemLng: '',
+      cartNumber: 0,
       itemsLoaded: false,
       rangeValue: 10,
       prodCategory: [],
@@ -376,7 +378,7 @@ export default {
     rentService () {
       this.$refs.rentModal.cancel()
       this.cartNumber = this.cartNumber + 1
-      alert('Rental Service Function')
+      EventBus.$emit('cartUpdate', this.cartNumber)
       var itemId = this.currentItemId
       var x = firebase.auth().currentUser.uid
       sessionStorage.setItem('cartItems', x)

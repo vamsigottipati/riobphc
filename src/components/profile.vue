@@ -2,6 +2,15 @@
 <template>
   <div>
     <navSide></navSide>
+    <!-- 
+
+      Get friends list
+      Get rentals if any
+      Get listed if any
+      Show otp if any
+      Show current Orders if any
+
+    -->
     <main id="content" >
       <vuestic-widget style="width: 100%;height: 80vh;" headerText='Profile Details'>
         <vuestic-tabs

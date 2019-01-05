@@ -40,7 +40,7 @@
     <div ref="rightSidenav" class="rightSidenav">
         <a href="javascript:void(0)" class="closebtn" ref="rightCloseBtn" style="position: fixed;" @click.prevent="closeRightSideNav">&times;</a>
         <div class="heading"> <h2 style="position: absolute;top: 15vh;left: 30vw;width: 40vw;text-align: center;color: white;font-size:2.8rem;letter-spacing: 0px;word-spacing: 20px;font-family: montserrat;">Cart Details</h2> </div>
-        <h3 v-if="!this.cartNumber" style="position: absolute;color: whitesmoke; top: 50vh;left: 0px;width: 100vw;font-family: Montserrat;transform: translateX(35%);"> <i style="font-size: 75px;margin-right: 50px;transform: translateY(25%);" class='bx bx-error'></i> No Items In Your Cart </h3>
+        <h3 v-if="!this.cartNumber" style="position: absolute;color: whitesmoke; top: 50vh;left: 0px;width: 100vw;font-family: Montserrat;transform: translateX(35%);"> <i style="font-size: 75px;margin-right: 50px;transform: translateY(25%);color: orange;" class='bx bx-error'></i> No Items In Your Cart </h3>
         <div class="main--content" :key="ItemDetail.itemId" v-for="ItemDetail in ItemDetails">
           <div class="main--img" >
             <img :src="ItemDetail.itemImg" style="width: auto; height: 30vh;margin-top: 10vh;" alt="">
@@ -54,7 +54,7 @@
             </ul>
           </div>
         </div>
-        <button v-if="this.cartNumber" class="btn btn-submit">Proceed To CheckOut</button>
+        <button v-if="this.cartNumber" @click.prevent="$router.push( '/checkout' )" class="btn btn-submit">Proceed To CheckOut</button>
     </div>
 
         <!-- RIGHT SIDEBAR END -->
@@ -63,6 +63,8 @@
 
 <script>
 import * as firebase from 'firebase'
+import { EventBus } from 'src/main.js'
+
 export default {
   name: 'nav-side',
   data () {
@@ -75,15 +77,23 @@ export default {
   },
   mounted: function () {
     this.setData()
+    var z = this
+    EventBus.$on('cartUpdate', cartNumber => {
+      console.log(cartNumber)
+      z.setData()
+      z.cartNumber = cartNumber
+    })
   },
   methods: {
     closeRightSideNav () {
       this.$refs.rightSidenav.style.width = '0'
       this.$refs.rightCloseBtn.style.right = '-50px'
+      this.$refs.rightCloseBtn.style.display = 'none'
     },
     openRightSideNav () {
       this.$refs.rightSidenav.style.width = '100vw'
       this.$refs.rightCloseBtn.style.right = '25px'
+      this.$refs.rightCloseBtn.style.display = 'block'
     },
     openLeftSideNav () {
       this.$refs.leftSidenav.style.width = '25vw'
@@ -231,6 +241,7 @@ export default {
     margin-left: 50px;
     color: #10e7dc;
     transition: 0.3s;
+    display: none;
 }
 
 .closebtn:hover{

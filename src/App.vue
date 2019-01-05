@@ -14,13 +14,6 @@
   @import "sass/main";
 
   body {
-    height: 100%;
-    #app {
-      height: 100%;
-    //  background-color:#f64c72;
-    // background-color:#cafafe;
-   //  background: url('./assets/bgImg4.jpg');
-     background-size:fit;
-    }
+    height: 100%
   }
 </style>

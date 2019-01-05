@@ -155,7 +155,7 @@
 <style lang="scss">
   .vuestic-modal {
     height: 0;
-    width: 0;
+    width: auto;
 
     // For Transitioning
     .modal {

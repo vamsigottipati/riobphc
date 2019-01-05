@@ -62,7 +62,6 @@
                       errors.first('name') }}
                     </small>
                     <br>
-                  <!--   <button class="btn btn-primary location_btn" style="padding: 20px;border-radius: 50%;margin-left: 40%;"><i class="fas fa-map-marker-alt animated " style="font-size: 30px;"></i></button> -->
                   </div>
                   <br>
                 </div>
@@ -84,21 +83,9 @@
                       errors.first('name') }}
                     </small>
                     <br>
-                  <!--   <button class="btn btn-primary location_btn" style="padding: 20px;border-radius: 50%;margin-left: 40%;"><i class="fas fa-map-marker-alt animated " style="font-size: 30px;"></i></button> -->
                   </div>
                   <br>
                 </div>
-                
-
-            <!--  <vuestic-simple-select
-                label="Select country"
-                v-model="selectedCountry"
-                name="country"
-                :required="true"
-                ref="selectedCountrySelect"
-                :options="countriesList">
-              </vuestic-simple-select> -->
-               <!-- <button v-on:click="locationGetter()" class="btn btn-info">Get Location On Map</button> -->
             </div>
             <div slot="page3" class="form-wizard-tab-content">
               <h4>Pricing</h4>
@@ -172,7 +159,7 @@
     <main v-if="turnOffDisplay">
       <vuestic-widget style="position: absolute;top: 30%;height: 60%;width: 80%;left:10%;">
         <h2 style="position: absolute;top: 25%;height: 30%;left: 10%;width: 80%;text-align: center;font-size: 2.2rem;font-family:'Montserrat'">Congratulations !! </h2> <br> <p style="position: absolute;top: 35%;height: 30%;left: 10%;font-weight: 300;width: 80%;text-align: center;font-size: 1.7rem;font-family:'Montserrat'"> Your Listing is completed</p>
-        <button style="position: absolute;bottom: 20%;height: 15%;border-radius:50px;left: 30%;width: 40%;text-align: center;" class="btn btn-primary" @click="this.$router.push('home')">Continue Surfing</button>
+        <button style="position: absolute;bottom: 20%;height: 15%;border-radius:50px;left: 30%;width: 40%;text-align: center;" class="btn btn-primary" @click="$router.push('home')">Continue Surfing</button>
       </vuestic-widget> 
     </main>
     <span slot="footer"></span>
@@ -277,13 +264,14 @@
                 randomString += possible.charAt(Math.floor(Math.random() * possible.length))
               }
               randomString = randomString + t
-              var category = 'Product1' // remove hard coded itemImage and get it using cloud storage after image resizing
+              var category = 'Product1' // remove hard coded value and get it using user input
               var itemOwner = firebase.auth().currentUser.displayName
               var itemOwnerId = firebase.auth().currentUser.uid
               var lat = sessionStorage.getItem('lat')
               var long = sessionStorage.getItem('long')
               var location = this.city
               var price = this.price
+              var address = this.address
               console.log(randomString)
               var itemId = randomString
               /* storage */
@@ -302,6 +290,8 @@
                         lat: lat,
                         long: long,
                         location: location,
+                        city: location,
+                        address: address,
                         price: price,
                         category: category
                       }).then(
@@ -309,6 +299,20 @@
                           this.turnOffDisplay = true
                         }
                       )
+                      firebase.database().ref('users/' + itemOwnerId + '/listedItems/' + itemId).set({
+                        itemName: itemName,
+                        itemId: itemId,
+                        itemImg: itemImg,
+                        itemOwner: itemOwner,
+                        itemOwnerId: itemOwnerId,
+                        lat: lat,
+                        long: long,
+                        location: location,
+                        city: location,
+                        address: address,
+                        price: price,
+                        category: category
+                      })
                     }
                   )
                 }

@@ -141,6 +141,7 @@ export default {
   directives: {
   },
   mounted: function () {
+    // location.reload()
     ScrollOut({
       cssProps: {
         visibleY: true,
