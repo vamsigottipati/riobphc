@@ -20,7 +20,7 @@
     					<section class="st-panel" id="st-panel-1">
                 <div class="st-deco"></div>
                 <i class="far fa-handshake st-deco-icon"></i>
-    						<h2>Welcome<br> <small>to </small><br> Rio Services</h2><br>
+    						<h2>Welcome<br> <small>to </small><br> rio Services</h2><br>
     						<p>Banksy adipisicing eiusmod banh mi sed. Squid stumptown est odd future nisi, commodo mlkshk pop-up adipisicing retro.</p>
     					</section>
 

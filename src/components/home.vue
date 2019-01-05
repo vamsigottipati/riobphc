@@ -14,7 +14,7 @@
   				@mouseleave="left = false"
   			>
     			<h1>List</h1>
-    			<router-link to="list" class="button btn"> Proceed </router-link>
+    			<router-link to="list" class="button btn"> Go </router-link>
   			</div>
   			<div class="split right"
   				:v-model="right"
@@ -22,7 +22,7 @@
   				@mouseleave="right = false"
   			>
     			<h1>Rent</h1>
-    			<router-link to="rent" class="button btn"> Proceed </router-link>
+    			<router-link to="rent" class="button btn"> Go </router-link>
   			</div>
 		</div>
 	</div>
@@ -32,10 +32,10 @@
 
 	:root {
   		--container-bg-color: #333;
-  		--left-bg-color: #10e7dc;
-  		--left-button-hover-color: #f79e02;
-  		--right-bg-color: #f79e02;
-  		--right-button-hover-color: #10e7dc;
+  		--left-bg-color: #642B73;
+  		--left-button-hover-color: #C6426E;
+  		--right-bg-color: #C6426E;
+  		--right-button-hover-color: #642B73;
   		--hover-width: 75%;
   		--other-width: 25%;
   		--speed: 500ms;
@@ -101,10 +101,9 @@
 		width:100vw;
 		background-color:#333;
 		height:100vh;
-		background
 		padding:0;
-  		margin:0;
-  		overflow-x: hidden;
+ 		margin:0;
+ 		overflow-x: hidden;
 	}
 	h1 {
   		font-size: 4rem;
@@ -123,22 +122,24 @@
   		width: 15rem;
   		text-align: center;
   		color: #fff;
-  		border: #fff solid 0.2rem;
+  		border: #efefef solid 1px;
   		font-size: 1.3rem;
   		font-weight: bold;
   		text-transform: uppercase;
   		text-decoration: none;
     	transform: translateX(-50%);
+      box-shadow: none;
+      border-radius: 10px;
 	}
 	.split.left .button:hover {
  		background-color: var(--left-button-hover-color);
  		border-color: var(--left-button-hover-color);
  		text-decoration: none;
  		text-align: center;
-  		color: #fff;
-  		font-size: 1.3rem;
-  		font-weight: bold;
-  		text-transform: uppercase;
+  	color: #fff;
+  	font-size: 1.3rem;
+  	font-weight: bold;
+  	text-transform: uppercase;
 	}
 	.split.right .button:hover {
   background-color: var(--right-button-hover-color);
@@ -166,7 +167,6 @@
 
 .split.left {
   left:0;
-  /* background: url('') center center no-repeat; */
   background-size: cover;
 }
 

@@ -7,9 +7,14 @@
       <i class="fas fa-bars menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
       <p class="logo" ref="logo" style="transition: 0.4s">UncleBob</p>
      <!-- <input type="text" ref="searchBox" class="filterInput" placeholder="Search Item Name" style="transition: 0.4s"> -->
-      <i class='bx bx-user-detail accountIcon' style="transition: 0.4s;"></i>
+      <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
       <i class='bx bx-filter filterIcon' style="transition: 0.4s; cursor: pointer;"></i>
-      <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
+      <span> <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
+        <p style="position: absolute;color: white; background: #222222;top: 3vh; right: 13.5vw;width: 30px; 
+              height: 30px;text-align: center;border-radius: 50%;opacity: 0.7;vertical-align: center;
+              font-weight: 900;font-size: 20px;"> 
+            {{cartNumber}}
+        </p> </span> 
       <i class='bx bx-user-x logoutIcon' style="transition: 0.4s;" @click="logout"></i>
     </div>
 
@@ -22,6 +27,7 @@
         <a href="javascript:void(0)" class="closebtn" ref="leftCloseBtn" @click.prevent="closeLeftSideNav">&times;</a>
         <a style="margin-top: 10vh;" @click.prevent="$router.push( '/home' )">Home</a>
         <a  @click.prevent="$router.push( '/list' )">List</a>
+        <a  @click.prevent="$router.push( '/rent' )">Rent</a>
         <a  @click.prevent="$router.push( '/profile' )">Profile</a>
         <a  @click.prevent="$router.push( '/how' )">How</a>
         <a  @click.prevent="$router.push( '/about' )">About</a>
@@ -32,7 +38,23 @@
         <!-- RIGHT SIDEBAR -->
 
     <div ref="rightSidenav" class="rightSidenav">
-        <a href="javascript:void(0)" class="closebtn" ref="rightCloseBtn" @click.prevent="closeRightSideNav">&times;</a>
+        <a href="javascript:void(0)" class="closebtn" ref="rightCloseBtn" style="position: fixed;" @click.prevent="closeRightSideNav">&times;</a>
+        <div class="heading"> <h2 style="position: absolute;top: 15vh;left: 30vw;width: 40vw;text-align: center;color: white;font-size:2.8rem;letter-spacing: 0px;word-spacing: 20px;font-family: montserrat;">Cart Details</h2> </div>
+        <h3 v-if="!this.cartNumber" style="position: absolute;color: whitesmoke; top: 50vh;left: 0px;width: 100vw;font-family: Montserrat;transform: translateX(35%);"> <i style="font-size: 75px;margin-right: 50px;transform: translateY(25%);" class='bx bx-error'></i> No Items In Your Cart </h3>
+        <div class="main--content" :key="ItemDetail.itemId" v-for="ItemDetail in ItemDetails">
+          <div class="main--img" >
+            <img :src="ItemDetail.itemImg" style="width: auto; height: 30vh;margin-top: 10vh;" alt="">
+          </div>
+          <div class="main--list">
+            <ul style="color: #bbb;font-size: 25px;text-align: center;">
+              <p style="word-spacing: 30px;"> <span style="color: #ddd;"> Name </span> :  {{ ItemDetail.itemName }}</p>
+              <p style="word-spacing: 30px;"> <span style="color: #ddd;">Categoty</span> :  {{ ItemDetail.category }}</p>
+              <p style="word-spacing: 30px;"> <span style="color: #ddd;">Owner</span> : {{ ItemDetail.itemOwner }}</p>
+              <p style="word-spacing: 30px;"> <span style="color: #ddd;">Price</span> : {{ ItemDetail.price }}</p>
+            </ul>
+          </div>
+        </div>
+        <button v-if="this.cartNumber" class="btn btn-submit">Proceed To CheckOut</button>
     </div>
 
         <!-- RIGHT SIDEBAR END -->
@@ -45,7 +67,14 @@ export default {
   name: 'nav-side',
   data () {
     return {
+      cartNumber: 0,
+      cartImgs: [],
+      ItemDetails: [],
+      cartItems: []
     }
+  },
+  mounted: function () {
+    this.setData()
   },
   methods: {
     closeRightSideNav () {
@@ -53,7 +82,7 @@ export default {
       this.$refs.rightCloseBtn.style.right = '-50px'
     },
     openRightSideNav () {
-      this.$refs.rightSidenav.style.width = '20vw'
+      this.$refs.rightSidenav.style.width = '100vw'
       this.$refs.rightCloseBtn.style.right = '25px'
     },
     openLeftSideNav () {
@@ -63,6 +92,27 @@ export default {
     closeLeftSideNav () {
       this.$refs.leftSidenav.style.width = '0'
       this.$refs.leftCloseBtn.style.left = '-10vw'
+    },
+    route (e) {
+      this.$router.push(e)
+    },
+    setData () {
+      var x = firebase.auth().currentUser.uid
+      var vm = this
+      firebase.database().ref('users/' + x + '/cart').once('value').then(function (snapshot) {
+        vm.cartNumber = Object.values(snapshot.val()).length
+        vm.cartItems = Object.values(snapshot.val())
+        vm.cartData(vm.cartItems)
+      })
+    },
+    cartData (a) {
+      var vm = this
+      for (let i = 0; i < a.length; i++) {
+        firebase.database().ref('listedItems/' + a[i]).once('value').then(function (snapshot) {
+          vm.ItemDetails.push(snapshot.val())
+          console.log(vm.ItemDetails)
+        })
+      }
     },
     logout () {
       firebase.auth().signOut().then(
@@ -93,16 +143,16 @@ export default {
 .menuSideDrop {
   position: absolute; 
   left: 1.5vw;
-  font-size:1.8rem;
+  font-size:30px;
   color:white;
-  top: 5.3vh;
+  top: 5vh;
   font-weight:900;
   cursor: pointer;
 }
 
 .navbar-filter {
   position: fixed;
-  background: linear-gradient(to right, #03568e , #10e7dc) ;
+  background: linear-gradient(90deg , #642B73, #C6426E);
   top:0vh;
   width: 100vw;
   left:0vw;
@@ -115,7 +165,7 @@ export default {
   background: white;
   position:absolute;
   left: 20vw;
-  top: 4vh;
+  top: 5vh;
   height: 4vh;
   border-radius: 30px;
   text-align: center;
@@ -126,9 +176,9 @@ export default {
   position: absolute;
   right: 35vw;
   color: white;
-  font-size: 2.7rem;
+  font-size: 30px;
   cursor: pointer;
-  top: 4.75vh;
+  top: 5vh;
 }
 
 .filterIcon {
@@ -136,7 +186,7 @@ export default {
   right: 25vw;
   color: white;
   top: 5vh;
-  font-size: 2.5rem;
+  font-size: 30px;
 }
 
 .cartIcon {
@@ -144,15 +194,15 @@ export default {
   right: 15vw;
   color: white;
   top: 5vh;
-  font-size: 2.3rem;
+  font-size: 30px;
 }
 
 .logoutIcon {
   position: absolute;
   right: 5vw;
   color: white;
-  top: 4.75vh;
-  font-size: 2.7rem;
+  top: 5vh;
+  font-size: 30px;
   cursor: pointer;
 }
 
@@ -182,7 +232,8 @@ export default {
     color: #10e7dc;
     transition: 0.3s;
 }
-.rightSidenav :hover {
+
+.closebtn:hover{
   color: white;
 }
 
@@ -230,5 +281,42 @@ export default {
 @media screen and (max-height: 450px) {
   .leftSidenav {padding-top: 15px;}
 }
+
+.main--content {
+  margin-top: 25vh;
+  margin-left: 5vw;
+  width: 90vw;
+  min-height: 40vh;
+}
+
+.main--img {
+  width: 40%;
+  margin-left: 10vw;
+  float: left;
+}
+
+.main--list {
+  transform: translateY(50%)
+}
+
+.btn {
+  all: unset;
+  color: white;
+  background: #C6426E;
+  padding-top: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 20px;
+  border-radius: 5px;
+  margin-top: 20vh;
+  margin-bottom: 10vh;
+  transform: translateX(125%);
+  min-width: 10vw;
+  font-size: 25px;
+  font-family: Montserrat; 
+  font-weight: 800;
+  word-spacing: 20px;
+}
+
 </style>
 

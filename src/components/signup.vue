@@ -2,7 +2,7 @@
   <div>
     <div class="background">
     <div class="signup" v-if="!displayOff">
-      <h2 class="heading"><small> Welcome to </small> <br><strong style="color: #03568e;font-size: 3rem;">UncleBob </strong></h2>
+      <h2 class="heading"><small> Welcome to </small> <br><strong style="color: #03568e;font-size: 3rem;">rio </strong></h2>
       <div class="all--input--fields">
         <input type="text" id="Username" class="single--input" placeholder="Your Name" v-model="Username" required="required"/><br>
         <span class="inline--display">

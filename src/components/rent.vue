@@ -27,37 +27,37 @@
           <div class="categoryFilter">
             <h4 >Category</h4> <br>
             <label class="container">Product1
-              <input type="checkbox" >
+              <input type="checkbox" value="product1" v-model="prodCategory">
               <span class="checkmark"></span>
             </label><br>
             <label class="container">Product2
-              <input type="checkbox">
+              <input type="checkbox" value="product2" v-model="prodCategory">
               <span class="checkmark"></span>
             </label><br>
-            <label class="container">Product3
-              <input type="checkbox" >
+            <label class="container" >Product3
+              <input type="checkbox" value="product3" v-model="prodCategory">
               <span class="checkmark"></span>
             </label><br>
-            <label class="container">Product4
-              <input type="checkbox">
+            <label class="container" >Product4
+              <input type="checkbox" value="product4" v-model="prodCategory">
               <span class="checkmark"></span>
             </label><br>
-            <label class="container">Product5
-              <input type="checkbox" >
+            <label class="container" >Product5
+              <input type="checkbox" value="product5" v-model="prodCategory">
               <span class="checkmark"></span>
             </label><br>
             <label class="container">Product6
-              <input type="checkbox" >
+              <input type="checkbox" value="product6" v-model="prodCategory">
               <span class="checkmark"></span>
             </label><br>
-            <label class="container">Product7
-              <input type="checkbox">
+            <label class="container" >Product7
+              <input type="checkbox" value="product7" v-model="prodCategory">
               <span class="checkmark"></span>
             </label><br>
           </div><hr class="styledHr">
           <div class="locationFilter">
             <h4 >Location</h4> <br>
-            <label class="container">Hyderabad
+            <label class="container" >Hyderabad
               <input type="checkbox" >
               <span class="checkmark"></span>
             </label><br>
@@ -145,18 +145,20 @@
       <!-- MAIN ITEM BOX -->
 
       <div class="box" ref="mainItem">
-        <article v-for="listedItem in listedItems">
-          <img class="img" :src=' listedItem.itemImg '/>
-          <div class="txt">
-            <p>{{ listedItem.itemName }}</p>
-            <span @click.prevent="rentalRoute(listedItem)" style="cursor:pointer;" class="main-link">Rent</span>
-            <span class="main-link" style="margin-left:10px;cursor:pointer;" @click.prevent="showdetailsModal(listedItem)">More</span>
-            <i class="fas fa-map-marker-alt animated "
-              @mouseover="animationStatus = !animationStatus"
-              @mouseleave="animationStatus = !animationStatus"
-              @click.prevent="showLocation(listedItem)"
-              style="float:right;font-size:1.7rem;color:#05386b;cursor:pointer"
-             ></i>
+        <article v-for="listedItem in listedItems" :key="listedItem.id in listedItems" >
+          <div :ref="listedItem.category.toLowerCase()">
+            <img class="img" :src=' listedItem.itemImg '/>
+            <div class="txt">
+              <p>{{ listedItem.itemName }}</p>
+              <span @click.prevent="rentalRoute(listedItem)" style="cursor:pointer;" class="main-link">Rent</span>
+              <span class="main-link" style="margin-left:10px;cursor:pointer;" @click.prevent="showdetailsModal(listedItem)">More</span>
+              <i class="fas fa-map-marker-alt animated "
+                @mouseover="animationStatus = !animationStatus"
+                @mouseleave="animationStatus = !animationStatus"
+                @click.prevent="showLocation(listedItem)"
+                style="float:right;font-size:1.7rem;color:#642B73;cursor:pointer"
+              ></i>
+            </div>
           </div>
         </article>
       </div>
@@ -206,7 +208,7 @@
             </div>
           </div>
           <div slot="footer">
-            <button @click.prevent='rentService' class="btn btn-primary">Rent {{ currentItemName }}</button>
+            <button @click.prevent='rentService()' class="btn btn-primary">Add {{ currentItemName }} to Cart</button>
           </div>
         </rentalModal>
 
@@ -226,7 +228,7 @@
         </vuestic-modal>
 
         <!-- LOCATION MODAL END -->
-
+        <!-- <li v-for="list in prodCategory">{{ list }}</li> -->
     </main>
   </div>
   <div v-if="!itemsLoaded">
@@ -239,9 +241,9 @@
         <div class="dot"></div>
       </div>
       <br>
-      <h2 style="position: absolute;bottom: 20%;left: 10%;width: 80%;text-align: center;">Please Wait ...</h2>
+      <h2 style="position: absolute;bottom: 20%;left: 10%;width: 80%;text-align: center;color: white;">Please Wait ...</h2>
       <br>
-      <p style="position: absolute;bottom: 15%;left: 10%;width: 80%;text-align: center;">The Items are Loading</p>
+      <p style="position: absolute;bottom: 15%;left: 10%;width: 80%;text-align: center;color: white;">The Items are Loading</p>
     </div>
   </div>
   </div>
@@ -253,6 +255,7 @@ import Layout from 'vuestic-theme/vuestic-directives/Layout'
 import VuesticLayout from '../vuestic-theme/vuestic-components/vuestic-layout/VuesticLayout'
 import rentalModal from './rentalModal'
 import navSide from './nav-side'
+import * as firebase from 'firebase'
 
 export default {
   name: 'rent',
@@ -274,12 +277,14 @@ export default {
       show: true,
       searchItem: '',
       currentItemName: '',
+      currentItemId: '',
       visiblefilters: true,
       animationStatus: true,
       itemLat: '',
       itemLng: '',
       itemsLoaded: false,
       rangeValue: 10,
+      prodCategory: [],
       listedItems: [
       ]
     }
@@ -290,7 +295,7 @@ export default {
     },
     curItemLng: function () {
       return this.itemLng
-    }
+    },
   },
   created () {
     window.addEventListener('scroll', this.handleScroll)
@@ -299,6 +304,7 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   mounted () {
+   // this.prodFilter()
     if (localStorage.getItem('currentCity') != null) {
       this.currentCity = localStorage.getItem('currentCity')
       this.citySelection = false
@@ -350,10 +356,10 @@ export default {
       this.citySelection = false
     },
     /* CITY SELECTION OVERLAY AND FILTER END */
-
     rentalRoute (itemDetails) {
       this.$refs.rentModal.open()
       this.currentItemName = itemDetails.itemName
+      this.currentItemId = itemDetails.itemId
       this.$refs.rentHead.innerHTML = itemDetails.itemName
       this.$refs.rentImage.src = itemDetails.itemImg
       this.$refs.priceBtn.innerHTML = itemDetails.price + '₹'
@@ -369,7 +375,21 @@ export default {
     },
     rentService () {
       this.$refs.rentModal.cancel()
+      this.cartNumber = this.cartNumber + 1
       alert('Rental Service Function')
+      var itemId = this.currentItemId
+      var x = firebase.auth().currentUser.uid
+      sessionStorage.setItem('cartItems', x)
+      firebase.database().ref('users/' + x + '/cart').push(itemId).then(
+        resp => {
+          console.log(resp)
+          // location.reload()
+        }
+      ).catch(
+        err => {
+          console.log(err)
+        }
+      )
     },
   }
 }
@@ -383,6 +403,10 @@ export default {
   box-sizing: border-box;
 }
 
+.no--display {
+  display: none;
+}
+
 /* loader */
 
   .loader--div {
@@ -394,6 +418,7 @@ export default {
     background: white;
     padding: 60px;
     border-radius: 30px;
+    background: linear-gradient(45deg , #642B73, #C6426E);
     overflow: auto;
     -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	        animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -409,30 +434,30 @@ export default {
 .dot {
   width: 24px;
   height: 24px;
-  background: #3ac;
+  background: rgb(198, 83, 119);
   border-radius: 100%;
   display: inline-block;
   animation: slide 1s infinite;
 }
 .dot:nth-child(1) {
   animation-delay: 0.1s;
-  background: #32aacc;
+  background: #91c8deec;
 }
 .dot:nth-child(2) {
   animation-delay: 0.2s;
-  background: #64aacc;
+  background: #c7d6da;
 }
 .dot:nth-child(3) {
   animation-delay: 0.3s;
-  background: #96aacc;
+  background: #ffffff;
 }
 .dot:nth-child(4) {
   animation-delay: 0.4s;
-  background: #c8aacc;
+  background: #c7aab4;
 }
 .dot:nth-child(5) {
   animation-delay: 0.5s;
-  background: #faaacc;
+  background: #e4d0b2;
 }
 @-moz-keyframes slide {
   0% {
@@ -511,7 +536,7 @@ main {
     height: 100%;
     width: 100%;
     position: fixed;
-    z-index: 992;
+    z-index: 999  ;
     top: 0;
     left: 0;
     background-color: rgb(0,0,0);
@@ -784,13 +809,14 @@ p {
 .main-link {
   padding-bottom: .3em;
   text-decoration: none;
-  color: #90A4AE;
-  border-bottom: 3px solid #607D8B;
+  font-weight: 100;
+  color: #10e7dc;
+  border-bottom: 3px solid #C6426E;
   transition: ease .5s;
 }
 
 .main-link:hover {
-  border-bottom: 3px solid #B0BEC5;
+  border-bottom: 3px solid #642B73;
 }
 
 .search-bar{
