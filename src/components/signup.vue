@@ -46,7 +46,7 @@ export default {
     onSignUp () {
       var userName = this.Username
       var phoneNum = this.phNum
-      this.displayOff = true
+      var vm = this
       var emailId
       var uid
       console.log(userName)
@@ -54,6 +54,7 @@ export default {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         response => {
           alert('Account Created')
+          vm.displayOff = true
           emailId = response.user.email
           uid = response.user.uid
           console.log(emailId)

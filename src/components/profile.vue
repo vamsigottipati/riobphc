@@ -30,9 +30,6 @@
           </div>
         </vuestic-tabs>
       </vuestic-widget>     
-      <vuestic-widget style="width: 100%;height: 80vh;" headerText='Messages'>
-
-      </vuestic-widget>   
       <vuestic-widget style="width: 48.75%;height: 80vh;float: left;" headerText='Rentals'>
 
       </vuestic-widget>   

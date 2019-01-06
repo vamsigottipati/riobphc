@@ -5,7 +5,7 @@
 
     <div class="navbar-filter" ref="filterNav" style="transition: 0.4s">
       <i class="fas fa-bars menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
-      <p class="logo" ref="logo" style="transition: 0.4s">UncleBob</p>
+      <p class="logo" ref="logo" style="transition: 0.4s;font-family: Montserrat;">Uncle Bob</p>
      <!-- <input type="text" ref="searchBox" class="filterInput" placeholder="Search Item Name" style="transition: 0.4s"> -->
       <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
       <i class='bx bx-filter filterIcon' style="transition: 0.4s; cursor: pointer;"></i>
@@ -147,7 +147,8 @@ export default {
   font-size:2.2rem;
   color:white;
   top: 3.5vh;
-  font-weight:900;
+  font-weight:780;
+  letter-spacing: 0.5px;
 }
 
 .menuSideDrop {
@@ -156,7 +157,6 @@ export default {
   font-size:30px;
   color:white;
   top: 5vh;
-  font-weight:900;
   cursor: pointer;
 }
 
