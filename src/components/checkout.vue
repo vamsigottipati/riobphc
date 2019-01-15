@@ -1,18 +1,23 @@
 <template>
-    <div class="checkout--page--body">
+
+  <div>
+    <div class="loader--div" v-if="this.loading">  
+        <div class="loader">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <br>
+        <h2 style="position: absolute;bottom: 20%;left: 10%;width: 80%;text-align: center;color: white;">Please Wait ...</h2>
+        <br>
+        <p style="position: absolute;bottom: 15%;left: 10%;width: 80%;text-align: center;color: white;">The Items are Loading</p>
+    </div>
+
+    <div class="checkout--page--body" v-if="!this.loading">
         <navSide />
-        <vuestic-widget id="order--widget" headerText='Order And Request'>
-            <div class="order-main">
-              <img src="https://firebasestorage.googleapis.com/v0/b/rio-travels.appspot.com/o/listemItemPhotos%2F0jbNT15467945068924.jpg?alt=media&token=1468ef1d-dc78-473f-9bdd-7d67eef71a83" style="max-height: 50vh;width: auto;margin: 30px;float: left;padding-right: 10vw;" alt="">  
-              <div style="transform: translateY(50%);">
-                <p style="float:left;width: 10vw;text-align:left;"> <strong> Item Name </strong> </p><p style="font-family: Montserrat;"> Some Name </p> <br>
-                <p style="float:left;width: 10vw;text-align:left;"> <strong> Item ID </strong> </p><p style="font-family: Montserrat;">Some Name</p> <br>
-                <p style="float:left;width: 10vw;text-align:left;"> <strong> Item Owner </strong> </p><p style="font-family: Montserrat;">Some Name</p> <br>
-                <p style="float:left;width: 10vw;text-align:left;"> <strong> Item Status </strong> </p><p style="font-family: Montserrat;">Some Name</p> <br>
-              </div>
-            </div>          
-        </vuestic-widget>
-        <div class="main--content">
+        <div class="main--content" >
             <vuestic-widget id="address--widget"  headerText='Address And Details'>
                 <div class="add--main" style="text-align: center;" v-for="itemDetail in itemDetails" :key="itemDetail.id">
                     <img class="img well" style="width: auto; height: 40vh; margin-left: auto;margin-right: auto;" :src="itemDetail.itemImg" alt=""> <br>
@@ -25,9 +30,9 @@
             <vuestic-widget  id="request--widget" headerText='Request Item' style="text-align: center;">
                 <p class="request--text" style="padding: 30px;font-family: Montserrat;"> Some Description about How Request and Other Things work. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, earum? Incidunt, perspiciatis laborum? Ea iusto laudantium, quaerat perferendis in quae assumenda neque laborum magnam qui fugiat quo animi labore hic! <br><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, officiis error impedit vitae aspernatur, sed aut tempora inventore, repellendus in laborum. Nemo quam tenetur ducimus voluptate at numquam sequi explicabo! </p>
                 <button style="all: unset;background: #642B73;color: white;border-radius: 5px;padding: 15px;cursor: pointer;" @click.prevent="checkout"> Request Item (s) </button>
-            </vuestic-widget>   
+            </vuestic-widget>
         </div>
-        <div class="right--content">
+        <div class="right--content" >
             <vuestic-widget id="details--widget" headerText='Order Details' style="height: 80vh;">
                 <div class="scrollable" style="height: 55vh;overflow: auto;">
                     <div style="width: 30vw;" v-for="itemDetail in itemDetails" :key="itemDetail.id">
@@ -48,6 +53,8 @@
             </vuestic-widget>
         </div>
     </div>
+
+  </div>
 </template>
 
 <script>
@@ -71,16 +78,18 @@ export default {
       lister: [],
       check: '',
       totalAmount: 0,
+      loading: true,
     }
   },
   mounted: function () {
     this.getData()
+    this.checkOrder()
     // this.checkStat()
     this.currentUser = firebase.auth().currentUser.uid
   },
   watch: {
     check (n, o) {
-      if (n != null) {
+      if (n || 0 != null) {
         var temp = 0
         for (let i = 0; i < this.itemDetails.length; i++) {
           if (document.getElementById(this.itemDetails[i].itemId).value != null) {
@@ -92,7 +101,7 @@ export default {
         }
         this.totalAmount = temp
       }
-      console.log(this.totalAmount)
+      // console.log(this.totalAmount)
     }
   },
   methods: {
@@ -103,7 +112,7 @@ export default {
         vm.cartNumber = Object.values(snapshot.val()).length
         vm.cartItems = Object.values(snapshot.val())
         vm.setData(vm.cartItems)
-        console.log(vm.cartItems)
+        // console.log(vm.cartItems)
       })
     },
     // checkStat () {},
@@ -113,9 +122,34 @@ export default {
         firebase.database().ref('listedItems/' + a[i]).once('value').then(function (snapshot) {
           vm.itemDetails.push(snapshot.val())
           vm.lister.push(snapshot.val().itemOwner)
-          console.log(vm.itemDetails)
+          // console.log(vm.itemDetails)
+          vm.loading = false
         })
       }
+    },
+    checkOrder () {
+      var vm = this
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid).once('value').then(function (snapshot) {
+        if (snapshot.val().requestsR) {
+          vm.$router.push('order')
+        } else {
+          console.log('No order Requests')
+        }
+      })
+    },
+    getOrderDetails () {
+      var vm = this
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid).once('value').then(function (snapshot) {
+        vm.requestDetails = snapshot.val().requestsR
+        console.log(Object.values(vm.requestDetails))
+        for (var i = 0; i < Object.values(vm.requestDetails).length; i++) {
+          if (Object.values(vm.requestDetails)[i].status) {
+            console.log('yo')
+          } else {
+            console.log('no yo')
+          }
+        }
+      })
     },
     checkout () {
       var vm = this
@@ -136,9 +170,9 @@ export default {
             for (let i = 0; i < 8; i++) {
               otpL += otpPoss.charAt(Math.floor(Math.random() * otpPoss.length))
             } */
-            console.log(this.requestId)
+            // (this.requestId)
             // requests & Accepts
-            /* firebase.database().ref('users/' + vm.userId + '/requestsR/' + vm.itemDetails[i].itemId).set({
+            firebase.database().ref('users/' + vm.userId + '/requestsR/' + vm.itemDetails[i].itemId).set({
               requestId: vm.requestId,
               lister: vm.lister[i],
               price: (document.getElementById(vm.itemDetails[i].itemId).value * vm.itemDetails[i].price),
@@ -153,7 +187,7 @@ export default {
               days: document.getElementById(vm.itemDetails[i].itemId).value,
               itemDetails: vm.itemDetails[i],
               status: false,
-            }) */
+            })
             this.requestId = ''
             counter = counter + 1
           } else {
@@ -161,10 +195,7 @@ export default {
           }
         }
         if (counter >= vm.itemDetails.length) {
-          document.getElementById('address--widget').style.display = 'none'
-          document.getElementById('request--widget').style.display = 'none'
-          document.getElementById('details--widget').style.display = 'none'
-          document.getElementById('order--widget').style.display = 'block'
+          vm.showRequest = true
         }
       } else {
         alert('Please Check The terms and Conditions')
@@ -176,47 +207,47 @@ export default {
 
 <style scoped>
 
-    .main--content {
-        position: absolute;
-        left: 2.5vw;
-        top: 17.5vh;
-        width: 58.75vw;
-        min-height: 60vh;
-    }
+.main--content {
+  position: absolute;
+  left: 2.5vw;
+  top: 17.5vh;
+  width: 58.75vw;
+  min-height: 60vh;
+}
 
-    .right--content {
-        position: fixed;
-        right: 2.5vw;
-        top: 17.5vh;
-        width: 33.75vw;
-        height: 80vh;
-    }
-    .day {
-        all: unset;
-        color: #444;
-        background: #eee;
-        padding: 10px;
-        text-align: center;
-        border-radius: 5px;
-    }
-    ::-webkit-scrollbar {
-        width: 0px;  /* remove scrollbar space */
-        background: transparent;  /* optional: just make scrollbar invisible */
-    }
-  .check-container {
-    position: absolute;
-    left: 2vw;
-    bottom: 10% ;
-    display: block;
-    position: relative;
-    background: transparent;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 300;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.right--content {
+  position: fixed;
+  right: 2.5vw;
+  top: 17.5vh;
+  width: 33.75vw;
+  height: 80vh;
+}
+.day {
+  all: unset;
+  color: #444;
+  background: #eee;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
+}
+.check-container {
+  position: absolute;
+  left: 2vw;
+  bottom: 10% ;
+  display: block;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 300;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .check-container input {
     position: absolute;
@@ -259,12 +290,121 @@ export default {
     transform: rotate(45deg);
 }
 
-#order--widget {
-  display: none;
-  width: 95vw;
-  margin-left: 2.5vw;
-  min-height: 80vh;
-  margin-top: 17.5vh;
+.loader--div {
+  position: absolute;
+  top: 15vh;
+  left: 20vw;
+  width: 60vw;
+  height: 70vh;
+  background: white;
+  padding: 60px;
+  border-radius: 10px;
+  background: linear-gradient(45deg , #642B73, #C6426E);
+  overflow: auto;
+  -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	    animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  margin-left: 10%;
+  transform: translate3d(-50%, -50%, 0);
+}
+.dot {
+  width: 24px;
+  height: 24px;
+  background: rgb(198, 83, 119);
+  border-radius: 100%;
+  display: inline-block;
+  animation: slide 1s infinite;
+}
+.dot:nth-child(1) {
+  animation-delay: 0.1s;
+  background: #91c8deec;
+}
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+  background: #c7d6da;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.3s;
+  background: #ffffff;
+}
+.dot:nth-child(4) {
+  animation-delay: 0.4s;
+  background: #c7aab4;
+}
+.dot:nth-child(5) {
+  animation-delay: 0.5s;
+  background: #e4d0b2;
 }
 
+
+@-webkit-keyframes shadow-anim {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
+  }
+}
+@keyframes shadow-anim {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@-moz-keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@-o-keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes slide {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 </style>

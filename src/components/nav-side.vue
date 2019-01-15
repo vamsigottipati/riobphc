@@ -3,12 +3,13 @@
 
     <!-- TOP NAVBAR -->
 
-    <div class="navbar-filter" ref="filterNav" style="transition: 0.4s">
+    <div class="navbar-filter" ref="filterNav" style="transition: 0.4s;vertical-align: center;">
       <i class="fas fa-bars menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
       <p class="logo" ref="logo" style="transition: 0.4s;font-family: Montserrat;">Uncle Bob</p>
      <!-- <input type="text" ref="searchBox" class="filterInput" placeholder="Search Item Name" style="transition: 0.4s"> -->
       <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
       <i class='bx bx-filter filterIcon' style="transition: 0.4s; cursor: pointer;"></i>
+      <i class="bx bx-filter asss" ></i>
       <span> <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
         <p style="position: absolute;color: white; background: #222222;top: 3vh; right: 13.5vw;width: 30px; 
               height: 30px;text-align: center;border-radius: 50%;opacity: 0.7;vertical-align: center;
@@ -37,10 +38,10 @@
 
         <!-- RIGHT SIDEBAR -->
 
-    <div ref="rightSidenav" class="rightSidenav">
+    <div ref="rightSidenav" class="rightSidenav" style="text-align: center;" >
         <a href="javascript:void(0)" class="closebtn" ref="rightCloseBtn" style="position: fixed;" @click.prevent="closeRightSideNav">&times;</a>
         <div class="heading"> <h2 style="position: absolute;top: 15vh;left: 30vw;width: 40vw;text-align: center;color: white;font-size:2.8rem;letter-spacing: 0px;word-spacing: 20px;font-family: montserrat;">Cart Details</h2> </div>
-        <h3 v-if="!this.cartNumber" style="position: absolute;color: whitesmoke; top: 50vh;left: 0px;width: 100vw;font-family: Montserrat;transform: translateX(35%);"> <i style="font-size: 75px;margin-right: 50px;transform: translateY(25%);color: orange;" class='bx bx-error'></i> No Items In Your Cart </h3>
+        <h3 v-if="!this.cartNumber" style="position: absolute;color: whitesmoke; top: 50vh; width: 80vw; left: 10vw ;left: 0px;font-family: Montserrat;text-align: center;"> <i style="font-size: 75px;margin-right: 50px;transform: translateY(25%);color: orange;" class='bx bx-error'></i> No Items In Your Cart </h3>
         <div class="main--content" :key="ItemDetail.itemId" v-for="ItemDetail in ItemDetails">
           <div class="main--img" >
             <img :src="ItemDetail.itemImg" style="width: auto; height: 30vh;margin-top: 10vh;" alt="">
@@ -120,7 +121,7 @@ export default {
       for (let i = 0; i < a.length; i++) {
         firebase.database().ref('listedItems/' + a[i]).once('value').then(function (snapshot) {
           vm.ItemDetails.push(snapshot.val())
-          console.log(vm.ItemDetails)
+          // console.log(vm.ItemDetails)
         })
       }
     },
@@ -146,8 +147,9 @@ export default {
   left: 8vw;
   font-size:2.2rem;
   color:white;
-  top: 3.5vh;
+  top: 4vh;
   font-weight:780;
+  padding: 0px;
   letter-spacing: 0.5px;
 }
 
@@ -315,18 +317,22 @@ export default {
   color: white;
   background: #C6426E;
   padding-top: 20px;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 60px;
+  padding-right: 60px;
   padding-bottom: 20px;
   border-radius: 5px;
   margin-top: 20vh;
   margin-bottom: 10vh;
-  transform: translateX(125%);
   min-width: 10vw;
-  font-size: 25px;
+  font-size: 1.2rem;
   font-family: Montserrat; 
-  font-weight: 800;
+  font-weight: 500;
   word-spacing: 20px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
 }
 
 </style>

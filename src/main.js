@@ -11,7 +11,6 @@ import store from './store'
 import router from './router'
 import VuesticPlugin from 'vuestic-theme/vuestic-plugin'
 import './i18n'
-import fullpage from 'vue-fullpage.js'
 import * as firebase from 'firebase'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import vueResource from 'vue-resource'
@@ -25,7 +24,7 @@ Vue.use(VueGoogleMaps, {
 })
 
 Vue.use(VuesticPlugin)
-Vue.use(fullpage)
+
 
 // NOTE: workaround for VeeValidate + vuetable-2
 Vue.use(VeeValidate, {fieldsBagName: 'formFields'})

@@ -14,7 +14,7 @@ import authGaurd from './authgaurd'
 import navSide from '../components/nav-side'
 import test3 from '../components/test3'
 import checkout from '../components/checkout'
-
+import order from '../components/order'
 
 Vue.use(Router)
 
@@ -101,6 +101,12 @@ export default new Router({
       path: '/checkout',
       component: checkout,
       name: 'checkout',
+      beforeEnter: authGaurd
+    },
+    {
+      path: '/order',
+      component: order,
+      name: 'order',
       beforeEnter: authGaurd
     },
   ],

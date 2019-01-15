@@ -411,19 +411,19 @@ export default {
 
 /* loader */
 
-  .loader--div {
-    position: absolute;
-    top: 15vh;
-    left: 20vw;
-    width: 60vw;
-    height: 70vh;
-    background: white;
-    padding: 60px;
-    border-radius: 30px;
-    background: linear-gradient(45deg , #642B73, #C6426E);
-    overflow: auto;
-    -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-	        animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+.loader--div {
+  position: absolute;
+  top: 15vh;
+  left: 20vw;
+  width: 60vw;
+  height: 70vh;
+  background: white;
+  padding: 60px;
+  border-radius: 10px;
+  background: linear-gradient(45deg , #642B73, #C6426E);
+  overflow: auto;
+  -webkit-animation: loader-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	    animation: loader-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   }
 
 .loader {
@@ -748,15 +748,11 @@ article {
   text-align: left;
   vertical-align: top;
   background: #FFFFFF;
-  -webkit-box-shadow: 3px 3px 6px -2px rgba(0,0,0,0.2);
-  -moz-box-shadow: 3px 3px 6px -2px rgba(0,0,0,0.2);
-  box-shadow: 3px 3px 6px -2px rgba(0,0,0,0.2);
-  -webkit-animation: shadow-drop-2-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-	        animation: shadow-drop-2-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  
+  -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	  animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
-@-webkit-keyframes shadow-drop-2-center {
+@-webkit-keyframes shadow-anim {
   0% {
     -webkit-transform: translateZ(0);
             transform: translateZ(0);
@@ -765,10 +761,10 @@ article {
   100% {
     -webkit-transform: translateZ(50px);
             transform: translateZ(50px);
-    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.75);
   }
 }
-@keyframes shadow-drop-2-center {
+@keyframes shadow-anim {
   0% {
     -webkit-transform: translateZ(0);
             transform: translateZ(0);
@@ -777,7 +773,7 @@ article {
   100% {
     -webkit-transform: translateZ(50px);
             transform: translateZ(50px);
-    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.75);
   }
 }
 
@@ -828,7 +824,7 @@ p {
 
 /*  Shadow  */
 
-@-webkit-keyframes shadow-anim {
+@-webkit-keyframes loader-anim {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
@@ -836,7 +832,7 @@ p {
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
   }
 }
-@keyframes shadow-anim {
+@keyframes loader-anim {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
