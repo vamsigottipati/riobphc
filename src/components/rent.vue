@@ -874,7 +874,7 @@ p {
     margin-bottom: 40px;
   }
   .sidebar{
-    top:10px;
+    top:2000px;
     z-index: 10000;
     width:90vw;
     left:5vw;
