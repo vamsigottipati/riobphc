@@ -7,16 +7,20 @@
       <i class="fas fa-bars menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
       <p class="logo" ref="logo" style="transition: 0.4s;font-family: Montserrat;">Uncle Bob</p>
      <!-- <input type="text" ref="searchBox" class="filterInput" placeholder="Search Item Name" style="transition: 0.4s"> -->
-      <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
-      <i class='bx bx-filter filterIcon' style="transition: 0.4s; cursor: pointer;"></i>
-      <i class="bx bx-filter asss" ></i>
+     <div class="nav-bar">
+      <i class="bx bx-menu-alt-right shower" id="shower" ref="shower" @click="showfy()"></i>
+      <div class="nav-inner" id="nav-inner" ref="navbar">
+                     <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
+      <i class='bx bx-filter filterIcon' ref="sortButton" @slick="showCard" style="transition: 0.4s; cursor: pointer;"></i>
       <span> <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
-        <p style="position: absolute;color: white; background: #222222;top: 3vh; right: 13.5vw;width: 30px; 
-              height: 30px;text-align: center;border-radius: 50%;opacity: 0.7;vertical-align: center;
-              font-weight: 900;font-size: 20px;"> 
+        <p style="" class="cart-number"> 
             {{cartNumber}}
         </p> </span> 
       <i class='bx bx-user-x logoutIcon' style="transition: 0.4s;" @click="logout"></i>
+      </div>
+
+     </div>
+
     </div>
 
         <!-- TOP NAVBAR END -->
@@ -61,7 +65,15 @@
         <!-- RIGHT SIDEBAR END -->
 </div>
 </template>
+<script type="text/javascript">
 
+
+function showCard () {
+  alert('LOL')
+}
+
+document.getElementById('showCard').addEventListener('click', showCard)
+</script>
 <script>
 import * as firebase from 'firebase'
 import { EventBus } from 'src/main.js'
@@ -73,11 +85,13 @@ export default {
       cartNumber: 0,
       cartImgs: [],
       ItemDetails: [],
-      cartItems: []
+      cartItems: [],
+      locationPathName: ''
     }
   },
   mounted: function () {
     this.setData()
+    this.checkSortIcon()
     var z = this
     EventBus.$on('cartUpdate', cartNumber => {
       console.log(cartNumber)
@@ -96,13 +110,32 @@ export default {
       this.$refs.rightCloseBtn.style.right = '25px'
       this.$refs.rightCloseBtn.style.display = 'block'
     },
+    checkSortIcon () {
+      this.locationPathName = window.location.pathname
+      console.log(this.locationPathName)
+      if (this.locationPathName === '/rent') {
+        this.$refs.sortButton.style.display = 'block'
+      } else {
+        this.$refs.sortButton.style.display = 'none'
+      }
+    },
+    showCard () {
+      this.$refs.sb.style.top = '5vh'
+    },
+    showfy () {
+      if (this.$refs.navbar.style.display === 'block') {
+        this.$refs.navbar.style.display = 'none'
+      } else {
+        this.$refs.navbar.style.display = 'block'
+      }
+    },
     openLeftSideNav () {
-      this.$refs.leftSidenav.style.width = '25vw'
+      this.$refs.leftSidenav.style.left = '0vw'
       this.$refs.leftCloseBtn.style.left = '20vw'
     },
     closeLeftSideNav () {
-      this.$refs.leftSidenav.style.width = '0'
-      this.$refs.leftCloseBtn.style.left = '-10vw'
+      this.$refs.leftSidenav.style.left = '-100vw'
+      this.$refs.leftCloseBtn.style.left = '-55vw'
     },
     route (e) {
       this.$router.push(e)
@@ -111,6 +144,7 @@ export default {
       var x = firebase.auth().currentUser.uid
       var vm = this
       firebase.database().ref('users/' + x + '/cart').once('value').then(function (snapshot) {
+        // use if statement
         vm.cartNumber = Object.values(snapshot.val()).length
         vm.cartItems = Object.values(snapshot.val())
         vm.cartData(vm.cartItems)
@@ -186,7 +220,7 @@ export default {
 
 .accountIcon {
   position: absolute;
-  right: 35vw;
+  right: 25vw;
   color: white;
   font-size: 30px;
   cursor: pointer;
@@ -195,7 +229,7 @@ export default {
 
 .filterIcon {
   position: absolute;
-  right: 25vw;
+  right: 35vw;
   color: white;
   top: 5vh;
   font-size: 30px;
@@ -254,13 +288,17 @@ export default {
   .rightSidenav {padding-top: 15px;}
 }
 
+
+
 .leftSidenav {
     height: 100%;
     width: 0;
     position: fixed;
     z-index: 999;
     top: 0;
-    left: 0;
+    left: -100vw;
+    display: block;
+    width:25vw;
     background-color: #03568e;
     overflow-x: hidden;
     transition: 0.5s;
@@ -291,8 +329,17 @@ export default {
 }
 
 
-@media screen and (max-height: 450px) {
-  .leftSidenav {padding-top: 15px;}
+@media screen and (max-width: 850px) {
+  .leftSidenav {
+  padding-top: 15px;
+  width:70vw !important;
+  }
+}
+@media screen and (max-width: 600px) {
+  .leftSidenav {
+  padding-top: 15px;
+  width:90vw !important;
+  }
 }
 
 .main--content {
@@ -334,6 +381,52 @@ export default {
     width: 0px;  /* remove scrollbar space */
     background: transparent;  /* optional: just make scrollbar invisible */
 }
+
+.shower{
+  display: none;
+}
+.cart-number{
+  position: absolute;color: white; background: #222222;top: 3vh; right: 13.5vw;width: 30px; 
+              height: 30px;text-align: center;border-radius: 50%;opacity: 0.7;vertical-align: center;
+              font-weight: 900;font-size: 20px;
+}
+@media only screen and (max-width: 400px) {
+  .shower{
+    display: block;
+    position: absolute;
+    right:10px;
+    color: white;
+    top:30px;
+    font-size: 30px;
+  }
+  .nav-inner{
+    //display: none;
+  }
+  .nav-inner{
+    background: white;
+    padding:20px;
+    display: none;
+    margin-top:80px;
+    box-shadow: 0px 0px 10px 0px rgba(200,200,200,1);
+
+  }
+  .nav-inner i{
+    position: static !important;
+    display: block;
+    color: grey;
+    text-align: center;
+    padding-top:10px;
+
+
+  }
+  .cart-number{
+    display: none;
+  }
+  .nav-bar:hover .nav-inner{
+    display:block;
+  }
+}
+
 
 </style>
 

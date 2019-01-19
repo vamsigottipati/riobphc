@@ -4,15 +4,15 @@
     <navSide></navSide>
 
     <main v-if="!turnOffDisplay">
-      <vuestic-widget   headerText="List Your Item" style="position: absolute;top: 20vh;max-height: 100vh;width: 90vw;left: 5vw;">
+      <vuestic-widget   headerText="List Your Item" style="position: absolute;top: 20vh;width: 90vw;left: 5vw;">
         <div style="display:flex;">
           <vuestic-wizard
             :steps="steps"
             wizard-layout="vertical"
             :wizard-type="wizardType"
-            style="min-height: 80vh;">
+            style="">
             <div slot="page1" class="form-wizard-tab-content">
-              <h2 style="position: absolute;top: 10vh;">Give Your Item A Name ...</h2>
+              <h2 style="">Give Your Item A Name ...</h2>
               <div class="form-group with-icon-right"
                    :class="{'has-error': errors.has('name'), 'valid': isFormFieldValid('name')}" style="margin-top: 20px;">
                 <div class="input-group">
@@ -22,7 +22,7 @@
                     v-model="name"
                     v-validate="'required'"
                     required="required"
-                    style="width: 20vw;"/>
+                    style="max-width:300px;"/>
                   <i
                     class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
                   <i class="fa fa-check valid-icon icon-right input-icon"></i>
@@ -98,7 +98,7 @@
                   <input
                     type="number"
                     name="price"
-                    style="width: 20vw;"
+                    style="max-width:300px;"
                     v-model="price"
                     v-validate="'required'"
                     required="required"/>
@@ -123,7 +123,7 @@
                 <div class="input-group">
                   <input
                     type="number"
-                    style="width: 20vw;"
+                    style="max-width:300px;"
                     name="contact"
                     v-model="contact"
                     v-validate="'required'"
@@ -165,7 +165,14 @@
     <span slot="footer"></span>
   </div>
 </template>
+<style type="text/css">
+@media only screen and (max-width: 800px) {
+  .wizard-steps {
+    display: none;
+  }
+}
 
+</style>
 <script>
 
   import VuesticLayout from '../vuestic-theme/vuestic-components/vuestic-layout/VuesticLayout'
@@ -366,8 +373,7 @@
     }
   }
 </script>
-
-<style scoped>
+<style>
  .control-label{
     font-size:1.1rem;
     margin-bottom:2vh;
@@ -376,6 +382,7 @@
     font-size:0.8rem;
     margin-bottom:2vh;
  };
+
 
 
  /*  Navbar styles  */

@@ -22,8 +22,8 @@
 
       <!-- SIDEBAR -->
 
-        <vuestic-widget class="sidebar">
-
+        <vuestic-widget class="sidebar" ref="sb">
+          <i class="bx bx-window-close sidebar-close text-danger" @click="hideSidebar"></i>
           <div class="categoryFilter">
             <h4 >Category</h4> <br>
             <label class="container">Product1
@@ -143,7 +143,7 @@
     <main id="content" class="content" role="main">
 
       <!-- MAIN ITEM BOX -->
-
+<a class="btn btn-primary showCard" href="javascript:void()" @click="showCard">Sort Items</a><br><br>
       <div class="box" ref="mainItem">
         <article v-for="listedItem in listedItems" :key="listedItem.id in listedItems" >
           <div :ref="listedItem.category.toLowerCase()">
@@ -248,7 +248,8 @@
   </div>
   </div>
 </template>
-
+<script type="text/javascript">
+</script>
 <script>
 
 import Layout from 'vuestic-theme/vuestic-directives/Layout'
@@ -330,6 +331,7 @@ export default {
     )
   },
   methods: {
+
     /* CITY SELECTION OVERLAY AND FILTER */
     closeOverlay () {
       this.citySelection = false
@@ -341,6 +343,10 @@ export default {
       this.currentCity = 'hyderabad'
       localStorage.setItem('currentCity', 'hyderabad')
       this.citySelection = false
+    },
+    hideSidebar () {
+      this.$refs.sb.style.top = '2000vl'
+      //  alert('LOL')
     },
     setCityChn () {
       this.currentCity = 'chennai'
@@ -415,7 +421,7 @@ export default {
   position: absolute;
   top: 15vh;
   left: 20vw;
-  width: 60vw;
+  min-width: 60vw;
   height: 70vh;
   background: white;
   padding: 60px;
@@ -460,6 +466,9 @@ export default {
 .dot:nth-child(5) {
   animation-delay: 0.5s;
   background: #e4d0b2;
+}
+.sidebar-close{
+  display:none;
 }
 @-moz-keyframes slide {
   0% {
@@ -511,7 +520,9 @@ export default {
 }
 
 /* Loader End */
-
+.hide-sidebar{
+  display:none;
+}
 .sidebar {
   position: absolute;
   top: 25vh;
@@ -840,5 +851,60 @@ p {
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
   }
 }
+.showCard{
+  display: none;
+}
+@media only screen and (max-width: 978px) {
+  .sidebar{
+    position: fixed;
+    top:2000px;
+    transition: all 2s;
+  }
+  .content{
+    width:90vw;
+    left:5vw;
+    text-align: center;
+  }
+  .showCard{
+    display: block;
+    max-width: 200px;
+    margin: 0 auto;
+    display: inline;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .sidebar{
+    top:10px;
+    z-index: 10000;
+    width:90vw;
+    left:5vw;
+    top:5vw;
+    height:95vw;
+    overflow-y: auto;
+    overflow-x:hidden;
+  }
+  .hide-sidebar{
+    display: block;
+    margin:0 auto;
+    margin-bottom: 30px;
+    display: block;
+    text-align: center;
+  }
+  .loader--div{
+    min-width:80vw;
+    left:10vw;
+  }
+  .sidebar-close{
+    position:absolute;
+    top:10px;
+    right:10px;
+    font-size:30px;
+    color:black;
+    display:block;
+  }
+}/*
+.sidebar{
+  display: none !important;
+}*/
 
 </style>

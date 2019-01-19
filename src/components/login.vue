@@ -9,7 +9,7 @@
       <button class="btn btn-primary submitBtn" @click.prevent="login" type="submit">
         login
       </button>
-      <router-link class='link' :to="{name: 'signup'}">Create Account</router-link>
+      <router-link class='link' :to="{name: 'signup'}"> Create Account</router-link>
     </div>
   </div>
 </template>
@@ -163,6 +163,30 @@ export default {
   }
   100% {
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
+  }
+}
+@media only screen and (max-width: 600px) {
+  .login {
+    width:90vw;
+    left:5vw;
+  }
+  .btn{
+    padding:5px;
+    margin: 0 auto;
+    display: block;
+    width:80vw;
+    left: 5vw;
+
+  }
+  .single--input{
+    width:80vw;
+    left:5vw;
+  }
+  .link{
+    width:80vw;
+    left:5vw;
+    margin: 0px;
+    padding: 0px;
   }
 }
 </style>

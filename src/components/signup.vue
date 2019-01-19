@@ -236,7 +236,39 @@ export default {
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .signup {
+    width:90vw;
+    left:5vw;
+  }
+  .btn{
+    padding:5px;
+    margin: 0 auto;
+    display: block;
+    width:80vw;
+    left: 5vw;
 
+  }
+  .single--input{
+    width:80vw;
+    left:5vw;
+  }
+  .single--inline--input{
+    width:90%;
+  }
+  .link{
+    width:80vw;
+    left:5vw;
+    margin: 0px;
+    padding: 0px;
+  }
+  .submitBtn{
+    position: fixed;
+    top:initial;
+    width:90%;
+    bottom:20px;
+  }
+}
 /* Background animation */
 
 </style>
