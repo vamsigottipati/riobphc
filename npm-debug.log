@@ -7,7 +7,7 @@
 6 silly lifecycle vuestic-admin@1.6.0~predev: no script for predev, continuing
 7 info lifecycle vuestic-admin@1.6.0~dev: vuestic-admin@1.6.0
 8 verbose lifecycle vuestic-admin@1.6.0~dev: unsafe-perm in lifecycle true
-9 verbose lifecycle vuestic-admin@1.6.0~dev: PATH: /usr/share/npm/bin/node-gyp-bin:/home/divyanshu/riobphc/node_modules/.bin:/home/divyanshu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
+9 verbose lifecycle vuestic-admin@1.6.0~dev: PATH: /usr/share/npm/bin/node-gyp-bin:/home/divyanshu/riobphc/node_modules/.bin:/home/divyanshu/.local/bin:/home/divyanshu/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
 10 verbose lifecycle vuestic-admin@1.6.0~dev: CWD: /home/divyanshu/riobphc
 11 silly lifecycle vuestic-admin@1.6.0~dev: Args: [ '-c', 'node build/dev-server.js' ]
 12 silly lifecycle vuestic-admin@1.6.0~dev: Returned: code: 143  signal: null

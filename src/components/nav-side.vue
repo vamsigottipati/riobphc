@@ -11,7 +11,7 @@
       <i class="bx bx-menu-alt-right shower" id="shower" ref="shower" @click="showfy()"></i>
       <div class="nav-inner" id="nav-inner" ref="navbar">
                      <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
-      <i class='bx bx-filter filterIcon' ref="sortButton" @slick="showCard" style="transition: 0.4s; cursor: pointer;"></i>
+      <i class='bx bx-filter filterIcon' ref="sortButton" @click="showCard" style="transition: 0.4s; cursor: pointer;"></i>
       <span> <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
         <p style="" class="cart-number"> 
             {{cartNumber}}
@@ -65,15 +65,6 @@
         <!-- RIGHT SIDEBAR END -->
 </div>
 </template>
-<script type="text/javascript">
-
-
-function showCard () {
-  alert('LOL')
-}
-
-document.getElementById('showCard').addEventListener('click', showCard)
-</script>
 <script>
 import * as firebase from 'firebase'
 import { EventBus } from 'src/main.js'
@@ -86,7 +77,8 @@ export default {
       cartImgs: [],
       ItemDetails: [],
       cartItems: [],
-      locationPathName: ''
+      locationPathName: '',
+      showSort: false,
     }
   },
   mounted: function () {
@@ -120,7 +112,8 @@ export default {
       }
     },
     showCard () {
-      this.$refs.sb.style.top = '5vh'
+      var vm = this
+      EventBus.$emit('sort', vm.showSort)
     },
     showfy () {
       if (this.$refs.navbar.style.display === 'block') {
@@ -145,9 +138,13 @@ export default {
       var vm = this
       firebase.database().ref('users/' + x + '/cart').once('value').then(function (snapshot) {
         // use if statement
-        vm.cartNumber = Object.values(snapshot.val()).length
-        vm.cartItems = Object.values(snapshot.val())
-        vm.cartData(vm.cartItems)
+        if (snapshot.val()) {
+          vm.cartNumber = Object.values(snapshot.val()).length
+          vm.cartItems = Object.values(snapshot.val())
+          vm.cartData(vm.cartItems)
+        } else {
+          console.log('NO Items in Your Cart')
+        }
       })
     },
     cartData (a) {
@@ -390,7 +387,7 @@ export default {
               height: 30px;text-align: center;border-radius: 50%;opacity: 0.7;vertical-align: center;
               font-weight: 900;font-size: 20px;
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 600px) {
   .shower{
     display: block;
     position: absolute;
@@ -398,6 +395,9 @@ export default {
     color: white;
     top:30px;
     font-size: 30px;
+  }
+  .logo{
+    padding-left:10px;
   }
   .nav-inner{
     //display: none;

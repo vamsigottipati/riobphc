@@ -21,8 +21,8 @@
 
 
       <!-- SIDEBAR -->
-
-        <vuestic-widget class="sidebar" ref="sb">
+        <div ref="asdasd" >
+        <vuestic-widget class="sidebar" >
           <i class="bx bx-window-close sidebar-close text-danger" @click="hideSidebar"></i>
           <div class="categoryFilter">
             <h4 >Category</h4> <br>
@@ -137,13 +137,13 @@
           </div>
 
         </vuestic-widget>
+      </div>
 
       <!-- SIDEBAR END -->
 
     <main id="content" class="content" role="main">
 
       <!-- MAIN ITEM BOX -->
-<a class="btn btn-primary showCard" href="javascript:void()" @click="showCard">Sort Items</a><br><br>
       <div class="box" ref="mainItem">
         <article v-for="listedItem in listedItems" :key="listedItem.id in listedItems" >
           <div :ref="listedItem.category.toLowerCase()">
@@ -288,6 +288,7 @@ export default {
       itemsLoaded: false,
       rangeValue: 10,
       prodCategory: [],
+      showFilterCard: false,
       listedItems: [
       ]
     }
@@ -312,6 +313,9 @@ export default {
       this.currentCity = localStorage.getItem('currentCity')
       this.citySelection = false
     }
+    EventBus.$on('showFilterCard', showFilterCard => {
+      this.toggleFilterCard(showFilterCard)
+    })
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition)
     } else {
@@ -345,7 +349,7 @@ export default {
       this.citySelection = false
     },
     hideSidebar () {
-      this.$refs.sb.style.top = '2000vl'
+      this.$refs.asdasd.style.display = 'none'
       //  alert('LOL')
     },
     setCityChn () {
@@ -380,6 +384,9 @@ export default {
       this.$refs.locationModal.open()
       this.itemLat = itemDetails.lat
       this.itemLng = itemDetails.long
+    },
+    toggleFilterCard (e) {
+      this.$refs.asdasd.style.display = 'block'
     },
     rentService () {
       this.$refs.rentModal.cancel()
@@ -866,7 +873,7 @@ p {
     text-align: center;
   }
   .showCard{
-    display: block;
+    display: none;
     max-width: 200px;
     margin: 0 auto;
     display: inline;
