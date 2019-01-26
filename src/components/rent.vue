@@ -866,6 +866,35 @@ p {
     position: fixed;
     top:2000px;
     transition: all 2s;
+    display: none;
+  }
+  .overlay .closebtn{
+    font-size:60px !important;
+    top:0px !important;
+    right:10px;
+  }
+  #cityOverlay h1{
+    position:fixed;
+    font-size:40px;
+  }
+  .city1{
+    top:10vh;
+    left:20vw;
+  }
+  .city2{
+    left:20vw;
+    top:30vh;
+  }
+  .city3{
+    top:50vh;
+    left:20vw;
+  }
+  .city4{
+    top:70vh;
+    left:20vw;
+  }
+  article{
+    margin-left:20px;
   }
   .content{
     width:90vw;
