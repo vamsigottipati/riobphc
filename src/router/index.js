@@ -17,7 +17,7 @@ import checkout from '../components/checkout'
 import order from '../components/order'
 
 Vue.use(Router)
-
+/*
 const demoRoutes = []
 if (process.env.NODE_ENV === 'development') {
   const VueBook = require('vue-book').default
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
     VueBook(require.context('./..', true, /.demo.vue$/), '/demo'),
     VueBook(require.context('./../components', true, /.vue$/), '/presentation'),
   )
-}
+} */
 
 export default new Router({
   routes: [

@@ -14,14 +14,18 @@ import './i18n'
 import * as firebase from 'firebase'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import vueResource from 'vue-resource'
+import LoadScript from 'vue-plugin-load-script'
 
 Vue.use(vueResource)
+Vue.use(LoadScript)
 
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyDvXy0SXRp70BztZMu4czB_ChLFdK_RWMY'
   }
 })
+
+Vue.loadScript('https://checkout-static.citruspay.com/bolt/run/bolt.js')
 
 Vue.use(VuesticPlugin)
 

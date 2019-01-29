@@ -25,9 +25,7 @@
 </template>
 
 <script>
-
 import * as firebase from 'firebase'
-
 export default {
   name: 'signup',
   data () {
@@ -81,7 +79,6 @@ export default {
             this.$router.push('home')
           }, 1500)
         }
-
       ).catch(
         error => {
           alert(error)
@@ -93,26 +90,19 @@ export default {
 </script>
 
 <style scoped>
-
   .background {
     position: fixed;
     z-index: 9;
     height: 100vh;
     width: 100vw;
-   // background-image: linear-gradient(45deg , #74ebd5, #ACB6E5);
     background-image: linear-gradient(45deg , #642B73, #C6426E);
-   // background-image: linear-gradient(45deg , #1c92d2, #f2fcfe);
-   // background-image: linear-gradient(45deg , #CB356B , #BD3F32);
-   // background-image: linear-gradient(45deg , #159957 , #155799)
-   
   }
-
   .signup {
-    position: absolute;
-    top: 15vh;
-    left: 20vw;
+    position: relative;
     width: 60vw;
-    height: 70vh;
+    height: 80vh;
+    margin-top: 10vh;
+    margin-left: 20vw;
     background: white;
     padding: 60px;
     border-radius: 30px;
@@ -120,67 +110,68 @@ export default {
     -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	        animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   }
-
   .heading {
-    position: absolute;
-    top: 5vh;
-    left: 20%;
+    position: relative;
+    margin-top: 1vh;
+    margin-left: 20%;
     width: 60%;
     text-align: center;
   }
-
   .all--input--fields {
-    position: absolute;
-    top: 30%;
-    left: 00%;
-    width: 100%;
+    position: relative;
+    margin-top: 50px;
+    margin-left: 5%;
+    width: 90%;
     text-align: center;
   }
-
   .single--input {
     all: unset;
     background: whitesmoke;
-    width: 60%;
+    width: 80%;
     min-height: 7vh;
     margin-bottom:3vh;
     text-align: center;
     border-radius: 50px;
   }
-
   .inline--display {
     display: inline-block;
     width: 100%;
   }
-
   .single--inline--input {
     all: unset;
     background: whitesmoke;
-    width: 30%;
+    width: 48%;
     min-height: 7vh;
     margin-bottom:3vh;
-    margin-left:1vw;
+    margin-left: 1%;
     text-align: center;
     border-radius: 50px;
   }
-
   .submitBtn {
-    position: absolute;
-    top: 75%;
-    left: 40%;
-    width: 20%;
-    text-align: center;
+    position: relative;
+    padding: 0px;
+    padding-top: 20px; 
+    padding-bottom: 20px;
+    padding-left: 20px; 
+    padding-right: 20px; 
+    margin-top: 50px;
+    margin-bottom: 30px;
+    width: 30%;
+    margin-left: 35%;
   }
 
   .link {
     position: absolute;
-    top: 90%;
     left: 40%;
     width: 20%;
     text-align: center;
-    font-size: 1.1rem;
   }
-  /*  Fade inanimation  */
 
+  ::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+  /*  Fade inanimation  */
     .alt {
       position: absolute;
       top: 40vh;
@@ -190,7 +181,6 @@ export default {
       font-size: 2rem;
       color: white;
     }
-
   @-webkit-keyframes scale-in-center {
   0% {
     -webkit-transform: scale(0);
@@ -215,10 +205,7 @@ export default {
     opacity: 1;
   }
 }
-
-
 /*  Shadow  */
-
 @-webkit-keyframes shadow-anim {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
@@ -235,8 +222,77 @@ export default {
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
   }
 }
+@media only screen and (max-width: 800px) {
+  .signup {
+    width: 80vw;
+    margin-left: 10vw;
+  }
+}
 
+@media only screen and (max-width: 600px) {
+  .signup {
+    width: 90vw;
+    margin-left: 5vw;
+  }
+  .all--input--fields {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .single--inline--input {
+    width: 80%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+  .single--input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+  .submitBtn {
+    width: 40vw;
+    margin-left: 15vw;
+  }
+}
 
+@media only screen and (max-width: 450px) {
+  .signup {
+    width: 90vw;
+    margin-left: 5vw;
+    height: 90vh;
+    margin-top: 5vh;
+  }
+
+  .heading {
+    width: 100%;
+    margin-left: 0px;
+    margin-top: -20px;
+  }
+  .all--input--fields {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .single--inline--input {
+    width: 120%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: -10%;
+  }
+  .single--input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 120%;
+    margin-left: -10%;
+  }
+  .submitBtn {
+    width: 50vw;
+    margin-top: 10px;
+    padding: 15px;
+    font-size: 12px;
+    margin-left: 8%;
+  }
+  .link {
+    width: 100%;
+    left: 5%;
+  }
+}
 /* Background animation */
-
 </style>

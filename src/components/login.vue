@@ -9,15 +9,13 @@
       <button class="btn btn-primary submitBtn" @click.prevent="login" type="submit">
         login
       </button>
-      <router-link class='link' :to="{name: 'signup'}">Create Account</router-link>
+      <router-link class='link' :to="{name: 'signup'}"> Create Account</router-link>
     </div>
   </div>
 </template>
 
 <script>
-
 import * as firebase from 'firebase'
-
 export default {
   name: 'login',
   data () {
@@ -57,7 +55,6 @@ export default {
    // background-image: linear-gradient(45deg , #159957 , #155799)
    
   }
-
   .login {
     position: absolute;
     top: 15vh;
@@ -71,7 +68,6 @@ export default {
     -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	        animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   }
-
   .heading {
     position: absolute;
     top: 5vh;
@@ -79,7 +75,6 @@ export default {
     width: 60%;
     text-align: center;
   }
-
   .all--input--fields {
     position: absolute;
     top: 30%;
@@ -87,7 +82,6 @@ export default {
     width: 100%;
     text-align: center;
   }
-
   .single--input {
     all: unset;
     background: whitesmoke;
@@ -97,12 +91,10 @@ export default {
     text-align: center;
     border-radius: 50px;
   }
-
   .inline--display {
     display: inline-block;
     width: 100%;
   }
-
   .submitBtn {
     position: absolute;
     top: 70%;
@@ -110,7 +102,6 @@ export default {
     width: 20%;
     text-align: center;
   }
-
   .link {
     position: absolute;
     top: 90%;
@@ -120,7 +111,6 @@ export default {
     font-size: 1.1rem;
   }
   /*  Fade inanimation  */
-
   @-webkit-keyframes scale-in-center {
   0% {
     -webkit-transform: scale(0);
@@ -145,10 +135,7 @@ export default {
     opacity: 1;
   }
 }
-
-
 /*  Shadow  */
-
 @-webkit-keyframes shadow-anim {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
@@ -163,6 +150,34 @@ export default {
   }
   100% {
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
+  }
+}
+@media only screen and (max-width: 600px) {
+  .login {
+    width:90vw;
+    left:5vw;
+    height: 80vh;
+    top: 10vh;
+    text-align: center;
+  }
+  .btn{
+    padding:20px;
+    margin: 0 auto;
+    display: block;
+    width:40vw;
+    left: 30vw;
+  }
+  .single--input{
+    width:80vw;
+    left:5vw;
+    height: 10vh;
+    margin: 10px;
+  }
+  .link{
+    width:80vw;
+    left:5vw;
+    margin: 0px;
+    padding: 0px;
   }
 }
 </style>

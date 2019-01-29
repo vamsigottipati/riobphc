@@ -7,6 +7,7 @@
 		</div>
 	-->
 		<!-- <p class="bd-spread">Uncle Bob</p> -->
+    <!-- <navSide /> -->
 		<div class="container" :v-model="container" v-bind:class="[{ 'hover-left' : left } , { 'hover-right' : right } , {'lessOpacity' : showPopUp}]" >
   			<div class="split left"
   				:v-model="left"
@@ -38,7 +39,7 @@
   		--right-button-hover-color: #642B73;
   		--hover-width: 75%;
   		--other-width: 25%;
-  		--speed: 500ms;
+  		--speed: 200ms;
 	}
 
      /* Popup */
@@ -295,7 +296,11 @@
 </style>
 
 <script>
+import navSide from './nav-side'
 export default {
+  components: {
+    navSide
+  },
   data () {
     return {
       left: false,

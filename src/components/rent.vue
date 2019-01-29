@@ -21,129 +21,128 @@
 
 
       <!-- SIDEBAR -->
-
-        <vuestic-widget class="sidebar">
-
-          <div class="categoryFilter">
-            <h4 >Category</h4> <br>
-            <label class="container">Product1
-              <input type="checkbox" value="product1" v-model="prodCategory">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">Product2
-              <input type="checkbox" value="product2" v-model="prodCategory">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container" >Product3
-              <input type="checkbox" value="product3" v-model="prodCategory">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container" >Product4
-              <input type="checkbox" value="product4" v-model="prodCategory">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container" >Product5
-              <input type="checkbox" value="product5" v-model="prodCategory">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">Product6
-              <input type="checkbox" value="product6" v-model="prodCategory">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container" >Product7
-              <input type="checkbox" value="product7" v-model="prodCategory">
-              <span class="checkmark"></span>
-            </label><br>
-          </div><hr class="styledHr">
-          <div class="locationFilter">
-            <h4 >Location</h4> <br>
-            <label class="container" >Hyderabad
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">Delhi
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">Kolkata
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">Chennai
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>
-          </div><hr class="styledHr">
-          <div class="distaceFilter">
-            <h4 >Distance</h4> <br>
-            <label class="container">0 - 5 Km
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">5 - 10 Km
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">10 - 20 Km
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">20 -30 Km
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br> 
-          </div><hr class="styledHr">
-          <div class="priceFilter">
-            <h4 >Price</h4> <br>
-            <label class="container">0 - 100 ₹/day
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">100 - 200 ₹/day
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">200 - 300 ₹/day
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">300 - 500 ₹/day
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>  
-            <label class="container">500 - 1000 ₹/day
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>  
-            <label class="container">1000 - 2000 ₹/day
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>  
-          </div><hr class="styledHr">
-          <div class="typeFilter">
-            <h4>Type</h4>
-            <label class="container">Daily
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">Weekly
-              <input type="checkbox">
-              <span class="checkmark"></span>
-            </label><br>
-            <label class="container">Monthly
-              <input type="checkbox" >
-              <span class="checkmark"></span>
-            </label><br>
-          </div>
-
-        </vuestic-widget>
+        <div ref="sidebarCont" >
+          <vuestic-widget class="sidebar" headerText='Filters'>
+            <i class="bx bx-sort-down sidebar-close" @click="hideSidebar"></i>
+            <div class="categoryFilter">
+              <h4 style="margin-top: 40px;" >Category</h4> <br>
+              <label class="container">Product1
+                <input type="checkbox" value="product1" v-model="prodCategory">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">Product2
+                <input type="checkbox" value="product2" v-model="prodCategory">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container" >Product3
+                <input type="checkbox" value="product3" v-model="prodCategory">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container" >Product4
+                <input type="checkbox" value="product4" v-model="prodCategory">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container" >Product5
+                <input type="checkbox" value="product5" v-model="prodCategory">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">Product6
+                <input type="checkbox" value="product6" v-model="prodCategory">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container" >Product7
+                <input type="checkbox" value="product7" v-model="prodCategory">
+                <span class="checkmark"></span>
+              </label><br>
+            </div><hr class="styledHr">
+            <div class="locationFilter">
+              <h4 >Location</h4> <br>
+              <label class="container" >Hyderabad
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">Delhi
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">Kolkata
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">Chennai
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>
+            </div><hr class="styledHr">
+            <div class="distaceFilter">
+              <h4 >Distance</h4> <br>
+              <label class="container">0 - 5 Km
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">5 - 10 Km
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">10 - 20 Km
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">20 -30 Km
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br> 
+            </div><hr class="styledHr">
+            <div class="priceFilter">
+              <h4 >Price</h4> <br>
+              <label class="container">0 - 100 ₹/day
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">100 - 200 ₹/day
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">200 - 300 ₹/day
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">300 - 500 ₹/day
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>  
+              <label class="container">500 - 1000 ₹/day
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>  
+              <label class="container">1000 - 2000 ₹/day
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>  
+            </div><hr class="styledHr">
+            <div class="typeFilter">
+              <h4>Type</h4>
+              <label class="container">Daily
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">Weekly
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">Monthly
+                <input type="checkbox" >
+                <span class="checkmark"></span>
+              </label><br>
+            </div>
+          </vuestic-widget>
+      </div>
 
       <!-- SIDEBAR END -->
 
     <main id="content" class="content" role="main">
 
       <!-- MAIN ITEM BOX -->
-
       <div class="box" ref="mainItem">
         <article v-for="listedItem in listedItems" :key="listedItem.id in listedItems" >
           <div :ref="listedItem.category.toLowerCase()">
@@ -152,7 +151,7 @@
               <p>{{ listedItem.itemName }}</p>
               <span @click.prevent="rentalRoute(listedItem)" style="cursor:pointer;" class="main-link">Rent</span>
               <span class="main-link" style="margin-left:10px;cursor:pointer;" @click.prevent="showdetailsModal(listedItem)">More</span>
-              <i class="fas fa-map-marker-alt animated "
+              <i class="bx bxs-map animated "
                 @mouseover="animationStatus = !animationStatus"
                 @mouseleave="animationStatus = !animationStatus"
                 @click.prevent="showLocation(listedItem)"
@@ -207,8 +206,8 @@
               </div>
             </div>
           </div>
-          <div slot="footer">
-            <button @click.prevent='rentService()' class="btn btn-primary">Add {{ currentItemName }} to Cart</button>
+          <div slot="footer" style="text-align: center;width: 100%;">
+            <button @click.prevent='rentService()' style="max-width: 100%;height: auto;text-align: center;padding: 0px;padding-top: 20px;padding-bottom: 20px;padding-left: 20px;padding-right: 20px;border-radius: 5px;" class="btn btn-primary">Add <br> {{ currentItemName }} <br> to Cart</button>
           </div>
         </rentalModal>
 
@@ -228,7 +227,7 @@
         </vuestic-modal>
 
         <!-- LOCATION MODAL END -->
-        <!-- <li v-for="list in prodCategory">{{ list }}</li> -->
+
     </main>
   </div>
   <div v-if="!itemsLoaded">
@@ -248,16 +247,15 @@
   </div>
   </div>
 </template>
-
+<script type="text/javascript">
+</script>
 <script>
-
 import Layout from 'vuestic-theme/vuestic-directives/Layout'
 import VuesticLayout from '../vuestic-theme/vuestic-components/vuestic-layout/VuesticLayout'
 import rentalModal from './rentalModal'
 import navSide from './nav-side'
 import * as firebase from 'firebase'
 import { EventBus } from 'src/main.js'
-
 export default {
   name: 'rent',
   props: {
@@ -287,6 +285,7 @@ export default {
       itemsLoaded: false,
       rangeValue: 10,
       prodCategory: [],
+      showFilterCard: false,
       listedItems: [
       ]
     }
@@ -311,6 +310,9 @@ export default {
       this.currentCity = localStorage.getItem('currentCity')
       this.citySelection = false
     }
+    EventBus.$on('showFilterCard', showFilterCard => {
+      this.toggleFilterCard(showFilterCard)
+    })
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition)
     } else {
@@ -341,6 +343,10 @@ export default {
       this.currentCity = 'hyderabad'
       localStorage.setItem('currentCity', 'hyderabad')
       this.citySelection = false
+    },
+    hideSidebar () {
+      this.$refs.sidebarCont.style.display = 'none'
+      //  alert('LOL')
     },
     setCityChn () {
       this.currentCity = 'chennai'
@@ -375,6 +381,9 @@ export default {
       this.itemLat = itemDetails.lat
       this.itemLng = itemDetails.long
     },
+    toggleFilterCard (e) {
+      this.$refs.sidebarCont.style.display = 'block'
+    },
     rentService () {
       this.$refs.rentModal.cancel()
       this.cartNumber = this.cartNumber + 1
@@ -404,18 +413,15 @@ export default {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-
 .no--display {
   display: none;
 }
-
 /* loader */
-
 .loader--div {
   position: absolute;
   top: 15vh;
   left: 20vw;
-  width: 60vw;
+  min-width: 60vw;
   height: 70vh;
   background: white;
   padding: 60px;
@@ -425,7 +431,6 @@ export default {
   -webkit-animation: loader-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	    animation: loader-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   }
-
 .loader {
   position: absolute;
   top: 50%;
@@ -460,6 +465,9 @@ export default {
 .dot:nth-child(5) {
   animation-delay: 0.5s;
   background: #e4d0b2;
+}
+.sidebar-close{
+  display:none;
 }
 @-moz-keyframes slide {
   0% {
@@ -509,30 +517,26 @@ export default {
     transform: scale(1);
   }
 }
-
 /* Loader End */
-
+.hide-sidebar{
+  display:none;
+}
 .sidebar {
   position: absolute;
-  top: 25vh;
+  top: 20vh;
   left: 1vw;
   width: 21vw;
   min-height: 90vh;
 }
-
 main {
   position: absolute;
   top: 20vh;
   left: 23vw;
   width: 75vw;
 }
-
 /* NAVBAR */
-
 /* NAVBAR END */
-
 /* CITY SELECTION OVERLAY OVERLAY */
-
 .overlay {
     position: absolute;
     height: 100%;
@@ -546,7 +550,6 @@ main {
     overflow-y: hidden;
     transition: 0.5s;
 }
-
 .overlay-content {
     position: absolute;
     top: 25%;
@@ -556,7 +559,6 @@ main {
     margin-top: 30px;
     margin-left: 0px;
 }
-
 .overlay a {
     padding: 8px;
     text-decoration: none;
@@ -565,18 +567,15 @@ main {
     display: block;
     transition: 0.3s;
 }
-
 .overlay a:hover, .overlay a:focus {
     color: #f1f1f1;
 }
-
 .overlay .closebtn {
     position: absolute;
     top: 20px;
     right: 45px;
     font-size: 60px;
 }
-
 .city1{
   position: absolute;
   top: 0vh;
@@ -592,7 +591,6 @@ main {
 .city1:hover{
   color: white;
 }
-
 .city2{
     position: absolute;
   top: 0vh;
@@ -608,7 +606,6 @@ main {
 .city2:hover{
   color: white;
 }
-
 .city3 {
     position: absolute;
   top: 35vh;
@@ -624,7 +621,6 @@ main {
 .city3:hover{
   color: white;
 }
-
 .city4 {
     position: absolute;
   top: 35vh;
@@ -640,7 +636,6 @@ main {
 .city4:hover{
   color: white;
 }
-
 @media screen and (max-height: 450px) {
   .overlay {overflow-y: auto;}
   .overlay a {font-size: 20px}
@@ -650,15 +645,9 @@ main {
     right: 35px;
   }
 }
-
 /* CITY SELECTION OVERLAY END */
-
-
-
 /* SIDENAV END */
-
 /* FILTER BAR */
-
 .container {
     display: block;
     position: relative;
@@ -713,7 +702,6 @@ main {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-
 hr.styledHr {
     margin: 40px 10px 40px 10px;
    overflow: visible; /* For IE */
@@ -732,14 +720,8 @@ hr.styledHr::before {
     padding: 0 0.25em;
     background: white;
 }
-
 /* FILTER BAR END */ 
-
-
-
 /* Cards */
-
-
 article {
   display: inline-block;
   position: relative;
@@ -751,7 +733,6 @@ article {
   -webkit-animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	  animation: shadow-anim 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
-
 @-webkit-keyframes shadow-anim {
   0% {
     -webkit-transform: translateZ(0);
@@ -761,7 +742,7 @@ article {
   100% {
     -webkit-transform: translateZ(50px);
             transform: translateZ(50px);
-    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.35);
   }
 }
 @keyframes shadow-anim {
@@ -773,18 +754,15 @@ article {
   100% {
     -webkit-transform: translateZ(50px);
             transform: translateZ(50px);
-    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.35);
   }
 }
-
-
 @media (max-width: 400px) {
   article {
       margin-left: 12.5%;
     width: 75%;
   }  
 }
-
 .img {
   position: relative;
   width: 100%;
@@ -794,16 +772,13 @@ article {
   background-position: center;
   background-size: cover;
 }
-
 .txt {
   padding: 10%;
 }
-
 p {
   font-size: .9em;
   margin: 0 0 .5em 0;
 }
-
 .main-link {
   padding-bottom: .3em;
   text-decoration: none;
@@ -812,18 +787,14 @@ p {
   border-bottom: 3px solid #C6426E;
   transition: ease .5s;
 }
-
 .main-link:hover {
   border-bottom: 3px solid #642B73;
 }
-
 .search-bar{
   width:20vw;
   margin-left:18vw;
 }
-
 /*  Shadow  */
-
 @-webkit-keyframes loader-anim {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
@@ -840,5 +811,64 @@ p {
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.15);
   }
 }
+.showCard{
+  display: none;
+}
+@media only screen and (max-width: 978px) {
 
+  .content{
+    width:90vw;
+    left:5vw;
+    text-align: center;
+  }
+  .showCard{
+    display: none;
+    max-width: 200px;
+    margin: 0 auto;
+    display: inline;
+    text-align: center;
+    /* margin-bottom: 40px; */
+  }
+  .sidebar{
+    position: fixed;
+    z-index: 997;
+    width:100vw;
+    bottom: 0px;
+    left: 0px;
+    top: 12vh;
+    height: 88vh;
+    overflow-y: auto;
+    transition: all 1s;
+    border-radius: 10px;
+
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+  }
+
+  .typeFilter {
+    margin-bottom: 25vh;
+  }
+  .hide-sidebar{
+    display: block;
+    margin:0 auto;
+    margin-bottom: 30px;
+    display: block;
+    text-align: center;
+  }
+  .loader--div{
+    min-width:80vw;
+    left:10vw;
+  }
+  .sidebar-close{
+    position:absolute;
+    top:10px;
+    right:30px;
+    font-size:30px;
+    color:black;
+    display:block;
+  }
+}
 </style>

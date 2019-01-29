@@ -20,7 +20,7 @@
         <div class="main--content" >
             <vuestic-widget id="address--widget"  headerText='Address And Details'>
                 <div class="add--main" style="text-align: center;" v-for="itemDetail in itemDetails" :key="itemDetail.id">
-                    <img class="img well" style="width: auto; height: 40vh; margin-left: auto;margin-right: auto;" :src="itemDetail.itemImg" alt=""> <br>
+                    <img class="img well" style="max-width: 100%; height: 40vh; margin-left: auto;margin-right: auto;" :src="itemDetail.itemImg" alt=""> <br>
                     <div class="add--text" style="width: 40vw;color: #444;margin-top: 50px;text-align: left;margin-left:9.375vw;"><strong style="float: left;font-family: Montserrat;"> Address </strong>  <p style="float:right;text-align: center;">{{ itemDetail.address }}</p></div> <br>
                     <div class="add--text" style="width: 40vw;color: #444;margin-top: 20px;text-align: left;margin-left:9.375vw;margin-bottom: 60px;"><strong style="float: left;font-family: Montserrat;"> City </strong>  <p style="float:right;text-align: center;">{{ itemDetail.city }}</p></div> <br>
                     <div class="well" ref="google--map" style="height: 60vh;"></div>
@@ -190,6 +190,7 @@ export default {
             })
             this.requestId = ''
             counter = counter + 1
+            vm.$router.push('order')
           } else {
             alert('Please Select The Number Of Days')
           }

@@ -19,12 +19,12 @@
             <hr style="width: 80%;height:2px;border:none;color:#666;background-color:#777;opacity: 0.5;">
           </div>
         </vuestic-widget>
+        <vuestic-widget class="no_display" ref="paymentCont" id="renderer"> 
+
+        </vuestic-widget>
       </div>
     </div>
 </template>
-
-
-
 
 <script>
 import * as firebase from 'firebase'
@@ -41,17 +41,26 @@ export default {
       loading: true,
       cartNumber: '',
       options: {},
+      curUserId: '',
+      cartItemKeys: [],
+      cartItemValues: [],
+      is_script_loading: false
     }
   },
   mounted: function () {
     this.setOrderDet()
   },
+  created () {
+  },
   methods: {
     setOrderDet () {
       var vm = this
+      this.curUserId = firebase.auth().currentUser.uid
       firebase.database().ref('users/' + firebase.auth().currentUser.uid).once('value').then(function (snapshot) {
         console.log(snapshot.val().requestsR)
         vm.requestDetails = snapshot.val().requestsR
+        vm.cartItemKeys = Object.keys(snapshot.val().cart)
+        vm.cartItemValues = Object.values(snapshot.val().cart)
         vm.cartNumber = Object.values(snapshot.val().requestsR).length
         vm.loading = false
       })
@@ -59,20 +68,62 @@ export default {
     payment (e) {
       console.log(e)
       var vm = this
+      var txnId = ''
+      var txnPoss = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+      for (let i = 0; i < 8; i++) {
+        txnId += txnPoss.charAt(Math.floor(Math.random() * txnPoss.length))
+      }
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/pendingPayments/' + vm.requestDetails[e].itemDetails.itemId).set({
+        txnId: txnId,
+        price: vm.requestDetails[e].itemDetails.price,
+        itemName: vm.requestDetails[e].itemDetails.itemName,
+      })
+      window.location.href = 'http://localhost:3000'
+      /* var otpPoss = '1234567890'
+      var otpR = ''
+      for (let i = 0; i < 8; i++) {
+        otpR += otpPoss.charAt(Math.floor(Math.random() * otpPoss.length))
+      }
+      var temp = (Object.values(vm.cartItemValues).indexOf(e))
       // perform payment logic
-      this.$http.get('https://us-central1-rio-travels.cloudfunctions.net/hello?name=' + vm.requestDetails[e].price).then(
+      this.$http.post('https://us-central1-rio-travels.cloudfunctions.net/hello', vm.requestDetails[e].price).then(
         resp => {
-          console.log(resp.body)
           if (resp.body) {
-            console.log('yo ! perform cart deletion and event bus')
+            console.log(resp.body)
           // change EventBus
-          // EventBus.$emit('cartUpdate', this.cartNumber)
+            EventBus.$emit('cartUpdate', this.cartNumber)
+          // empty cart
+            firebase.database().ref('users/' + vm.curUserId + '/requestsR/' + e).remove()
+            firebase.database().ref('users/' + vm.curUserId + '/cart/' + Object.values(vm.cartItemKeys)[temp]).remove()
+            // set successful database entry in renter and lister
+            firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/acceptedR/' + vm.requestDetails[e].itemDetails.itemId).set({
+              renter: firebase.auth().currentUser.uid,
+              lister: vm.requestDetails[e].itemDetails.itemOwner,
+              otpR: otpR,
+              transactionId: 'tId',
+              itemDetails: vm.requestDetails[e].itemDetails,
+              days: vm.requestDetails[e].days,
+              price: vm.requestDetails[e].price
+            })
+            // set waitingOrders
+            firebase.database().ref('waitingOrders/' + vm.requestDetails[e].itemDetails.itemId).set({
+              renter: firebase.auth().currentUser.uid,
+              lister: vm.requestDetails[e].itemDetails.itemOwner,
+              otpR: otpR,
+              transactionId: 'tId',
+              itemDetails: vm.requestDetails[e].itemDetails,
+              days: vm.requestDetails[e].days,
+              price: vm.requestDetails[e].price
+            })
+            firebase.database().ref('listedItems/' + e).remove()
+            // start and stop button
+            vm.$router.push('home')
+          // remove items froms requests
           } else {
             alert('Payment Is Not Done')
           }
         }
-      )
-      // remove items from the cart
+      ) */
     }
   }
 }
@@ -97,6 +148,9 @@ export default {
 	    animation: boxShadow 0.4s ease-in both;
   }
 
+.no_display {
+  display: none;
+}
 
 
 @-webkit-keyframes boxShadow {

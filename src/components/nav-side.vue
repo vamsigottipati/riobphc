@@ -4,15 +4,19 @@
     <!-- TOP NAVBAR -->
 
     <div class="navbar-filter" ref="filterNav" style="transition: 0.4s;vertical-align: center;">
-      <i class="fas fa-bars menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
+      <div style="flex: 1;"></div>
+      <i class="bx bx-menu menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
       <p class="logo" ref="logo" style="transition: 0.4s;font-family: Montserrat;">Uncle Bob</p>
-     <!-- <input type="text" ref="searchBox" class="filterInput" placeholder="Search Item Name" style="transition: 0.4s"> -->
+      <i class='bx bx-filter filterIcon' @click="showCard" style="transition: 0.4s;"></i>
       <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
-      <i class='bx bx-filter filterIcon' style="transition: 0.4s; cursor: pointer;"></i>
-      <i class="bx bx-filter asss" ></i>
-      <span> <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
-        <p style="position: absolute;color: white; background: #222222;top: 3vh; right: 13.5vw;width: 30px; 
-              height: 30px;text-align: center;border-radius: 50%;opacity: 0.7;vertical-align: center;
+      <span class="bellIconCont"> <i class='bx bxs-bell-ring bellIcon' @click="getNotifications" ref="cartIcon" style="transition: 0.4s;cursor: pointer;"></i>
+        <p style="color: white; background: #222222;text-align: center;border-radius: 50%;opacity: 0.7;
+              font-weight: 900;"> 
+            {{notificationsNum}}
+        </p> </span> 
+      <span class="cartIconCont"> <i class='bx bx-cart cartIcon' ref="cartIcon" @click="openRightSideNav" style="transition: 0.4s;cursor: pointer;"></i>
+        <p style="color: white; background: #222222;width: 30px; 
+              height: 30px;text-align: center;border-radius: 50%;opacity: 0.7;;
               font-weight: 900;font-size: 20px;"> 
             {{cartNumber}}
         </p> </span> 
@@ -26,12 +30,12 @@
 
     <div ref="leftSidenav" class="leftSidenav">
         <a href="javascript:void(0)" class="closebtn" ref="leftCloseBtn" @click.prevent="closeLeftSideNav">&times;</a>
-        <a style="margin-top: 10vh;" @click.prevent="$router.push( '/home' )">Home</a>
-        <a  @click.prevent="$router.push( '/list' )">List</a>
-        <a  @click.prevent="$router.push( '/rent' )">Rent</a>
-        <a  @click.prevent="$router.push( '/profile' )">Profile</a>
-        <a  @click.prevent="$router.push( '/how' )">How</a>
-        <a  @click.prevent="$router.push( '/about' )">About</a>
+        <a style="margin-top: 15vh;text-align: left;margin-left: 40px;padding-bottom: 20px" @click.prevent="$router.push( '/home' )" > <i class='bx bx-home routerIcons' style=""></i> Home</a>
+        <a  @click.prevent="$router.push( '/list' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px"> <i class='bx bx-list-check routerIcons' style=""></i> List</a>
+        <a  @click.prevent="$router.push( '/rent' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px"> <i class='bx bx-dollar routerIcons' style=""></i> Rent</a>
+        <a  @click.prevent="$router.push( '/profile' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px"> <i class='bx bx-user-detail routerIcons' style=""></i> Profile</a>
+        <a  @click.prevent="$router.push( '/how' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px"> <i class='bx bx-info-circle routerIcons' style=""></i> How</a>
+        <a  @click.prevent="$router.push( '/about' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px;"> <i class='fas fa-users smallerRouterIcons' style=""></i> About</a>
     </div>
 
         <!-- LEFT SIDENAV END -->
@@ -41,7 +45,7 @@
     <div ref="rightSidenav" class="rightSidenav" style="text-align: center;" >
         <a href="javascript:void(0)" class="closebtn" ref="rightCloseBtn" style="position: fixed;" @click.prevent="closeRightSideNav">&times;</a>
         <div class="heading"> <h2 style="position: absolute;top: 15vh;left: 30vw;width: 40vw;text-align: center;color: white;font-size:2.8rem;letter-spacing: 0px;word-spacing: 20px;font-family: montserrat;">Cart Details</h2> </div>
-        <h3 v-if="!this.cartNumber" style="position: absolute;color: whitesmoke; top: 50vh; width: 80vw; left: 10vw ;left: 0px;font-family: Montserrat;text-align: center;"> <i style="font-size: 75px;margin-right: 50px;transform: translateY(25%);color: orange;" class='bx bx-error'></i> No Items In Your Cart </h3>
+        <div v-if="!this.cartNumber" style="position: absolute;color: whitesmoke; top: 50vh; width: 100vw; height: 50vh ; left: 0vw ;font-family: Montserrat;text-align: center;display: inline-block"> <i style="font-size: 150px;color: orange;margin-bottom: 5vh;" class='bx bx-error'></i> <h3> No Items In Your Cart </h3> </div>
         <div class="main--content" :key="ItemDetail.itemId" v-for="ItemDetail in ItemDetails">
           <div class="main--img" >
             <img :src="ItemDetail.itemImg" style="width: auto; height: 30vh;margin-top: 10vh;" alt="">
@@ -59,6 +63,32 @@
     </div>
 
         <!-- RIGHT SIDEBAR END -->
+
+
+    <vuestic-modal v-bind:large="true" v-bind:force="true" ref="notificationsModal" :cancelClass="'none'"
+            okText="Okay">
+        <div slot="title">Notifications</div>
+        <div ref="notificationsBody" style="text-align: center;" v-if='this.notificationsNum'>
+          <div v-for="notifItems in this.notifications" :key="notifItems.itemDetails.itemId">
+            <p> You have a request About about a listing ' {{ notifItems.itemDetails.itemName }} ' that you have done. </p>
+            <br>
+            <p> Click the Accept Button if you want to accept the request or reject of you donot want to accept the request.</p><br>
+            <ul style="text-align: left;">
+              <li>Item Name : {{ notifItems.itemDetails.itemName }}</li>
+              <li>Renter Id : {{ notifItems.renter }}</li>
+              <li>Number Of Days  : {{ notifItems.days }}</li>
+              <li>Item Price : ₹{{ notifItems.itemDetails.price }} per Day</li>
+            </ul>
+
+            <img :src="notifItems.itemDetails.itemImg" class="well" style="width: 100%;height: auto;" alt="">
+            <br><br>
+            <button @click="accept(notifItems)"> Accept </button>
+            <button> Reject </button>
+          </div>
+        </div>
+        <div v-if="!this.notificationsNum"> You have no new notifications </div>
+    </vuestic-modal>
+
 </div>
 </template>
 
@@ -73,7 +103,10 @@ export default {
       cartNumber: 0,
       cartImgs: [],
       ItemDetails: [],
-      cartItems: []
+      cartItems: [],
+      notificationsNum: 0,
+      notifications: [],
+      showFilterCard: true,
     }
   },
   mounted: function () {
@@ -97,8 +130,18 @@ export default {
       this.$refs.rightCloseBtn.style.display = 'block'
     },
     openLeftSideNav () {
-      this.$refs.leftSidenav.style.width = '25vw'
-      this.$refs.leftCloseBtn.style.left = '20vw'
+      if (window.innerWidth < 600) {
+        this.$refs.leftSidenav.style.width = '80vw'
+        this.$refs.leftCloseBtn.style.left = '50vw'
+      } else {
+        if (window.innerWidth < 900) {
+          this.$refs.leftSidenav.style.width = '40vw'
+          this.$refs.leftCloseBtn.style.left = '35vw'
+        } else {
+          this.$refs.leftSidenav.style.width = '22vw'
+          this.$refs.leftCloseBtn.style.left = '16vw'
+        }
+      }
     },
     closeLeftSideNav () {
       this.$refs.leftSidenav.style.width = '0'
@@ -111,9 +154,21 @@ export default {
       var x = firebase.auth().currentUser.uid
       var vm = this
       firebase.database().ref('users/' + x + '/cart').once('value').then(function (snapshot) {
-        vm.cartNumber = Object.values(snapshot.val()).length
-        vm.cartItems = Object.values(snapshot.val())
-        vm.cartData(vm.cartItems)
+        if (snapshot.val()) {
+          vm.cartNumber = Object.values(snapshot.val()).length
+          vm.cartItems = Object.values(snapshot.val())
+          vm.cartData(vm.cartItems)
+        }
+      })
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/requestsL').once('value').then(function (snapshot) {
+        if (snapshot.val()) {
+          vm.notificationsNum = Object.values(snapshot.val()).length
+          vm.notifications = Object.values(snapshot.val())
+          console.log(vm.notifications)
+        } else {
+          vm.notificationsNum = 0
+          vm.notifications = null
+        }
       })
     },
     cartData (a) {
@@ -124,6 +179,35 @@ export default {
           // console.log(vm.ItemDetails)
         })
       }
+    },
+    showCard () {
+      var vm = this
+      EventBus.$emit('showFilterCard', vm.showFilterCard)
+    },
+    getNotifications () {
+      console.log('Yo')
+      this.$refs.notificationsModal.open()
+    },
+    accept (e) {
+     // var vm = this
+      console.log(e)
+      var otpPoss = '1234567890'
+      var otpL = ''
+      for (let i = 0; i < 8; i++) {
+        otpL += otpPoss.charAt(Math.floor(Math.random() * otpPoss.length))
+      }
+      this.$refs.notificationsModal.cancel()
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/requestsL/' + e.itemDetails.itemId + '/status').set(true)
+      firebase.database().ref('users/' + e.renter + '/requestsR/' + e.itemDetails.itemId + '/status').set(true)
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/requestsL/' + e.itemDetails.itemId).remove()
+      firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/acceptedL/' + e.itemDetails.itemId).set({
+        renter: e.renter,
+        lister: firebase.auth().currentUser.uid,
+        itemDetails: e.itemDetails,
+        price: e.price,
+        days: e.days,
+        otpL: otpL,
+      })
     },
     logout () {
       firebase.auth().signOut().then(
@@ -142,79 +226,93 @@ export default {
 <style scoped>
 /* Navbar start  */
 
-.logo {
-  position: absolute; 
-  left: 8vw;
-  font-size:2.2rem;
-  color:white;
-  top: 4vh;
-  font-weight:780;
-  padding: 0px;
-  letter-spacing: 0.5px;
-}
-
-.menuSideDrop {
-  position: absolute; 
-  left: 1.5vw;
-  font-size:30px;
-  color:white;
-  top: 5vh;
-  cursor: pointer;
-}
-
 .navbar-filter {
   position: fixed;
   background: linear-gradient(90deg , #642B73, #C6426E);
   top:0vh;
   width: 100vw;
   left:0vw;
-  height: 15vh;
+  height: 120px;
   z-index: 990;
-}
-
-.filterInput {
-  all: unset;
-  background: white;
-  position:absolute;
-  left: 20vw;
-  top: 5vh;
-  height: 4vh;
-  border-radius: 30px;
-  text-align: center;
-  width: 70vh;
-}
-
-.accountIcon {
-  position: absolute;
-  right: 35vw;
-  color: white;
-  font-size: 30px;
+  display: flex;
   cursor: pointer;
-  top: 5vh;
 }
 
+.logo {
+  font-size:40px;
+  color:white;
+  font-weight:780;
+  letter-spacing: 0.5px;
+  flex: 20;
+  text-align: left;
+  align-self: center;
+  cursor: pointer;
+}
+.menuSideDrop {
+  flex: 3;
+  color: white;
+  font-size: 30px;
+  text-align:center;
+  padding-right: 30px;
+  align-self: center;
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+.accountIcon {
+  flex: 3;
+  color: white;
+  font-size: 30px;
+  text-align:left;
+  padding-right: 30px;
+  align-self: center;
+  cursor: pointer;
+}
 .filterIcon {
-  position: absolute;
-  right: 25vw;
+  flex: 3;
   color: white;
-  top: 5vh;
   font-size: 30px;
+  text-align:left;
+  padding-right: 30px;
+  align-self: center;
+  cursor: pointer;
+  display: none;
 }
-
-.cartIcon {
-  position: absolute;
-  right: 15vw;
+.bellIconCont {
+  flex: 4;
+  align-self: center;
+}
+.bellIconCont i{
   color: white;
-  top: 5vh;
   font-size: 30px;
+  transform: translateY(25px);
+  cursor: pointer;
 }
-
+.bellIconCont p{
+  transform: translate(20px, -25px);
+  width: 30px; 
+  height: 30px;
+  font-size: 20px;
+}
+.cartIconCont {
+  flex: 4;
+  align-self: center;
+}
+.cartIconCont i{
+  color: white;
+  font-size: 30px;
+  transform: translateY(25px);
+  cursor: pointer;
+}
+.cartIconCont p {
+  transform: translate(20px, -25px);
+}
 .logoutIcon {
-  position: absolute;
-  right: 5vw;
+  flex: 3;
   color: white;
-  top: 5vh;
   font-size: 30px;
+  text-align:left;
+  padding-right: 30px;
+  align-self: center;
   cursor: pointer;
 }
 
@@ -226,7 +324,7 @@ export default {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 999;
+    z-index: 998;
     top: 0;
     right: 0;
     background-color: #03568e;
@@ -248,6 +346,18 @@ export default {
 
 .closebtn:hover{
   color: white;
+}
+
+.routerIcons{
+  margin-right: 30px;
+  font-size: 30px;
+  color:rgb(218, 204, 46);
+}
+
+.smallerRouterIcons{
+  margin-right: 30px;
+  color:rgb(218, 204, 46);
+  font-size: 22px;
 }
 
 @media screen and (max-height: 450px) {
@@ -326,13 +436,113 @@ export default {
   min-width: 10vw;
   font-size: 1.2rem;
   font-family: Montserrat; 
-  font-weight: 500;
+  font-weight: 400;
   word-spacing: 20px;
 }
 
 ::-webkit-scrollbar {
     width: 0px;  /* remove scrollbar space */
     background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+@media only screen and (max-width: 978px) { 
+  .logo {
+    font-size:25px;
+    color:white;
+    font-weight:700;
+    letter-spacing: 0.5px;
+    flex: 20;
+    text-align: left;
+    margin-left: -25px; 
+    align-self: center;
+    cursor: pointer;
+  }
+  .menuSideDrop {
+    flex: 3;
+    color: white;
+    font-size: 20px;
+    text-align:center;
+    align-self: center;
+    transform: translateY(-8px);
+    cursor: pointer;
+  }
+  .accountIcon {
+    display: none;
+  }
+  .filterIcon {
+    flex: 1;
+    color: white;
+    font-size: 25px;
+    text-align:left;
+    padding-right: 40px;
+    align-self: center;
+    cursor: pointer;
+    transform: translateY(-8px);
+    display: block;
+  }
+  .bellIconCont {
+    flex: 3;
+    align-self: center;
+    margin-right: 20px;
+    transform: translateY(-8px);
+  }
+  .bellIconCont i{
+    color: white;
+    font-size: 20px;
+    transform: translateY(20px);
+    cursor: pointer;
+  }
+  .bellIconCont p{
+    transform: translate(10px, -18px);
+    width: 20px; 
+    height: 20px;
+    font-size: 15px;
+    text-align: center;
+
+  }
+  .cartIconCont {
+    flex: 4;
+    align-self: center;
+    display: none;
+  }
+  .cartIconCont i{
+    color: white;
+    font-size: 30px;
+    transform: translateY(25px);
+    cursor: pointer;
+    display: none;
+  }
+  .cartIconCont p {
+    transform: translate(20px, -25px);
+  }
+  .logoutIcon {
+    flex: 3;
+    color: white;
+    font-size: 30px;
+    text-align:left;
+    padding-right: 30px;
+    align-self: center;
+    cursor: pointer;
+    display: none;
+  }
+  .leftSidenav {
+    width: 80vw;
+  }
+  .leftSidenav a{
+    font-size: 15px;
+  }
+
+  .routerIcons{
+    margin-right: 30px;
+    font-size: 25px;
+    color: white;
+  }
+
+  .smallerRouterIcons{
+    margin-right: 30px;
+    color: white;
+    font-size: 20px;
+  }
 }
 
 </style>

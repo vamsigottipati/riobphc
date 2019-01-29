@@ -12,7 +12,7 @@
             :wizard-type="wizardType"
             style="min-height: 80vh;">
             <div slot="page1" class="form-wizard-tab-content">
-              <h2 style="position: absolute;top: 10vh;">Give Your Item A Name ...</h2>
+              <h2 style="">Give Your Item A Name ...</h2>
               <div class="form-group with-icon-right"
                    :class="{'has-error': errors.has('name'), 'valid': isFormFieldValid('name')}" style="margin-top: 20px;">
                 <div class="input-group">
@@ -22,7 +22,7 @@
                     v-model="name"
                     v-validate="'required'"
                     required="required"
-                    style="width: 20vw;"/>
+                    style="width: auto;padding: 20px;"/>
                   <i
                     class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
                   <i class="fa fa-check valid-icon icon-right input-icon"></i>
@@ -32,8 +32,11 @@
                   </small>
                   <br>
                   <h2 style="margin-top: 5vh;width: 30vw;text-align: center;">Add Some Photos ...</h2>
-                  <div class="well">
-                    <input type="file" name="uploadContent" class="" ref="uploadContent" id="uploadContent">
+                  <div class="well" style="text-align: center;">
+                    <label class="file" style="text-align: left;">
+                      <input type="file" name="uploadContent" ref="uploadContent" id="uploadContent" v-on:change="signalChange">
+                      <span class="file-custom" ref="uploadContentValue">Chose File</span>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -50,7 +53,7 @@
                     <input
                       type="text"
                       name="address"
-                      style="width: 30vw;"
+                      style="width: 30vw;padding: 20px;"
                       v-model="address"
                       v-validate="'required'"
                       required="required"/>
@@ -71,7 +74,7 @@
                     <input
                       type="text"
                       name="city"
-                      style="width: 30vw;"
+                      style="width: 30vw;padding: 20px;"
                       v-model="city"
                       v-validate="'required'"
                       required="required"/>
@@ -98,7 +101,7 @@
                   <input
                     type="number"
                     name="price"
-                    style="width: 20vw;"
+                    style="width: 20vw;padding: 20px;"
                     v-model="price"
                     v-validate="'required'"
                     required="required"/>
@@ -123,7 +126,7 @@
                 <div class="input-group">
                   <input
                     type="number"
-                    style="width: 20vw;"
+                    style="width: 20vw;padding: 20px;"
                     name="contact"
                     v-model="contact"
                     v-validate="'required'"
@@ -340,6 +343,9 @@
       }
     },
     methods: {
+      signalChange () {
+        this.$refs.uploadContentValue.innerText = this.$refs.uploadContent.files[0].name
+      },
       toggleSidebar (opened) {
         this.opened = opened
       },
@@ -376,8 +382,6 @@
     font-size:0.8rem;
     margin-bottom:2vh;
  };
-
-
  /*  Navbar styles  */
 
 
