@@ -9,6 +9,16 @@
       Show current Orders if any
     -->
 		<main id="content">
+			<vuestic-widget style="width: 100%;min-height: 30vh;" headerText='Current Orders'>
+				<vuestic-tabs :names="['Rentals', 'Listings']" >
+						<div slot="Rentals" class="" style="min-height: 20vh;text-align: center;">
+							<h4 style="margin-top: 10vh;">No Pending Rental Orders ...</h4>
+						</div>
+						<div slot="Listings" class="" style="min-height: 20vh;text-align: center;">
+							<h4 style="margin-top: 10vh;">No Pending Listing Orders ...</h4>
+						</div>
+				</vuestic-tabs>
+			</vuestic-widget>
 			<vuestic-widget style="width: 100%;" headerText='Profile Details'>
 				<vuestic-tabs :names="['Profile','Update', 'People']" ref="tabs">
 					<div slot="Profile" class="well">

@@ -70,4 +70,4 @@ new Vue({
       messagingSenderId: '630057921565'
     })
   }
-})
+}).$mount('#app')

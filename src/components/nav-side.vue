@@ -7,7 +7,7 @@
       <div style="flex: 1;"></div>
       <i class="bx bx-menu menuSideDrop" @click.prevent="openLeftSideNav" style="transition: 0.4s;"></i>
       <p class="logo" ref="logo" style="transition: 0.4s;font-family: Montserrat;">Uncle Bob</p>
-      <i class='bx bx-filter filterIcon' @click="showCard" style="transition: 0.4s;"></i>
+      <i class='bx bx-filter filterIcon' @click="showCard" v-if="this.rentalRoute" style="transition: 0.4s;"></i>
       <i class='bx bx-user-detail accountIcon' @click="route('profile')" style="transition: 0.4s;"></i>
       <span class="bellIconCont"> <i class='bx bxs-bell-ring bellIcon' @click="getNotifications" ref="cartIcon" style="transition: 0.4s;cursor: pointer;"></i>
         <p style="color: white; background: #222222;text-align: center;border-radius: 50%;opacity: 0.7;
@@ -36,6 +36,8 @@
         <a  @click.prevent="$router.push( '/profile' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px"> <i class='bx bx-user-detail routerIcons' style=""></i> Profile</a>
         <a  @click.prevent="$router.push( '/how' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px"> <i class='bx bx-info-circle routerIcons' style=""></i> How</a>
         <a  @click.prevent="$router.push( '/about' )" style="text-align: left;margin-left: 40px;padding-bottom: 20px;"> <i class='fas fa-users smallerRouterIcons' style=""></i> About</a>
+        <a  @click.prevent="openRightSideNav" style="text-align: left;margin-left: 40px;padding-bottom: 20px"> <i class='bx bx-cart routerIcons' style=""></i> Cart </a>
+        <a  @click.prevent="logout" style="text-align: left;margin-left: 40px;padding-bottom: 20px;"> <i class='bx bx-user-x routerIcons' style=""></i> Logout </a>
     </div>
 
         <!-- LEFT SIDENAV END -->
@@ -107,6 +109,7 @@ export default {
       notificationsNum: 0,
       notifications: [],
       showFilterCard: true,
+      rentalRoute: false
     }
   },
   mounted: function () {
@@ -151,8 +154,13 @@ export default {
       this.$router.push(e)
     },
     setData () {
-      var x = firebase.auth().currentUser.uid
       var vm = this
+      if (window.location.pathname === '/rent') {
+        vm.rentalRoute = true
+      } else {
+        vm.rentalRoute = false
+      }
+      var x = firebase.auth().currentUser.uid
       firebase.database().ref('users/' + x + '/cart').once('value').then(function (snapshot) {
         if (snapshot.val()) {
           vm.cartNumber = Object.values(snapshot.val()).length
@@ -447,10 +455,11 @@ export default {
 
 @media only screen and (max-width: 978px) { 
   .logo {
-    font-size:25px;
+    font-size:20px;
     color:white;
     font-weight:700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.1px;
+    word-spacing: 10px;
     flex: 20;
     text-align: left;
     margin-left: -25px; 
@@ -467,7 +476,9 @@ export default {
     cursor: pointer;
   }
   .accountIcon {
-    display: none;
+    /* display: none; */
+    transform: translateY(-8px);
+    font-size: 25px;
   }
   .filterIcon {
     flex: 1;
@@ -499,6 +510,12 @@ export default {
     font-size: 15px;
     text-align: center;
 
+  }
+  .routerIcons{
+    color: rgb(218, 204, 46);
+  }
+  .smallerRouterIcons {
+    color: rgb(218, 204, 46);
   }
   .cartIconCont {
     flex: 4;

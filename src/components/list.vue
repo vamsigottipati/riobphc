@@ -4,7 +4,7 @@
     <navSide></navSide>
 
     <main v-if="!turnOffDisplay">
-      <vuestic-widget   headerText="List Your Item" style="position: absolute;top: 20vh;max-height: 100vh;width: 90vw;left: 5vw;">
+      <vuestic-widget   headerText="List Your Item" style="position: absolute;top: 20vh;min-height: 80vh;width: 90vw;left: 5vw;">
         <div style="display:flex;">
           <vuestic-wizard
             :steps="steps"
@@ -31,7 +31,8 @@
                     errors.first('name') }}
                   </small>
                   <br>
-                  <h2 style="margin-top: 5vh;width: 30vw;text-align: center;">Add Some Photos ...</h2>
+                  <h4 style="margin-top: 5vh;width: 30vw;text-align: center;">Upload </h4>
+                  <p>Add a minimum of three pics </p>
                   <div class="well" style="text-align: center;">
                     <label class="file" style="text-align: left;">
                       <input type="file" name="uploadContent" ref="uploadContent" id="uploadContent" v-on:change="signalChange">
@@ -211,7 +212,7 @@
         long: '',
         steps: [
           {
-            label: 'Step 1. Item Details',
+            label: '1',
             slot: 'page1',
             onNext: () => {
               this.validateFormField('name')
@@ -221,7 +222,7 @@
             }
           },
           {
-            label: 'Step 2. Location Details',
+            label: '2',
             slot: 'page2',
             onNext: () => {
               this.validateFormField('address')
@@ -232,7 +233,7 @@
             }
           },
           {
-            label: 'Step 3. Pricing',
+            label: '3',
             slot: 'page3',
             onNext: () => {
               this.validateFormField('price')
@@ -242,7 +243,7 @@
             }
           },
           {
-            label: 'Step 4. Contact Details',
+            label: ' 4',
             slot: 'page4',
             onNext: () => {
               this.validateFormField('contact')
@@ -252,7 +253,7 @@
             }
           },
           {
-            label: 'Step 5. Confirm',
+            label: '5',
             slot: 'page5',
             onNext: () => {
               var itemName = this.name

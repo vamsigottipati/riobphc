@@ -1,114 +1,157 @@
 <template>
-<div class="msgPageBody">
-    <navBar />
-    <div class="chatSection">
-        <div class="sidebar">
-            <div class="serachBar"></div>
-            <div class="friendList">
-                <div class="sFriend">
-                    <p class="sFriendName"></p>
-                    <p class="sFriendText"></p>
-                </div>
-            </div>
-        </div>
-        <div class="mainSection">
-            <div class="chatHeader elevation-5"></div>
-            <div class="chatBody">
-                <p class="self"></p>
-                <p class="other"></p>
-            </div>
-            <div class="chatInput">
-                <i class="material-icons chatInputIcon">insert_emoticon</i>
-                <input type="text" class="chatInputText" />
-                <i class="material-icons chatInputIcon">send</i>
-                <i class="material-icons chatInputIcon">attach_file</i>
-            </div>
-        </div>
+<div class="body">
+  <section class="container">
+    <div class="content">
+      <h1>Scroll To Begin</h1>
+      <p>
+        Start
+      </p>
     </div>
+  </section>
+  <section class="container">
+    <div class="content">
+     
+      <p>
+        Step 1
+      </p>
+    </div>
+  </section>
+  <section class="container">
+    <div class="content">
+     
+      <p>
+        Step 2
+      </p>
+    </div>
+  </section>
+  <section class="container">
+    <div class="content">
+    
+      <p>
+        Step 3
+      </p>
+    </div>
+  </section>
+    <section class="container">
+    <div class="content">
+  
+      <p>
+        Step 4
+      </p>
+    </div>
+  </section>
+
+  <div id="set-height"></div>
+
+  <video id="v0" tabindex="0" autobuffer preload>
+     <source type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' src="../assets/fingers.mp4"></source>
+  </video>
+
 </div>
 </template>
 
 <script>
 
-import navBar from './navBar'
-
 export default {
-    name: 'messages',
-    components: {
-        navBar
-    },
-    data () {
-        return {}
-    },
-    methods: {}
+  name: 'How',
+  props: {
+  },
+  mounted () {
+    var frameNumber = 0
+    var playbackConst = 1000
+    var setHeight = document.getElementById('set-height')
+    var vid = document.getElementById('v0')
+
+    vid.addEventListener('loadedmetadata', function () {
+      setHeight.style.height = Math.floor(vid.duration) * playbackConst + 'px'
+    })
+
+    function scrollPlay () {
+      frameNumber = window.pageYOffset / playbackConst
+      vid.currentTime = frameNumber
+      window.requestAnimationFrame(scrollPlay)
+    }
+
+    window.requestAnimationFrame(scrollPlay)
+  },
+  data () {
+    return {
+      opened: true,
+    }
+  },
+  computed: {
+  },
+  methods: {
+    toggleSidebar (opened) {
+      this.opened = opened
+    }
+  }
 }
 </script>
 
 <style scoped>
-    .chatSection {
-        position: absolute;
-        top: 8%;
-        width: 100vw;
-        height: 92vh;
-        left: 0px;
-        background:#ddd;
-    }
-    .sidebar {
-        position: fixed;
-        width: 30vw;
-        background: orange;
-        height: 92vh;
-        overflow: auto;
-    }
-    .mainSection {
-        position: fixed;
-        overflow: hidden;
-        width: 70vw;
-        height: 92vh;
-        right: 0px;
-        top: 8vh;
-        background: #ddd;
-    }
-    .chatHeader {
-        position: relative;
-        height: 8vh;
-        background: lightgray;
-        width: 100%;
-    }
-    .chatBody {
-        position: relative;
-        height: 76vh;
-        background: #dddddd;
-        width: 100%;
-        overflow: auto;
-    }
-    .chatInput {
-        position: relative;
-        height: 8vh;
-        background: lightgray;
-        width: 100%;
-        z-index: 9;
-        display: flex;
-    }
-    .chatInputIcon {
-        flex: 1;
-        text-align: center;
-        transform: translateY(2.5vh);
-        color: #2c2c2c;
 
-    }
-    .chatInputIcon:nth-of-type(3) {
-        text-align: left;
-    }
-    .chatInputText {
-        all: unset;
-        height: 5vh;
-        background: #dddddd;
-        flex: 8;
-        margin-top: 1.5vh;
-        border-radius: 100px;
-        text-align: center;
-    }
+.body{
+  background-color: #c6d7de;
+  padding: 3rm;
+}
+
+#v0 {
+  position: fixed;
+  bottom: 0px;
+  right: opx;
+  width: 100%;
+}
+
+#set-height {
+  display: block;
+}
+
+section {
+  z-index: 1;
+  position: relative;
+}
+
+.content {
+  position: sticky;
+  position: -webkit-sticky;
+  width: 100%;
+  top: 33.3%;
+}
+
+h1 {
+  background-color: white;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 1.5rem; 
+}
+
+section:nth-of-type(0) {
+  height: 20vh;
+}
+
+section:nth-of-type(1) {
+  height: 150vh;
+}
+
+section:nth-of-type(2) {
+  height: 150vh;
+}
+
+section:nth-of-type(3) {
+  height: 150vh;
+}
+
+section:nth-of-type(4) {
+  height: 150vh;
+}
+
+section:nth-of-type(5) {
+  height: 100vh;
+}
+
+.enter {
+
+}
+
 </style>
-
-
