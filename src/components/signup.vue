@@ -2,7 +2,7 @@
   <div>
     <div class="background">
     <div class="signup" v-if="!displayOff">
-      <h2 class="heading"><small> Welcome to </small> <br><strong style="color: #03568e;font-size: 3rem;">rio </strong></h2>
+      <h2 class="heading"><small style="font-size: 1rem;"> Welcome to </small> <br><strong style="color: #03568e;font-size: 3rem;">UncleBob </strong></h2>
       <div class="all--input--fields">
         <input type="text" id="Username" class="single--input" placeholder="Your Name" v-model="Username" required="required"/><br>
         <span class="inline--display">
@@ -11,10 +11,20 @@
         </span><br>
         <input type="password" v-model="password" class="single--input" placeholder="Password" id="password" required="required"/><br>
       </div>
-      <button class="btn btn-primary submitBtn" style="" @click="onSignUp" type="submit">
+      <div class="row" style="margin-top: 15px;">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" style="text-align: center;">
+          <h5>Upload an Image Of Your ID Card</h5>
+          <label  class="file" style="text-align: left;margin-top: 20px;">
+            <input type="file" name="uploadContent" ref="uploadContent" id="uploadContent" v-on:change="signalChange">
+            <span class="file-custom" ref="uploadContentValue">Upload Your Id</span>
+          </label>
+        </div>
+      </div>
+      <button class="btn submitBtn" style="" @click="onSignUp" type="submit">
         SignUp
       </button><br>
-      <router-link class='link' :to="{name: 'login'}">Already a Member</router-link>
+      <router-link class='link' :to="{name: 'login'}"><h6>Already a Member</h6></router-link>
     </div>
     <div class="alt" v-if="displayOff">
       <p>Account Verification Link Sent To Your Email</p>
@@ -41,49 +51,77 @@ export default {
   mounted () {
   },
   methods: {
+    signalChange () {
+      this.$refs.uploadContentValue.innerText = this.$refs.uploadContent.files[0].name
+    },
     onSignUp () {
       var userName = this.Username
       var phoneNum = this.phNum
       var vm = this
       var emailId
       var uid
+      var uploadContent = this.$refs.uploadContent.files[0]
       console.log(userName)
       console.log(phoneNum)
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        response => {
-          alert('Account Created')
-          vm.displayOff = true
-          emailId = response.user.email
-          uid = response.user.uid
-          console.log(emailId)
-          firebase.auth().currentUser.updateProfile({
-            displayName: userName,
-            phoneNumber: phoneNum
-          })
-          firebase.database().ref('users/' + uid).set({
-            Username: userName,
-            phoneNumber: phoneNum,
-            email: emailId
-          })
-          firebase.auth().currentUser.sendEmailVerification().then(
-            rsp => {
-              alert('sent')
-            }
-          ).catch(
-            err1 => {
-              alert(err1)
-            }
-          )
-          localStorage.setItem('userId', uid)
-          setTimeout(() => {
-            this.$router.push('home')
-          }, 1500)
-        }
-      ).catch(
-        error => {
-          alert(error)
-        }
-      )
+      var randomString = ''
+      var d = new Date()
+      var t = d.getTime()
+      var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      for (let i = 0; i < 5; i++) {
+        randomString += possible.charAt(Math.floor(Math.random() * possible.length))
+      }
+      randomString = randomString + t
+      if (this.email && this.Username && this.password && this.phNum && uploadContent) {
+        firebase.storage().ref('authIdPic/' + randomString + uploadContent.name).put(uploadContent).then(
+          response => {
+            response.ref.getDownloadURL().then(
+              resp => {
+                var authImgDownloadUrl = resp
+                firebase.auth().createUserWithEmailAndPassword(vm.email, vm.password).then(
+                  response => {
+                    alert('Account Created')
+                    vm.displayOff = true
+                    emailId = response.user.email
+                    uid = response.user.uid
+                    console.log(emailId)
+                    firebase.auth().currentUser.updateProfile({
+                      displayName: userName,
+                      phoneNumber: phoneNum
+                    })
+                    firebase.database().ref('users/' + uid).set({
+                      Username: userName,
+                      phoneNumber: phoneNum,
+                      email: emailId,
+                      description: 'No Description',
+                      accStatus: 'Not Verified',
+                      authIdImg: authImgDownloadUrl
+                    })
+                    firebase.auth().currentUser.sendEmailVerification().then(
+                      rsp => {
+                        alert('sent')
+                      }
+                    ).catch(
+                      err1 => {
+                        alert(err1)
+                      }
+                    )
+                    localStorage.setItem('userId', uid)
+                    setTimeout(() => {
+                      this.$router.push('home')
+                    }, 1500)
+                  }
+                ).catch(
+                  error => {
+                    alert(error)
+                  }
+                )
+              }
+            )
+          }
+        )
+      } else {
+        alert('Please Fill All the details')
+      }
     }
   }
 }
@@ -112,7 +150,7 @@ export default {
   }
   .heading {
     position: relative;
-    margin-top: 1vh;
+    margin-top: 0vh;
     margin-left: 20%;
     width: 60%;
     text-align: center;
@@ -158,6 +196,8 @@ export default {
     margin-bottom: 30px;
     width: 30%;
     margin-left: 35%;
+    background:  linear-gradient(45deg , #642B73, #C6426E);
+    color: white;
   }
 
   .link {
@@ -165,6 +205,7 @@ export default {
     left: 40%;
     width: 20%;
     text-align: center;
+    color: #642B73
   }
 
   ::-webkit-scrollbar {

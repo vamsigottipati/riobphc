@@ -9,39 +9,63 @@
       Show current Orders if any
     -->
 		<main id="content">
-			<vuestic-widget style="width: 100%;min-height: 30vh;" headerText='Current Orders'>
+			<vuestic-widget style="width: 100%;min-height: 70vh;" headerText='Current Orders'>
 				<vuestic-tabs :names="['Rentals', 'Listings']" >
 						<div slot="Rentals" class="" style="min-height: 20vh;text-align: center;">
-							<h4 style="margin-top: 10vh;">No Pending Rental Orders ...</h4>
+							<h4 v-if="!this.orderedRentals" style="margin-top: 15vh;">No Pending Rental Orders ...</h4>
+							<div v-if="this.orderedRentals">
+								<div class="row" :key="singleOrderedRental.itemId" v-for="singleOrderedRental in this.orderedRentals">
+									<div class="col-md-1"></div>	
+									<div class="col-md-10">
+										<p> If You have completed the rental period of your order please tell the otp below to the owner</p>
+										<p>Your Otp to end the rental period of the order of a {{ singleOrderedRental.itemName }} from {{ singleOrderedRental.itemOwner }} is <br> <strong style="font-size: 2rem;"> {{ singleOrderedRental.otpR }} </strong> </p>
+										<p> Befor You take the Item Please enter The Otp from the owner. </p> <br>
+										<input v-model="otpL" type="text">
+										<button> Submit </button>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div slot="Listings" class="" style="min-height: 20vh;text-align: center;">
-							<h4 style="margin-top: 10vh;">No Pending Listing Orders ...</h4>
+							<h4 v-if="!this.orderedListings" style="padding-top: 15vh">No Pending Listing Orders ...</h4>
+							<div v-if="this.orderedListings">
+								<div class="row" :key="singleOrderedListings.itemId" v-for="singleOrderedListings in this.orderedListings">
+									<div class="col-md-1"></div>	
+									<div class="col-md-10">
+										<p>To start the rental period of the item tell the below otp to the renter.</p>
+										<p>Your OTP for the order of a {{ singleOrderedListings.itemName }} is <br> <strong style="font-size: 2rem;"> {{ singleOrderedListings.otpL }} </strong> </p><br>
+										<p> Befor You take the Item Please enter The Otp from the renter to complete the rental period. </p>
+										<input v-model="otpR" type="text">
+										<button> Submit </button>
+									</div>
+								</div>
+							</div>
 						</div>
 				</vuestic-tabs>
 			</vuestic-widget>
 			<vuestic-widget style="width: 100%;" headerText='Profile Details'>
-				<vuestic-tabs :names="['Profile','Update', 'People']" ref="tabs">
+				<vuestic-tabs :names="['Profile','Update']" ref="tabs">
 					<div slot="Profile" class="well">
 						<div class="row" style="margin-top: 30px;margin-bottom: 30px;">
               <div class="col-md-2"></div>
 							<div class="col-md-8">
                 <div class="row"  style="text-align: center;">
                   <div class="col-md-4"></div>
-                  <div class="col-md-4" ><img src="../assets/iman.jpg" class="profilepic" style="margin-right: 30px;" />	<b style="font-size: 1.6rem;">John Doe</b></div>
+                  <div class="col-md-4" ><img src="https://firebasestorage.googleapis.com/v0/b/rio-travels.appspot.com/o/profile_pic.svg?alt=media&token=b5686843-6473-4849-999b-da06feefd5fb" class="profilepic" style="margin-right: 30px;" />	<b style="font-size: 1.6rem;">{{this.userDetails.username}}</b></div>
                 </div>
 								<hr style="margin-top: 50px;">
 								<div class="row" style="margin-top: 40px;">
                   <div class="col-md-2"></div>
-									<div class="col-md-4">	<i class='bx bx-map-pin' style="margin-right: 30px;"></i> &nbsp;	<span>Hyderabad</span></div>
-									<div class="col-md-4">	<i class="bx bx-dollar-circle" style="margin-right: 30px;"></i>
-										&nbsp;	<span>Free Account</span>
+									<div class="col-md-4">	<i class='bx bxs-map' style="margin-right: 30px;"></i> &nbsp;	<span>Hyderabad</span></div>
+									<div class="col-md-4">	<i class="bx bxs-phone-call" style="margin-right: 30px;"></i>
+										&nbsp;	<span>{{this.userDetails.phoneNum}}</span>
 									</div>
 								</div>
 								<div class="row" style="margin-top: 20px;margin-bottom: 40px;">
                   <div class="col-md-2"></div>
-									<div class="col-md-4">	<i class='bx bx-newsletter' style="margin-right: 30px;"></i> &nbsp;	<span>johndoe@example.com</span></div>
-									<div class="col-md-4">	<i class="bx bx-message" style="margin-right: 30px;"></i>
-										&nbsp;	<span>Personal Messaging is allowed</span>
+									<div class="col-md-4">	<i class='bx bxl-google-plus' style="margin-right: 30px;"></i> &nbsp;	<span>{{this.userDetails.email}}</span></div>
+									<div class="col-md-4">	<i class="bx bx-info-circle" style="margin-right: 30px;"></i>
+										&nbsp;	<span>{{this.userDetails.accStatus}}</span>
 									</div>
 								</div>
 								<hr>
@@ -54,7 +78,7 @@
                 <div class="row" style="text-align: center;margin-bottom: 10px;margin-top: 10px;">
                   <div class="col-md-1"></div>
                   <div class="col-md-10">
-                    <p>I'm a student from BITS Pilani, Hyderabad Campus. Adipisicing elit, sed do eiumdod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+                    <p>{{this.userDetails.description}}</p>
                   </div>
                 </div>
 							</div>
@@ -64,7 +88,7 @@
             <div class="row" style="text-align: center;padding: 30px;">
               <div class="col-md-4"></div>
               <div class="col-md-4"> 
-                <h5> Upadte Your Details </h5>
+                <h4> Update Your Details </h4>
               </div>
             </div>
 						<div class="row" style="margin-top: 40px;">
@@ -75,7 +99,7 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<div class="input-group">
-												<input type="text" value="John Doe" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
+												<input type="text" value="John Doe" v-model="curName" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
 												<i class="fa fa-check valid-icon icon-right input-icon"></i>
 												<label class="control-label">Name</label>	<i class="bar"></i>
 												<br>
@@ -86,7 +110,7 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<div class="input-group">
-												<input type="text" value="Room VK250, BITS Pilani Hyderabad Campus, Hyderabad, Telangana" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
+												<input type="text" v-model="curAdd" value="Room VK250, BITS Pilani Hyderabad Campus, Hyderabad, Telangana" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
 												<i class="fa fa-check valid-icon icon-right input-icon"></i>
 												<label class="control-label">Address</label>	<i class="bar"></i>
 												<br>
@@ -106,7 +130,7 @@
 													<option>Hidden</option>
 												</select>	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
 												<i class="fa fa-check valid-icon icon-right input-icon"></i>
-												<label class="control-label">Sex</label>	<i class="bar"></i>
+												<label class="control-label">Gender</label>	<i class="bar"></i>
 												<br>
 											</div>
 										</div>
@@ -115,7 +139,7 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<div class="input-group">
-												<textarea type="text" required="required">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
+												<textarea type="text" v-model="curDescription" required="required">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</textarea>	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
 												<i class="fa fa-check valid-icon icon-right input-icon"></i>
 												<label class="control-label">About You ( Bio )</label>	<i class="bar"></i>
 												<br>
@@ -128,7 +152,7 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<div class="input-group">
-												<input type="tel" value="94382728378" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
+												<input type="number" v-model="curPhNum" max="9999999999" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
 												<i class="fa fa-check valid-icon icon-right input-icon"></i>
 												<label class="control-label">Contact Number</label>	<i class="bar"></i>
 												<br>
@@ -139,7 +163,7 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<div class="input-group">
-												<input type="email" value="john.doe@example.com" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
+												<input type="email" v-model="curEmail" value="john.doe@example.com" required="required" />	<i class="fa fa-exclamation-triangle error-icon icon-right input-icon"></i>
 												<i class="fa fa-check valid-icon icon-right input-icon"></i>
 												<label class="control-label">Email Address</label>	<i class="bar"></i>
 												<br>
@@ -149,15 +173,19 @@
 								</div>
 							</div>
 						</div>
+						<br>
+						<h5 v-if="this.updatedDetails"> Details Are Updated . </h5>
+						<br>
 						<!-- <hr style="width: 80%;margin-bottom: 40px;">	-->
-            <a class="btn submitBtn" style="margin-top: 50px;" href="#">Save Changes</a>
+            <button class="btn submitBtn" @click="updateUserDetails" style="margin-top: 50px;">Save Changes</button>
 					</div>
+					<!-- 
 					<div slot="People" class="well">
             <div class="row" style="margin-top: 30px; margin-bottom: 40px;text-align: center;">
               <div class="col-md-3"></div>
               <div class="col-md-6">
                 <h4>People You Contacted</h4>
-               <!-- <span class="alert alert-info" style="padding: 30px;text-align:center;background: linear-gradient(90deg , #642B73, #C6426E);color: white;border-radius: 5px;">This area contains the list of all the people you have interacted with over time.</span> -->
+               <span class="alert alert-info" style="padding: 30px;text-align:center;background: linear-gradient(90deg , #642B73, #C6426E);color: white;border-radius: 5px;">This area contains the list of all the people you have interacted with over time.</span>
               </div>
             </div>
 						<div class="row person" style="margin-top:50px;">
@@ -181,138 +209,74 @@
 						</div>
 						<hr style="margin-top: 30px;margin-bottom: 30px;width: 75%;">
 					</div>
+					-->
 				</vuestic-tabs>
 			</vuestic-widget>
 			<div class="row">
-				<div class="col-md-6">
-					<vuestic-widget headerText='Rentals'>
-						<div class="row">
-							<div class="col-md-4">
-								<img class="preview-lr" src="../assets/bpanther2.jpg" />
-							</div>
-							<div class="col-md-8">	<a href="#" class="lr-link">World History Textbook New conditio...</a>
-								<div class="row">
-									<div class="col">	<i class="bx bx-calendar" style="margin-right: 20px;"></i>
-										<span>Till 20th Nov 2019</span>
-									</div>
-								</div>
-								<br>
-								<div class="row">
-									<div class="col-md-6">	<a class="special-button" href="#">Ask for extension</a>
-									</div>
-									<div class="col-md-6">	<a class="special-button" href="#">Details</a>
-									</div>
-								</div>
+				<div ref="rentals" class="col-md-6">
+					<vuestic-widget style="height: 80vh;overflow: none;" headerText='Rentals'>
+						<div class="row" style="height: 80vh;margin-top: 30vh;" v-if="!this.rentalDetails">
+							<div class="col-md-3"></div>
+							<div class="col-md-6" style="text-align: center;">
+								<h4>You Have No Rentals Done</h4>
+								<router-link to="/rent">View All The Available Items </router-link>
 							</div>
 						</div>
-						<hr>
-						<div class="row">
-							<div class="col-md-4">
-								<img class="preview-lr" src="../assets/bpanther2.jpg" />
-							</div>
-							<div class="col-md-8">	<a href="#" class="lr-link">HP Laptop i7 7th gen 16gb...</a>
-								<div class="row">
-									<div class="col">	<i class="bx bx-calendar" style="margin-right: 20px;"></i>
-										<span>Till 1st Oct 2019</span>
+						<div v-if="this.rentalDetails">
+							<div :key="singleItem.itemId" v-for="singleItem in rentalDetails">
+								<div class="row" style="margin-top: 50px;margin-bottom: 50px;">
+									<div class="col-md-4">
+										<img class="preview-lr" :src="singleItem.itemImg" />
+									</div>
+									<div class="col-md-8">	<p class="lr-link">{{singleItem.itemName}}</p>
+										<div class="row">
+											<div class="col-md-6">	<p> ₹ {{singleItem.price}}</p>
+											</div>
+											<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> Kachiguda</p>
+											</div>
+										</div>
+										<br>
+										<div class="row" style="margin-top: 10px;">
+											<div class="col-md-5"><a class="special-button" href="#">Remove Listing</a></div>
+										</div>
 									</div>
 								</div>
-								<br>
-								<div class="row">
-									<div class="col-md-6">	<a class="special-button" href="#">Ask for extension</a>
-									</div>
-									<div class="col-md-6">	<a class="special-button" href="#">Details</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-md-4">
-								<img class="preview-lr" src="../assets/bpanther2.jpg" />
-							</div>
-							<div class="col-md-8">	<a href="#" class="lr-link">1l water bottle filled...</a>
-								<div class="row">
-									<div class="col">	<i class="bx bx-calendar" style="margin-right: 20px;"></i>
-										<span>Till 10th Nov 2019</span>
-									</div>
-								</div>
-								<br>
-								<div class="row">
-									<div class="col-md-6">	<a class="special-button" href="#">Ask for extension</a>
-									</div>
-									<div class="col-md-6">	<a class="special-button" href="#">Details</a>
-									</div>
-								</div>
+								<hr>
 							</div>
 						</div>
-						<hr>	<a class="special-button sb-alt">View All</a>
 					</vuestic-widget>
 				</div>
-				<div class="col-md-6">
-					<vuestic-widget headerText='Listings'>
-						<div class="row">
-							<div class="col-md-4">
-								<img class="preview-lr" src="../assets/iman.jpg" />
-							</div>
-							<div class="col-md-8">	<a href="#" class="lr-link">Queen sized mattress</a>
-								<div class="row">
-									<div class="col-md-6">	<p>  ₹50,000</p>
-									</div>
-									<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> Kachiguda</p>
-									</div>
-								</div>
-								<br>
-								<div class="row">
-									<div class="col-md-6">	<a class="special-button" href="#">Remove Listing</a>
-									</div>
-									<div class="col-md-6">	<a class="special-button" href="#">Modify</a>
-									</div>
-								</div>
+				<div ref="listings" class="col-md-6">
+					<vuestic-widget style="height: 80vh;overflow: none;" headerText='Listings'>
+						<div class="row" style="height: 80vh;margin-top: 30vh;" v-if="!this.listingDetails">
+							<div class="col-md-3"></div>
+							<div class="col-md-6" style="text-align: center;">
+								<h4>You Have No Listing Done</h4>
+								<router-link to="/list"> Add a Listing Of Yours </router-link>
 							</div>
 						</div>
-						<hr>
-						<div class="row">
-							<div class="col-md-4">
-								<img class="preview-lr" src="../assets/iman.jpg" />
-							</div>
-							<div class="col-md-8">	<a href="#" class="lr-link">Beer Cooler</a>
-								<div class="row">
-									<div class="col-md-6">	<p>₹50,000</p>
+						<div v-if="this.listingDetails">
+							<div :key="singleItem.itemId" v-for="singleItem in listingDetails">
+								<div class="row" style="margin-top: 50px;margin-bottom: 50px;">
+									<div class="col-md-4">
+										<img class="preview-lr" :src="singleItem.itemImg" />
 									</div>
-									<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> Kachiguda</p>
-									</div>
-								</div>
-								<br>
-								<div class="row">
-									<div class="col-md-6">	<a class="special-button" href="#">Remove Listing</a>
-									</div>
-									<div class="col-md-6">	<a class="special-button" href="#">Modify</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-md-4">
-								<img class="preview-lr" src="../assets/iman.jpg" />
-							</div>
-							<div class="col-md-8">	<a href="#" class="lr-link">Galaxy S8</a>
-								<div class="row">
-									<div class="col-md-6">	 <p>₹50,000</p>
-									</div>
-									<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> Kachiguda</p>
+									<div class="col-md-8">	<p class="lr-link">{{singleItem.itemName}}</p>
+										<div class="row">
+											<div class="col-md-6">	<p> ₹ {{singleItem.price}}</p>
+											</div>
+											<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> Kachiguda</p>
+											</div>
+										</div>
+										<br>
+										<div class="row" style="margin-top: 10px;">
+											<div class="col-md-5"><a class="special-button" href="#">Remove Listing</a></div>
+										</div>
 									</div>
 								</div>
-								<br>
-								<div class="row">
-									<div class="col-md-6">	<a class="special-button" href="#">Remove Listing</a>
-									</div>
-									<div class="col-md-6">	<a class="special-button" href="#">Modify</a>
-									</div>
-								</div>
+								<hr>
 							</div>
 						</div>
-						<hr>	<a class="special-button sb-alt">View All</a>
 					</vuestic-widget>
 				</div>
 			</div>
@@ -335,20 +299,101 @@
 	  },
 	  data () {
 	    return {
-	      userId: '',
-	      cartDetails: '',
+				userId: '',
+				curName: '',
+				curPhNum: '',
+				curDescription: '',
+				curEmail: '',
+				curAdd: 'Current Address Is Not Given',
+				cartDetails: '',
+				updatedDetails: false,
+				userDetails: {
+					username: '',
+					phoneNum: '',
+					email: '',
+					gender: '',
+					description: '',
+					accStatus: ''
+				},
+				rentalDetails: [],
+				listingDetails: [],
+				orderedRentals: [],
+				orderedListings: []
 	    }
 	  },
 	  computed: {
 	  },
 	  mounted: function () {
-	    this.setData()
+			this.setData()
+			this.getData()
 	  },
 	  methods: {
 	    setData () {
 	      this.userId = firebase.auth().currentUser.uid
 	      console.log(this.userId)
-	    }
+			},
+			getData () {
+				var vm = this
+				firebase.database().ref('users/' + vm.userId).once('value').then(snapshot => {
+					console.log(snapshot.val())
+					var resp = snapshot.val()
+					vm.userDetails.username = resp.Username
+					vm.userDetails.phoneNum = resp.phoneNumber
+					vm.userDetails.email = resp.email
+					vm.userDetails.description = resp.description
+					vm.userDetails.gender = resp.gender
+					vm.userDetails.accStatus = resp.accStatus
+					// set address
+					if (resp.address) {
+						vm.curAdd = resp.address
+					}
+					// set listedItems
+					if (resp.listedItems) {
+						vm.listingDetails = Object.values(resp.listedItems)
+					} else {
+						vm.listingDetails = null
+					}
+					// successfulRentals
+					if (resp.successfulRentals) {
+						vm.rentalDetails = Object.values(resp.successfulRentals)
+					} else {
+						vm.rentalDetails = null
+					}
+					// set orderedRentals
+					if (resp.orderedR) {
+						vm.orderedRentals = Object.values(resp.orderedR)
+						console.log(vm.orderedRentals)
+					} else {
+						vm.orderedRentals = null
+					}
+					// set orderedListings
+					if (resp.orderedL) {
+						vm.orderedListings = Object.values(resp.orderedL)
+						console.log(vm.orderedListings)
+					} else {
+						vm.orderedListings = null
+					}
+					vm.curName = resp.Username
+					vm.curPhNum = resp.phoneNumber
+					vm.curDescription = resp.description
+					vm.curEmail = resp.email
+				})
+			},
+			updateUserDetails () {
+				var vm = this
+				this.updatedDetails = true
+				setTimeout(() => {
+					this.updatedDetails = false
+				}, 10000)
+				firebase.database().ref('users/' + vm.userId).set({
+          Username: vm.curName,
+          phoneNumber: vm.curPhNum,
+          email: vm.curEmail,
+          description: vm.curDescription,
+					accStatus: 'Free Account',
+					address: vm.curAdd
+				})
+			}
 	  }
 	}
 </script>
@@ -451,8 +496,9 @@
     border-radius: 5px;
     background: linear-gradient(90deg , #642B73, #C6426E);
     color: white;
-    padding: 25px 50px 25px 50px;
+    padding: 15px 50px 15px 50px;
+		font-size: 12px;
   }
-
+	
 
 </style>

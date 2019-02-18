@@ -63,6 +63,7 @@ export default {
         vm.cartItemValues = Object.values(snapshot.val().cart)
         vm.cartNumber = Object.values(snapshot.val().requestsR).length
         vm.loading = false
+        console.log(vm.cartItemValues[0])
       })
     },
     payment (e) {
@@ -75,8 +76,9 @@ export default {
       }
       firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/pendingPayments/' + vm.requestDetails[e].itemDetails.itemId).set({
         txnId: txnId,
-        price: vm.requestDetails[e].itemDetails.price,
+        price: vm.requestDetails[e].price,
         itemName: vm.requestDetails[e].itemDetails.itemName,
+        itemId: vm.cartItemValues[0]
       })
       window.location.href = 'http://localhost:3000'
       /* var otpPoss = '1234567890'

@@ -39,7 +39,7 @@
   		--right-button-hover-color: #642B73;
   		--hover-width: 75%;
   		--other-width: 25%;
-  		--speed: 200ms;
+  		--speed: 300ms;
 	}
 
      /* Popup */
