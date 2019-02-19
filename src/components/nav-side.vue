@@ -61,14 +61,14 @@
             </ul>
           </div>
         </div>
-        <button v-if="this.cartNumber" @click.prevent="$router.push( '/checkout' )" class="btn btn-submit">Proceed To CheckOut</button>
+        <button v-if="this.cartNumber" @click.prevent="$router.push( '/checkout' )" class="btn btn-submit">Request The Lender</button>
     </div>
 
         <!-- RIGHT SIDEBAR END -->
 
 
     <vuestic-modal v-bind:large="true" v-bind:force="true" ref="notificationsModal" :cancelClass="'none'"
-            okText="Okay">
+            okText="Ignore">
         <div slot="title">Notifications</div>
         <div ref="notificationsBody" style="text-align: center;" v-if='this.notificationsNum'>
           <div v-for="notifItems in this.notifications" :key="notifItems.itemDetails.itemId">
@@ -84,8 +84,8 @@
 
             <img :src="notifItems.itemDetails.itemImg" class="well" style="width: 100%;height: auto;" alt="">
             <br><br>
-            <button @click="accept(notifItems)"> Accept </button>
-            <button> Reject </button>
+            <button @click="accept(notifItems)" class="btn btn-secondary btn-micro"> Accept </button>
+            <!-- <button @click="reject(notifItems)"> Reject </button> -->
           </div>
         </div>
         <div v-if="!this.notificationsNum"> You have no new notifications </div>
@@ -216,6 +216,7 @@ export default {
         days: e.days,
         otpL: otpL,
       })
+      this.notificationsNum = 0
     },
     logout () {
       firebase.auth().signOut().then(

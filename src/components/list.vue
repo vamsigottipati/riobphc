@@ -182,7 +182,7 @@
     name: 'layout',
     props: {
       wizardType: {
-        default: 'rich'
+        default: 'simple'
       },
     },
 
@@ -212,17 +212,21 @@
         long: '',
         steps: [
           {
-            label: '1',
+            label: 'Step 1',
             slot: 'page1',
             onNext: () => {
               this.validateFormField('name')
             },
             isValid: () => {
-              return this.isFormFieldValid('name')
+              if (this.$refs.uploadContent.files[0]) {
+                return this.isFormFieldValid('name')
+              } else {
+                alert('Add a Picture to continue with listing')
+              }
             }
           },
           {
-            label: '2',
+            label: 'Step 2',
             slot: 'page2',
             onNext: () => {
               this.validateFormField('address')
@@ -233,7 +237,7 @@
             }
           },
           {
-            label: '3',
+            label: 'Step 3',
             slot: 'page3',
             onNext: () => {
               this.validateFormField('price')
@@ -243,7 +247,7 @@
             }
           },
           {
-            label: ' 4',
+            label: 'Step 4',
             slot: 'page4',
             onNext: () => {
               this.validateFormField('contact')
@@ -253,7 +257,7 @@
             }
           },
           {
-            label: '5',
+            label: 'Step 5',
             slot: 'page5',
             onNext: () => {
               var itemName = this.name
@@ -279,6 +283,7 @@
               console.log(randomString)
               var itemId = randomString
               /* storage */
+              if (uploadContent) {}
               firebase.storage().ref('listemItemPhotos/' + randomString + uploadContent.name).put(uploadContent).then(
                 response => {
                   console.log(response.ref.getDownloadURL())

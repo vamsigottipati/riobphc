@@ -51,6 +51,17 @@ router.afterEach((to, from) => {
   store.commit('setLoading', false)
 })
 
+var config = {
+  apiKey: 'AIzaSyCVH_TBZwmyYLsDY0EMQJJWb5uq159W19I',
+  authDomain: 'rio-travels.firebaseapp.com',
+  databaseURL: 'https://rio-travels.firebaseio.com',
+  projectId: 'rio-travels',
+  storageBucket: 'rio-travels.appspot.com',
+  messagingSenderId: '630057921565'
+}
+
+firebase.initializeApp(config)
+
 /* eslint-disable no-new */
 
 export const EventBus = new Vue()
@@ -60,14 +71,4 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  created () {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyCVH_TBZwmyYLsDY0EMQJJWb5uq159W19I',
-      authDomain: 'rio-travels.firebaseapp.com',
-      databaseURL: 'https://rio-travels.firebaseio.com',
-      projectId: 'rio-travels',
-      storageBucket: 'rio-travels.appspot.com',
-      messagingSenderId: '630057921565'
-    })
-  }
 }).$mount('#app')

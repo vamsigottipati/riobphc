@@ -12,7 +12,7 @@
 			<vuestic-widget style="width: 100%;min-height: 70vh;" headerText='Current Orders'>
 				<vuestic-tabs :names="['Rentals', 'Listings']" >
 						<div slot="Rentals" class="" style="min-height: 20vh;text-align: center;">
-							<h4 v-if="!this.orderedRentals" style="margin-top: 15vh;">No Pending Rental Orders ...</h4>
+							<h4 v-if="!this.orderedRentals" style="margin-top: 15vh;">No Rental Orders ...</h4>
 							<div v-if="this.orderedRentals">
 								<div class="row" :key="singleOrderedRental.itemId" v-for="singleOrderedRental in this.orderedRentals">
 									<div class="col-md-1"></div>	
@@ -20,14 +20,14 @@
 										<p> If You have completed the rental period of your order please tell the otp below to the owner</p>
 										<p>Your Otp to end the rental period of the order of a {{ singleOrderedRental.itemName }} from {{ singleOrderedRental.itemOwner }} is <br> <strong style="font-size: 2rem;"> {{ singleOrderedRental.otpR }} </strong> </p>
 										<p> Befor You take the Item Please enter The Otp from the owner. </p> <br>
-										<input v-model="otpL" type="text">
-										<button> Submit </button>
+										<input v-model="otpL" class="otpInput" type="number">
+										<button @click="rentalPeriodStart(singleOrderedRental.itemId)" style="font-size: 12px;" class="btn btn-micro btn-secondary"> Submit </button>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div slot="Listings" class="" style="min-height: 20vh;text-align: center;">
-							<h4 v-if="!this.orderedListings" style="padding-top: 15vh">No Pending Listing Orders ...</h4>
+							<h4 v-if="!this.orderedListings" style="padding-top: 15vh">No Listing Orders ...</h4>
 							<div v-if="this.orderedListings">
 								<div class="row" :key="singleOrderedListings.itemId" v-for="singleOrderedListings in this.orderedListings">
 									<div class="col-md-1"></div>	
@@ -35,8 +35,8 @@
 										<p>To start the rental period of the item tell the below otp to the renter.</p>
 										<p>Your OTP for the order of a {{ singleOrderedListings.itemName }} is <br> <strong style="font-size: 2rem;"> {{ singleOrderedListings.otpL }} </strong> </p><br>
 										<p> Befor You take the Item Please enter The Otp from the renter to complete the rental period. </p>
-										<input v-model="otpR" type="text">
-										<button> Submit </button>
+										<input v-model="otpR" class="otpInput" type="number">
+										<button @click="rentalPeriodEnd(singleOrderedListings.itemId)" style="font-size: 12px;" class="btn btn-micro btn-secondary"> Submit </button>
 									</div>
 								</div>
 							</div>
@@ -215,7 +215,7 @@
 			<div class="row">
 				<div ref="rentals" class="col-md-6">
 					<vuestic-widget style="height: 80vh;overflow: none;" headerText='Rentals'>
-						<div class="row" style="height: 80vh;margin-top: 30vh;" v-if="!this.rentalDetails">
+						<div style="margin-top: 35%;" class="row" v-if="!this.rentalDetails">
 							<div class="col-md-3"></div>
 							<div class="col-md-6" style="text-align: center;">
 								<h4>You Have No Rentals Done</h4>
@@ -232,7 +232,7 @@
 										<div class="row">
 											<div class="col-md-6">	<p> ₹ {{singleItem.price}}</p>
 											</div>
-											<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> Kachiguda</p>
+											<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> {{singleItem.city}} </p>
 											</div>
 										</div>
 										<br>
@@ -248,7 +248,7 @@
 				</div>
 				<div ref="listings" class="col-md-6">
 					<vuestic-widget style="height: 80vh;overflow: none;" headerText='Listings'>
-						<div class="row" style="height: 80vh;margin-top: 30vh;" v-if="!this.listingDetails">
+						<div class="row" v-if="!this.listingDetails">
 							<div class="col-md-3"></div>
 							<div class="col-md-6" style="text-align: center;">
 								<h4>You Have No Listing Done</h4>
@@ -265,7 +265,7 @@
 										<div class="row">
 											<div class="col-md-6">	<p> ₹ {{singleItem.price}}</p>
 											</div>
-											<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> Kachiguda</p>
+											<div class="col-md-6">	<p> <i class="bx bxs-map" style="margin-right: 20px;"></i> {{singleItem.city}}</p>
 											</div>
 										</div>
 										<br>
@@ -304,6 +304,8 @@
 				curPhNum: '',
 				curDescription: '',
 				curEmail: '',
+				otpR: '',
+				otpL: '',
 				curAdd: 'Current Address Is Not Given',
 				cartDetails: '',
 				updatedDetails: false,
@@ -393,6 +395,53 @@
 					accStatus: 'Free Account',
 					address: vm.curAdd
 				})
+			},
+			rentalPeriodStart (s) {
+				if (this.otpL) {
+					console.log('check otp entered using firebase cloud functions', s)
+					var otpLC = this.otpL
+					firebase.database().ref('currentOrders/' + s).once('value').then(
+						resp => {
+							if (resp.val().otpL === otpLC) {
+								alert('yo')
+								firebase.database().ref('ongoingOrders/' + resp.val().itemId).set(resp.val())
+								// add ongoing rentals ref in database
+								// delete orderedR and push data to ongoingR
+								firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/ongoingOrders/' + resp.val().itemId).set(resp.val())
+								firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/orderedR/' + resp.val().itemId).remove()
+								firebase.database().ref('currentOrders/' + s).remove()
+							} else {
+								alert('Naah')
+							}
+						}
+					)
+				} else {
+					console.log('Enter The Otp')
+				}
+			},
+			rentalPeriodEnd (e) {
+				if (this.otpR) {
+					console.log('check otp entered using firebase cloud functions', e)
+					var otpRC = this.otpR
+					firebase.database().ref('ongoingOrders/' + e).once('value').then(
+						resp => {
+							if (resp.val().otpR === otpRC) {
+								alert('yo yo ')
+								firebase.database().ref('successfulOrders/' + resp.val().itemId).set(resp.val())
+								firebase.database().ref('ongoingOrders/' + resp.val().itemId).remove()
+								// remove orderedL and add to succesful in curuser and renter
+								firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/successfulListing/' + resp.val().itemId).set(resp.val())
+								firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/orderedL/' + resp.val().itemId).remove()
+								firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/successfulRentals/' + resp.val().itemId).set(resp.val())
+								firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/ongoingOrders/' + resp.val().itemId).remove()
+							} else {
+								alert('no no no')
+							}
+						}
+					)
+				} else {
+					console.log('Enter The Otp')
+				}
 			}
 	  }
 	}
@@ -499,6 +548,14 @@
     padding: 15px 50px 15px 50px;
 		font-size: 12px;
   }
-	
+	.otpInput {
+		all: unset;
+		height: 40px;
+		width: 50%;
+		background: #eeeeee;
+		color: #555555;
+		font-size: 12px;
+		border-radius: 200px;
+	}
 
 </style>

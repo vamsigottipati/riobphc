@@ -2,15 +2,14 @@
     <div class="body">
 
       <section class="intro-section">
-        <h1 class="intro-heading"> rio Services</h1>
-
-        <p>Some Tag line to support the title</p>
+        <h1 class="intro-heading" style="font-size: 4rem;line-height: 5rem;padding: 0px;margin: 0px;"> UncleBob</h1>
+        <p style="font-size: 1.2rem;line-height: 1rem;padding: 0px;margin: 0px;color: #C6426E;">Some Tag line to support the title</p>
       </section>
 
       <!-- Photos via Unsplash Source https://source.unsplash.com/ -->
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://source.unsplash.com/C59a_dcxpvQ/800x800" /></figure>
-        <div class="content">
+        <div class="content content-left">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet . </h2>
@@ -23,10 +22,10 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=804" /></figure>
-        <div class="content">
+        <div class="content content-right">
           <header class="header">
-            <div class="subheading">Lorem ipsum dolor sit.</div>
-            <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
+            <div class="subheading">vamsi.</div>
+            <h2 class="heading">Lorem Ipsum<br />krishna .</h2>
           </header>
           <p class="paragraph">
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum nisi illum rem recusandae. Tempore consequuntur nihil cumque quis nam deserunt earum atque et ullam facere accusamus cum natus, autem numquam.
@@ -36,7 +35,7 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=838" /></figure>
-        <div class="content">
+        <div class="content content-left">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
@@ -49,7 +48,7 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=839" /></figure>
-        <div class="content">
+        <div class="content content-right">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
@@ -62,7 +61,7 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=841" /></figure>
-        <div class="content">
+        <div class="content content-left">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
@@ -75,7 +74,7 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=439" /></figure>
-        <div class="content">
+        <div class="content content-right">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
@@ -88,7 +87,7 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=143" /></figure>
-        <div class="content">
+        <div class="content content-left">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
@@ -101,7 +100,7 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=278" /></figure>
-        <div class="content">
+        <div class="content content-right">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
@@ -114,7 +113,7 @@
 
       <section class="content-section" data-scroll>
         <figure class="figure"><img src="https://picsum.photos/1200/1200/?image=545" /></figure>
-        <div class="content">
+        <div class="content content-left">
           <header class="header">
             <div class="subheading">Lorem ipsum dolor sit.</div>
             <h2 class="heading">Lorem Ipsum<br />Lorem ipsum dolor sit amet .</h2>
@@ -134,34 +133,26 @@ import ScrollOut from 'scroll-out'
 
 export default {
   name: 'About',
-  props: {
-  },
-  components: {
-  },
-  directives: {
-  },
   mounted: function () {
-    // location.reload()
     ScrollOut({
       cssProps: {
         visibleY: true,
         viewportY: true
       }
     })
-
+    if (!window.location.hash) {
+        window.location = window.location + '#l'
+        window.location.reload()
+    }
     Splitting({ target: '.heading' })
   },
   data () {
     return {
-      opened: true,
     }
   },
   computed: {
   },
   methods: {
-    toggleSidebar (opened) {
-      this.opened = opened
-    }
   }
 }
 </script>
@@ -213,7 +204,6 @@ export default {
 .content {
   position: absolute;
   top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   max-width: 35em;
@@ -223,6 +213,14 @@ export default {
   padding: 2em;
   font-size: 2.5vmin;
 }
+
+.content-left{
+  left: 0px;
+}
+.content-right{
+  right: 0px;
+}
+
 .content * {
   text-shadow: 0 0 4vmin rgba(0, 0, 0, 0.25);
 }
